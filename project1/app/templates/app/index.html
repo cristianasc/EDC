@@ -3,28 +3,19 @@
 {% block content %}
 
 <div class="jumbotron">
-    <h1>IMC Calculator</h1>
+    <h1>Airport</h1>
 </div>
+
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Insert your:</h2>
-        <form action="sendinfo" method="post">
+        <form action="home" method="post">
             {% csrf_token %}
-            <p>Height: <input type="text" name="height"/> </p>
-            <p>Weight: <input type="text" name="weight"/> </p>
-            <p><input type="submit" name="Calculate"/> </p>
-        </form>
-    </div>
-    <div class="col-md-4">
-        <h2>Your result:</h2>
-        <p> {{ result }} </p>
-        {% if result <  18.5%}
-            <p> Too Low! </p>
-        {% elif result > 18.5 and result < 25 %}
-            <p> Normal! </p>
-        {% endif %}
+            {% for i in codes %}
+                <p>{{ i }}</p>
+            {% endfor %}
 
+        </form>
     </div>
 </div>
 

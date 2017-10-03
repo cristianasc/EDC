@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<LandXML xmlns="http://www.landxml.org/schema/LandXML-1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.landxml.org/schema/LandXML-1.1 http://www.landxml.org/schema/LandXML-1.1/LandXML-1.1.xsd" version="1.1" language="English" date="2006-11-15" time="09:15:27" readOnly="false">
+<LandXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.landxml.org/schema/LandXML-1.1 http://www.landxml.org/schema/LandXML-1.1/LandXML-1.1.xsd" version="1.1" language="English" date="2006-11-15" time="09:15:27" readOnly="false">
  	<Application name="EXG2LandXML" desc="NGS-FAA Exchange File V3.x-4.x converted to LandXML-1.1 + FAA Feature spec" manufacturerURL="www.landxml.org" manufacturer="Nathan Crews" version="1.0">
 		<Author createdBy="Shaelynn Hales" createdByEmail="shaelynn.ctr.hales@faa.gov"/>
 	</Application>

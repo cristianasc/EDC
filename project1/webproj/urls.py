@@ -22,7 +22,7 @@ import app.forms
 import app.views
 
 urlpatterns = [
-url(r'^$', app.views.home, name='home'),
+    url(r'^$', app.views.home, name='home'),
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about', app.views.about, name='about'),
     url(r'^login/$',
@@ -44,5 +44,4 @@ url(r'^$', app.views.home, name='home'),
         },
         name='logout'),
     url(r'^admin/', admin.site.urls),
-    url(r'^sendinfo', app.views.sendinfo, name='sendinfo'),
 ]

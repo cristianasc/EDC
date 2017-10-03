@@ -16,6 +16,8 @@ def home(request):
     code = []
     planfeatures = []
     units = []
+    coord = []
+    cg = []
 
     """existing root tags"""
     for child in root:
@@ -46,12 +48,12 @@ def home(request):
     for child in root.findall('CoordinateSystem'):
         for child1 in child.iter('Feature'):
             for child2 in child1.iter('Property'):
-                code.append([child1.get('code'), child1.get('source'),child2.get('label'),child2.get('value')])
+                coord.append([child1.get('code'), child1.get('source'),child2.get('label'),child2.get('value')])
 
     """info about CgPoints tag"""
     for child in root.findall('CgPoints'):
         for child1 in child.iter('CgPoint'):
-                code.append([child.get('name'), child1.get('name')])
+                cg.append([child.get('name'), child1.get('name')])
 
     return render(
         request,

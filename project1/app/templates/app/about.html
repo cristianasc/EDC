@@ -2,9 +2,18 @@
 
 {% block content %}
 
-<h2>{{ title }}.</h2>
-<h3>{{ message }}</h3>
 
-<p>Use this area to provide additional information.</p>
+<div class="row">
+    <div class="col-md-4">
+        <form action="about" method="post">
+            {% csrf_token %}
+            {% for code,source in codes %}
+                {% if guid == source %}
+                    <h2>{{ code }}</h2>
+                {% endif %}
+            {% endfor %}
+
+        </form>
+</div>
 
 {% endblock %}

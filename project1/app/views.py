@@ -13,7 +13,8 @@ def home(request):
     import xml.etree.ElementTree as ET
     tree = ET.parse('airport.xml')
     root = tree.getroot()
-    code = []
+    code = {}
+    source = {}
     planfeatures = []
     units = []
     coord = []
@@ -26,8 +27,19 @@ def home(request):
     """info about Project tag"""
     for child in root.findall('Project'):
         for child1 in child.iter('Feature'):
+            code[child1.get('code')] = []
+            source[child1.get('source')] = []
             for child2 in child1.iter('Property'):
-                code.append([child1.get('code'), child1.get('source'),child2.get('label'),child2.get('value')])
+                code[child1.get('code')].append(child2.get('label'))
+                code[child1.get('code')].append(child2.get('value'))
+                source[child1.get('source')].append(child1.get('code'))
+
+    c = [code for code in code.keys()]
+    s = [source for source in source.keys()]
+
+
+
+
 
     """info about PlanFeatures tag"""
     for child in root.findall('PlanFeatures'):
@@ -55,13 +67,13 @@ def home(request):
         for child1 in child.iter('CgPoint'):
                 cg.append([child.get('name'), child1.get('name')])
 
+
     return render(
         request,
         'app/index.html',
         {
             'title':'Airport',
-            'codes': code,
-            'planfeatures': planfeatures,
+            'codes': zip(s,c),
 
         }
     )
@@ -81,15 +93,34 @@ def contact(request):
     )
 
 def about(request):
-    """Renders the about page."""
     assert isinstance(request, HttpRequest)
+    import xml.etree.ElementTree as ET
+    tree = ET.parse('airport.xml')
+    root = tree.getroot()
+    code = {}
+    source = {}
+
+    """info about Project tag"""
+    for child in root.findall('Project'):
+        for child1 in child.iter('Feature'):
+            code[child1.get('code')] = []
+            source[child1.get('source')] = []
+            for child2 in child1.iter('Property'):
+                code[child1.get('code')].append(child2.get('label'))
+                code[child1.get('code')].append(child2.get('value'))
+                source[child1.get('source')].append(child1.get('code'))
+
+    c = [code for code in code.keys()]
+    s = [source for source in source.keys()]
+
+
     return render(
         request,
         'app/about.html',
         {
-            'title':'About',
-            'message':'Your application description page.',
-            'year':datetime.now().year,
+            'codes': zip(c,s),
+            'values': source,
+            'guid': request.GET['id'],
         }
     )
 

@@ -10,7 +10,7 @@
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 
-<body>
+<body style="background-image: url('{% static "app/img/background.png" %}')">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -19,24 +19,27 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand">Application name</a>
+                <a href="{% url 'home' %}" class="navbar-brand">Home</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'home' %}"></a></li>
                 </ul>
-                {% include 'app/loginpartial.html' %}
             </div>
         </div>
     </div>
 
-    <div class="container body-content">
+    <div class="container body-content" >
+        <div>
+            <h1>Frederick Municipal Airport</h1>
+            <h5>What are you looking for?</h5>
+        </div>
+        <br>
+
 {% block content %}{% endblock %}
         <hr/>
         <footer>
-            <p>&copy; {{ year }} - My Django Application</p>
+            <p>&copy; {{ year }} - EDC</p>
         </footer>
     </div>
 

@@ -74,6 +74,7 @@ def home(request):
         {
             'title':'Airport',
             'codes': zip(s,c),
+            'year': datetime.now().year,
 
         }
     )

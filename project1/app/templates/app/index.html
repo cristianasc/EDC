@@ -2,17 +2,32 @@
 
 {% block content %}
 
+<div class="transbox" style="margin-top: 30px; margin-bottom: 30px;">
+    <div class="row">
+        <div class="col-md-4">
+            <p>bla bla bla.</p>
+            <form action="home" method="post">
 
-<div class="row">
-    <div class="col-md-4">
-        <form action="home" method="post">
-            {% csrf_token %}
-            {% for i,i1 in codes %}
-                <p><a href="about.html?id={{ i }}">{{ i1 }}</a></p>
-            {% endfor %}
-
-        </form>
+            </form>
+        </div>
     </div>
+    </form>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 </div>
+
+
+
+
 
 {% endblock %}

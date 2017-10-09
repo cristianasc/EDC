@@ -36,10 +36,9 @@ def home(request):
 
     c = [code for code in code.keys()]
     s = [source for source in source.keys()]
+    v = [code for code in source.values()]
 
-
-
-
+    print(code)
 
     """info about PlanFeatures tag"""
     for child in root.findall('PlanFeatures'):
@@ -121,7 +120,9 @@ def about(request):
         {
             'codes': zip(c,s),
             'values': source,
-            'guid': request.GET['id'],
+            'codigo': code,
+            """"'guid': request.GET['id'],"""
+            'year': datetime.now().year,
         }
     )
 

@@ -4,26 +4,15 @@
 
 <div class="transbox" style="margin-top: 30px; margin-bottom: 30px;">
     <div class="row">
-        <div class="col-md-4">
-            <p>bla bla bla.</p>
+        <div class="col-md-8">
             <form action="home" method="post">
-
+                {% csrf_token %}
+                {% for i in plans %}
+                    <p>{{ i }}</p>
+                {% endfor %}
             </form>
         </div>
     </div>
-    </form>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
 </div>
 
 

@@ -15,7 +15,8 @@ def home(request):
     root = tree.getroot()
     code = {}
     source = {}
-    planfeatures = []
+    planfeatures = {}
+    planfeaturessource = {}
     units = []
     coord = []
     cg = []
@@ -36,16 +37,19 @@ def home(request):
 
     c = [code for code in code.keys()]
     s = [source for source in source.keys()]
-    v = [code for code in source.values()]
-
-    print(code)
 
     """info about PlanFeatures tag"""
     for child in root.findall('PlanFeatures'):
         for child1 in child.findall('PlanFeature'):
             for child2 in child1.iter('Feature'):
+                planfeatures[child2.get('code')] = []
+                planfeaturessource[child2.get('source')] = []
                 for child3 in child2.iter('Property'):
-                    planfeatures.append([child2.get('code'), child2.get('source'),child3.get('label'),child3.get('value')])
+                    planfeatures[child2.get('code')].append(child3.get('label'))
+                    planfeatures[child2.get('code')].append(child3.get('value'))
+                    planfeaturessource[child2.get('source')].append(child2.get('code'))
+
+    p = [planfeatures for planfeatures in planfeatures.keys()]
 
     """info about Units tag"""
     for child in root.findall('Units'):
@@ -72,7 +76,7 @@ def home(request):
         'app/index.html',
         {
             'title':'Airport',
-            'codes': zip(s,c),
+            'plans': p,
             'year': datetime.now().year,
 
         }

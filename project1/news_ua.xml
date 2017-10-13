@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <rss version="2.0">
 <channel>
 	<title>Universidade de Aveiro</title>
@@ -82,4 +82,4 @@
 		<pubDate>Fri, 6 Oct 2017 00:00:00 GMT</pubDate>
 	</item>
 
-</channel></rss>
+<item><guid /><title>dasda</title><link /><description>asdad</description><pubDate /></item></channel></rss>

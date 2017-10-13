@@ -14,8 +14,8 @@
         <div class="col-md-8">
             <form action="createNew" method="post">
             {% csrf_token %}
-            <p>Titulo      <input type="text" name="title"></p>
-            <p>Descrição   <input type="text" name="description"></p>
+            <p>Titulo      <input style="padding-right: 100%;" type="text" name="title"></p>
+            <p>Descrição   <textarea style="padding-right: 100%; padding-bottom: 30%" type="text" name="description"></textarea></p>
             <p><input type="submit" value="Enviar Notícia"></p>
             </form>
         </div>

@@ -58,10 +58,27 @@ def contact(request):
         }
     )
 
+def createNew(request):
+    assert isinstance(request, HttpRequest)
+    import xml.etree.ElementTree as ET
+    tree = ET.parse('news_ua.xml')
+    root = tree.getroot()
+
+    return render(
+        request,
+        'app/createNew.html',
+        {
+            """"'guid': request.GET['id'],"""
+            'year': datetime.now().year,
+        }
+    )
+
+
+
 def about(request):
     assert isinstance(request, HttpRequest)
     import xml.etree.ElementTree as ET
-    tree = ET.parse('airport.xml')
+    tree = ET.parse('news_ua.xml')
     root = tree.getroot()
 
     return render(

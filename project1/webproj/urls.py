@@ -44,4 +44,5 @@ urlpatterns = [
         },
         name='logout'),
     url(r'^admin/', admin.site.urls),
+    url(r'^createNew', app.views.createNew, name='createNew'),
 ]

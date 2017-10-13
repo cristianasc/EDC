@@ -38,25 +38,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="{% url 'home' %}" class="navbar-brand">Home</a>
+                <a href="{% url 'home' %}" class="navbar-brand"><img style="padding-bottom: 3px;" width="20px" height="20px" src=" {% static 'app/img/logo-ua.png' %}"/> Home</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url 'about' %}?id=">About Aiport</a></li>
+                    <li><a href="{% url 'about' %}"></a></li>
                 </ul>
             </div>
         </div>
     </div>
 
     <div>
-        <div class="container body-content">
-            <div>
-                <h1>Frederick Municipal Airport</h1>
-                <h5>What are you looking for?</h5>
-            </div>
-        </div>
 
-    <div style="background-image: url('{% static 'app/img/airplane.jpg' %}')">
+
 
     {% block content %}{% endblock %}
 

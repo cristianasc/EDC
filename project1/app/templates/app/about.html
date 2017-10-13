@@ -7,21 +7,10 @@
         <div class="col-md-8">
             <form action="about" method="post">
                 {% csrf_token %}
-                {% for i,i1 in codes %}
-                    <p><a href="about.html?id={{ i1 }}" style="color: #2d6987">{{ i }}</a></p>
-                {% endfor %}
-                {% for code,source in codes %}
-                    {% if guid == source %}
-                        <h2>{{ codigo.keys }}</h2>
-                    {% endif %}
-                {% endfor %}
+
             </form>
         </div>
     </div>
-            <br>
-            <br>
-            <br>
-            <br>
 </div>
 
 {% endblock %}

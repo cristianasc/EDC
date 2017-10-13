@@ -14,7 +14,14 @@
         <div class="col-md-8">
             <form action="home" method="post">
                 {% csrf_token %}
-                    <p>{{ i }}</p>
+                {% for newtitle, newvalue in news %}
+                    <h3>{{ newtitle }}</h3>
+                    {% autoescape off %}
+                        <div>{{ newvalue.0 }}</div>
+                        <br>
+                    {% endautoescape %}
+                {% endfor %}
+
             </form>
         </div>
     </div>

@@ -15,20 +15,19 @@ def home(request):
     import xml.etree.ElementTree as ET
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
+    news = {}
 
     for child in root:
         title = child.find("title").text
         desc = child.find("description").text
+        for child1 in child.findall('item'):
+            news[child1.find('title').text] = [child1.find('description').text]
 
+    values = news.values()
+    keys = news.keys()
 
-        """
-        for child1 in child.iter('Feature'):
-            code[child1.get('code')] = []
-            source[child1.get('source')] = []
-            for child2 in child1.iter('Property'):
-                code[child1.get('code')].append(child2.get('label'))
-                code[child1.get('code')].append(child2.get('value'))
-                source[child1.get('source')].append(child1.get('code'))"""
+    for k,v in zip(keys,values):
+        print(k,v)
 
     return render(
         request,
@@ -36,6 +35,7 @@ def home(request):
         {
             'title': title,
             'description': desc,
+            'news': zip(keys,values),
 
         }
     )
@@ -92,11 +92,6 @@ def createNew(request):
             desc.text = description
 
             tree.write('news_ua.xml', encoding="utf-8", xml_declaration=True)
-
-
-
-
-
 
 
     return render(

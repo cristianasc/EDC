@@ -17,22 +17,22 @@
       <file leaf-file-name="news_ua.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/news_ua.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
+            <state relative-caret-position="304">
               <caret line="84" column="16" lean-forward="false" selection-start-line="84" selection-start-column="16" selection-end-line="84" selection-end-column="16" />
               <folding>
-                <element signature="e#789#793#0#XML" expanded="true" />
-                <element signature="e#902#906#0#XML" expanded="true" />
-                <element signature="e#1243#1248#0#XML" expanded="true" />
-                <element signature="e#1676#1680#0#XML" expanded="true" />
-                <element signature="e#1809#1813#0#XML" expanded="true" />
-                <element signature="e#2425#2429#0#XML" expanded="true" />
-                <element signature="e#2622#2626#0#XML" expanded="true" />
-                <element signature="e#3423#3427#0#XML" expanded="true" />
-                <element signature="e#3564#3568#0#XML" expanded="true" />
-                <element signature="e#4350#4354#0#XML" expanded="true" />
-                <element signature="e#4589#4593#0#XML" expanded="true" />
-                <element signature="e#5160#5164#0#XML" expanded="true" />
-                <element signature="e#5263#5267#0#XML" expanded="true" />
+                <element signature="e#783#787#0#XML" expanded="true" />
+                <element signature="e#896#900#0#XML" expanded="true" />
+                <element signature="e#1237#1242#0#XML" expanded="true" />
+                <element signature="e#1665#1669#0#XML" expanded="true" />
+                <element signature="e#1798#1802#0#XML" expanded="true" />
+                <element signature="e#2409#2413#0#XML" expanded="true" />
+                <element signature="e#2606#2610#0#XML" expanded="true" />
+                <element signature="e#3402#3406#0#XML" expanded="true" />
+                <element signature="e#3543#3547#0#XML" expanded="true" />
+                <element signature="e#4324#4328#0#XML" expanded="true" />
+                <element signature="e#4563#4567#0#XML" expanded="true" />
+                <element signature="e#5129#5133#0#XML" expanded="true" />
+                <element signature="e#5232#5236#0#XML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -41,7 +41,7 @@
       <file leaf-file-name="createNew.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/app/createNew.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
+            <state relative-caret-position="270">
               <caret line="18" column="63" lean-forward="false" selection-start-line="18" selection-start-column="63" selection-end-line="18" selection-end-column="63" />
               <folding>
                 <element signature="e#250#296#0#HTML" expanded="true" />
@@ -63,8 +63,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="81" column="0" lean-forward="true" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+            <state relative-caret-position="451">
+              <caret line="91" column="35" lean-forward="false" selection-start-line="91" selection-start-column="35" selection-end-line="91" selection-end-column="35" />
               <folding>
                 <element signature="e#29#56#0" expanded="true" />
               </folding>
@@ -291,7 +291,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32776934" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3262519" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -666,6 +666,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/news_ua.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="84" column="16" lean-forward="false" selection-start-line="84" selection-start-column="16" selection-end-line="84" selection-end-column="16" />
+          <folding>
+            <element signature="e#783#787#0#XML" expanded="true" />
+            <element signature="e#896#900#0#XML" expanded="true" />
+            <element signature="e#1237#1242#0#XML" expanded="true" />
+            <element signature="e#1665#1669#0#XML" expanded="true" />
+            <element signature="e#1798#1802#0#XML" expanded="true" />
+            <element signature="e#2409#2413#0#XML" expanded="true" />
+            <element signature="e#2606#2610#0#XML" expanded="true" />
+            <element signature="e#3402#3406#0#XML" expanded="true" />
+            <element signature="e#3543#3547#0#XML" expanded="true" />
+            <element signature="e#4324#4328#0#XML" expanded="true" />
+            <element signature="e#4563#4567#0#XML" expanded="true" />
+            <element signature="e#5129#5133#0#XML" expanded="true" />
+            <element signature="e#5232#5236#0#XML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/app/createNew.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="63" lean-forward="false" selection-start-line="18" selection-start-column="63" selection-end-line="18" selection-end-column="63" />
+          <folding>
+            <element signature="e#250#296#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/webproj/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="354">
@@ -674,42 +706,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/app/createNew.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="18" column="63" lean-forward="false" selection-start-line="18" selection-start-column="63" selection-end-line="18" selection-end-column="63" />
-          <folding>
-            <element signature="e#250#296#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/news_ua.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="84" column="16" lean-forward="false" selection-start-line="84" selection-start-column="16" selection-end-line="84" selection-end-column="16" />
-          <folding>
-            <element signature="e#789#793#0#XML" expanded="true" />
-            <element signature="e#902#906#0#XML" expanded="true" />
-            <element signature="e#1243#1248#0#XML" expanded="true" />
-            <element signature="e#1676#1680#0#XML" expanded="true" />
-            <element signature="e#1809#1813#0#XML" expanded="true" />
-            <element signature="e#2425#2429#0#XML" expanded="true" />
-            <element signature="e#2622#2626#0#XML" expanded="true" />
-            <element signature="e#3423#3427#0#XML" expanded="true" />
-            <element signature="e#3564#3568#0#XML" expanded="true" />
-            <element signature="e#4350#4354#0#XML" expanded="true" />
-            <element signature="e#4589#4593#0#XML" expanded="true" />
-            <element signature="e#5160#5164#0#XML" expanded="true" />
-            <element signature="e#5263#5267#0#XML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="81" column="0" lean-forward="true" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+        <state relative-caret-position="451">
+          <caret line="91" column="35" lean-forward="false" selection-start-line="91" selection-start-column="35" selection-end-line="91" selection-end-column="35" />
           <folding>
             <element signature="e#29#56#0" expanded="true" />
           </folding>

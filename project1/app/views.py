@@ -16,11 +16,6 @@ def home(request):
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
 
-
-    for child in root:
-        print(child.tag)
-
-    """info about Project tag"""
     for child in root:
         title = child.find("title").text
         desc = child.find("description").text
@@ -66,6 +61,22 @@ def createNew(request):
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
 
+    """'INDENT()' to ident new data in file. source: stack overflow"""
+    def indent(elem, level=0):
+        i = "\n" + level * "  "
+        if len(elem):
+            if not elem.text or not elem.text.strip():
+                elem.text = i + "  "
+            if not elem.tail or not elem.tail.strip():
+                elem.tail = i
+            for elem in elem:
+                indent(elem, level + 1)
+            if not elem.tail or not elem.tail.strip():
+                elem.tail = i
+        else:
+            if level and (not elem.tail or not elem.tail.strip()):
+                elem.tail = i
+
     if 'title' in request.POST and 'description' in request.POST:
         title = request.POST['title']
         description = request.POST['description']
@@ -80,9 +91,8 @@ def createNew(request):
             titulo.text = title
             desc.text = description
 
-            f = open('news_ua.xml', 'w')
-            f.write(str(ET.tostring(root)))
-            f.close()
+            tree.write('news_ua.xml', encoding="utf-8", xml_declaration=True)
+
 
 
 

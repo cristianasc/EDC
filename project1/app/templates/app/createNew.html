@@ -2,10 +2,21 @@
 
 {% block content %}
 
+<div class="container body-content">
+            <div>
+                <h1>Criar Notícia</h1>
+                <h5>Publica aqui a tua notícia.</h5>
+            </div>
+</div>
+
 <div class="transbox" style="margin-top: 30px; margin-bottom: 30px;">
     <div class="row">
         <div class="col-md-8">
             <form action="createNew" method="post">
+            {% csrf_token %}
+            <p>Titulo      <input type="text" name="title"></p>
+            <p>Descrição   <input type="text" name="description"></p>
+            <p><input type="submit" value="Enviar Notícia"></p>
             </form>
         </div>
     </div>

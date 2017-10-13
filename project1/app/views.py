@@ -1,6 +1,8 @@
 """
 Definition of views.
 """
+from xml.dom import minidom
+
 from django.core.serializers import json
 from django.shortcuts import render
 from django.http import HttpRequest
@@ -63,6 +65,29 @@ def createNew(request):
     import xml.etree.ElementTree as ET
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
+
+    if 'title' in request.POST and 'description' in request.POST:
+        title = request.POST['title']
+        description = request.POST['description']
+        if title and description:
+            channel = root.find('channel')
+            item = ET.SubElement(channel, 'item')
+            guid = ET.SubElement(item, 'guid')
+            titulo = ET.SubElement(item, 'title')
+            link = ET.SubElement(item, 'link')
+            desc = ET.SubElement(item, 'description')
+            pubDate = ET.SubElement(item, 'pubDate')
+            titulo.text = title
+            desc.text = description
+
+            f = open('news_ua.xml', 'w')
+            f.write(str(ET.tostring(root)))
+            f.close()
+
+
+
+
+
 
     return render(
         request,

@@ -7,6 +7,15 @@
         <div class="col-md-8">
             <form action="about" method="post">
                 {% csrf_token %}
+                {% for title, guid, value in news %}
+                    {% if id == guid %}
+                        {% autoescape off %}
+                            <div>{{ value.0 }}</div>
+                            <br>
+                            <br>
+                        {% endautoescape %}
+                    {% endif %}
+                {% endfor %}
 
             </form>
         </div>

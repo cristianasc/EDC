@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
+from urllib.parse import urlparse
 
 def home(request):
     """Renders the about page."""
@@ -16,18 +17,21 @@ def home(request):
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
     news = {}
+    guid = []
+    ids = []
 
     for child in root:
         title = child.find("title").text
         desc = child.find("description").text
         for child1 in child.findall('item'):
+            guid += [child1.find('guid').text]
             news[child1.find('title').text] = [child1.find('description').text]
 
-    values = news.values()
-    keys = news.keys()
+    for id in guid:
+        o = urlparse(id)
+        ids += [o.query]
 
-    for k,v in zip(keys,values):
-        print(k,v)
+    keys = news.keys()
 
     return render(
         request,
@@ -35,7 +39,7 @@ def home(request):
         {
             'title': title,
             'description': desc,
-            'news': zip(keys,values),
+            'guid':zip(keys,ids),
 
         }
     )
@@ -110,12 +114,32 @@ def about(request):
     import xml.etree.ElementTree as ET
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
+    news = {}
+    guid = []
+    ids = []
+
+    for child in root:
+        title = child.find("title").text
+        desc = child.find("description").text
+        for child1 in child.findall('item'):
+            guid += [child1.find('guid').text]
+            news[child1.find('title').text] = [child1.find('description').text]
+
+    for id in guid:
+        o = urlparse(id)
+        id = o.query.replace("c=", '')
+        ids += [id]
+
+    values = news.values()
+    keys = news.keys()
+
 
     return render(
         request,
         'app/about.html',
         {
-            """"'guid': request.GET['id'],"""
+            'id': request.GET['c'],
+            'news': zip(keys,ids, values),
             'year': datetime.now().year,
         }
     )

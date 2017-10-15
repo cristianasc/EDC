@@ -9,20 +9,24 @@ from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
 from urllib.parse import urlparse
+import xml.etree.ElementTree as ET
+from .models import Database
+
 
 def home(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
-    import xml.etree.ElementTree as ET
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
     news = {}
     guid = []
     ids = []
+    title = ""
+    description = ""
 
     for child in root:
         title = child.find("title").text
-        desc = child.find("description").text
+        description = child.find("description").text
         for child1 in child.findall('item'):
             guid += [child1.find('guid').text]
             news[child1.find('title').text] = [child1.find('description').text]
@@ -38,12 +42,28 @@ def home(request):
         'app/index.html',
         {
             'title': title,
-            'description': desc,
-            'guid':zip(keys,ids),
+            'description': description,
+            'guid': zip(keys, ids),
 
         }
     )
 
+
+def basex_test_view(request):
+    """Renders the contact page."""
+    assert isinstance(request, HttpRequest)
+
+
+
+    return render(
+        request,
+        'app/contact.html',
+        {
+            'title': 'Contact',
+            'message': 'Your contact page.',
+            'year': datetime.now().year,
+        }
+    )
 
 
 def contact(request):
@@ -53,19 +73,20 @@ def contact(request):
         request,
         'app/contact.html',
         {
-            'title':'Contact',
-            'message':'Your contact page.',
-            'year':datetime.now().year,
+            'title': 'Contact',
+            'message': 'Your contact page.',
+            'year': datetime.now().year,
         }
     )
 
+
 def createNew(request):
     assert isinstance(request, HttpRequest)
-    import xml.etree.ElementTree as ET
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
 
     """'INDENT()' to ident new data in file. source: stack overflow"""
+
     def indent(elem, level=0):
         i = "\n" + level * "  "
         if len(elem):
@@ -97,7 +118,6 @@ def createNew(request):
 
             tree.write('news_ua.xml', encoding="utf-8", xml_declaration=True)
 
-
     return render(
         request,
         'app/createNew.html',
@@ -108,10 +128,8 @@ def createNew(request):
     )
 
 
-
 def about(request):
     assert isinstance(request, HttpRequest)
-    import xml.etree.ElementTree as ET
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
     news = {}
@@ -133,14 +151,12 @@ def about(request):
     values = news.values()
     keys = news.keys()
 
-
     return render(
         request,
         'app/about.html',
         {
             'id': request.GET['c'],
-            'news': zip(keys,ids, values),
+            'news': zip(keys, ids, values),
             'year': datetime.now().year,
         }
     )
-

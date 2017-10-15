@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="rss" type="rssType"/>
+  <xs:complexType name="itemType">
+    <xs:sequence>
+      <xs:element name="guid">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=52018"/>
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=52013"/>
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=52011"/>
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=51996"/>
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=47839"/>
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=51995"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="title">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="UA apresenta dezenas de projetos no TECHDAYS Aveiro"/>
+            <xs:enumeration value="Acesso experimental à ProQuest"/>
+            <xs:enumeration value="UA num ano bom apela à reflexão sobre virtudes do modelo fundacional"/>
+            <xs:enumeration value="Investigadora do CIDTFF membro do júri do Concurso “Geração +”"/>
+            <xs:enumeration value="Ergovisão comemora primeiro aniversário da sua loja na UA"/>
+            <xs:enumeration value="UATEC lança nova edição do programa Acelera +"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="link">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=52018"/>
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=52013"/>
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=52011"/>
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=51996"/>
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=47839"/>
+            <xs:enumeration value="https://uaonline.ua.pt/pub/detail.asp?c=51995"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="description">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="
+			&lt;img src=&quot;https://uaonline.ua.pt/upload/img/joua_i_6306_thumb.JPG&quot; alt=&quot;TECHDAYS 2017&quot; title=&quot;TECHDAYS 2017&quot; />Uma montra com cerca de sete dezenas de projetos e protótipos resultantes da melhor tecnologia desenvolvida na Universidade de Aveiro (UA) e o espaço da Fábrica Centro de Ciência Viva (FCCV). Assim é a presença da Academia no TECHDAYS Aveiro 2017, o maior fórum nacional de tecnologia que congrega o que de melhor se faz nos centros de I&amp;D nacionais, nas empresas do setor e nas instituições públicas. O evento decorre de 12 a 14 de outubro, no Parque de Feiras e Exposições de Aveiro.
+		"/>
+            <xs:enumeration value="
+			&lt;img src=&quot;https://uaonline.ua.pt/upload/img/joua_i_3014_thumb.jpg&quot; alt=&quot;Feira do livro de Natal&quot; title=&quot;Feira do livro de Natal&quot; />Está ativo até 30 de novembro, para a UA e restantes membros b-on (Biblioteca do Conhecimento Online), um trial da editora ProQuest, que possibilita o acesso ao texto integral de revistas e artigos científicos, livros eletrónicos e outras publicações de áreas de interesse para a Universidade.
+		"/>
+            <xs:enumeration value="
+			&lt;img src=&quot;https://uaonline.ua.pt/upload/img/joua_i_6503_thumb.jpg&quot; alt=&quot;Correia de Campos defende análise ao modelo fundacional&quot; title=&quot;Correia de Campos defende análise ao modelo fundacional&quot; />O bom momento que a Universidade de Aveiro (UA) vive foi enaltecido pelo Reitor, perante os resultados do concurso nacional de acesso, durante a sessão de Abertura do Ano Letivo 2017-2018, a 4 de outubro. Manuel António Assunção, durante o seu discurso, defendeu um regresso à matriz do modelo fundacional. O presidente do Conselho de Curadores, Correia de Campos, propôs, na sua intervenção temática, uma reflexão ponderada sobre as vantagens deste modelo, antes de qualquer mudança.
+		"/>
+            <xs:enumeration value="
+			&lt;img src=&quot;https://uaonline.ua.pt/upload/img/joua_i_6501_thumb.jpg&quot; alt=&quot;Júri do Concurso &quot;Geração+&quot;&quot; title=&quot;Júri do Concurso &quot;Geração+&quot;&quot; />Maria José Loureiro, investigadora do Centro de Investigação em Didática e Tecnologia e Formação de Formadores (CIDTFF) e professora requisitada  no Centro de Competência TIC da Universidade de Aveiro (ccTICua), integrou o júri do Concurso  “Geração +”. Tratou-se de eleger os três melhores trabalhos apresentados pelas escolas profissionais do Grupo &quot;Rumos Educação: sete pólos das escolas Profitecla, Escola Digital, Escola Ruiz Costa e Escola Profissional de Braga (EPB).
+		"/>
+            <xs:enumeration value="
+			&lt;img src=&quot;https://uaonline.ua.pt/upload/img/joua_i_4066_thumb.jpg&quot; alt=&quot;Centro de Saúde Universitário passa a disponibilizar consultas de Optometria&quot; title=&quot;Centro de Saúde Universitário passa a disponibilizar consultas de Optometria&quot; />No próximo dia 9 de outubro, a Ergovisão celebrará o primeiro aniversário da sua loja na Universidade de Aveiro, com uma campanha promocional que se prolongará até ao dia 10.  Pelas 16h30 do dia 9, haverá bolo de aniversário ao som da artista brasileira Fabiola Carvalho.
+		"/>
+            <xs:enumeration value="
+			&lt;img src=&quot;https://uaonline.ua.pt/upload/img/joua_i_6500_thumb.jpg&quot; alt=&quot;Acelera+&quot; title=&quot;Acelera+&quot; />Tem início, no dia 28 de outubro, mais uma edição do programa Acelera +, iniciativa integrada no projeto NOE - Noroeste Empreendedor. Durante 4 sábados, no período das 9h00 às 18h00, os empreendedores serão desafiados a alavancar o seu projeto empreendedor, através de um conjunto de workshops e mentoria.
+		"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="pubDate">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Mon, 9 Oct 2017 00:00:00 GMT"/>
+            <xs:enumeration value="Fri, 6 Oct 2017 00:00:00 GMT"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="channelType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="title"/>
+      <xs:element type="xs:string" name="link"/>
+      <xs:element type="xs:string" name="description"/>
+      <xs:element type="xs:string" name="language"/>
+      <xs:element type="xs:string" name="copyright"/>
+      <xs:element type="xs:string" name="lastBuildDate"/>
+      <xs:element type="xs:string" name="ttl"/>
+      <xs:element type="imageType" name="image"/>
+      <xs:element type="itemType" name="item" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rssType">
+    <xs:sequence>
+      <xs:element type="channelType" name="channel"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="version"/>
+  </xs:complexType>
+  <xs:complexType name="imageType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="title"/>
+      <xs:element type="xs:string" name="url"/>
+      <xs:element type="xs:string" name="link"/>
+      <xs:element type="xs:string" name="width"/>
+      <xs:element type="xs:string" name="height"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

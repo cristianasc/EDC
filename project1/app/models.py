@@ -9,10 +9,9 @@ class Database:
 
         try:
             # create new database
-            self.session.create("database", f.read())
+            #self.session.create("database", f.read())
             print(self.session.info())
 
-            self.session.execute("xquery drop db ('database')")
             # run query on database
             self.session.execute("xquery doc('database')")
 
@@ -23,8 +22,7 @@ class Database:
 
     def add_new(self, new):
 
-        add = "XQUERY insert node "+new+" into rss/channel"
-
-        query = self.session.execute(add)
+        self.session.execute("open database")
+        query = self.session.execute("XQUERY insert node "+new+" into rss/channel")
         print(query)
 

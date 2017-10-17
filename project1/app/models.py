@@ -12,23 +12,19 @@ class Database:
             self.session.create("database", f.read())
             print(self.session.info())
 
+            self.session.execute("xquery drop db ('database')")
             # run query on database
-            print("\n" + self.session.execute("xquery doc('database')"))
+            self.session.execute("xquery doc('database')")
 
         finally:
             # close session
-            if self.session:
-                self.session.close()
+            pass
 
 
     def add_new(self, new):
 
-        print("here, the new " + new)
-        # add new news
-        add = "let $doc := collection('news')/channel " \
-              "return insert node <newnode/> into $doc"
+        add = "XQUERY insert node "+new+" into rss/channel"
 
         query = self.session.execute(add)
+        print(query)
 
-        # close query object
-        query.close()

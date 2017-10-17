@@ -17,8 +17,9 @@ from .models import Database
 def get_all(request):
     db = Database()
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
-    input = "for $i in 1 to 100 return <xml>Text { $i }</xml>"
-    query = session.query(input)
+    input = "xquery doc('database')"
+    query = session.execute(input)
+    print(query)
     session.close()
     return render(
         request,

@@ -50,21 +50,6 @@ def home(request):
     )
 
 
-def basex_test_view(request):
-    """Renders the contact page."""
-    assert isinstance(request, HttpRequest)
-
-    return render(
-        request,
-        'app/contact.html',
-        {
-            'title': 'Contact',
-            'message': 'Your contact page.',
-            'year': datetime.now().year,
-        }
-    )
-
-
 def contact(request):
     """Renders the contact page."""
     assert isinstance(request, HttpRequest)
@@ -118,7 +103,7 @@ def createNew(request):
 
             tree.write('news_ua.xml', encoding="utf-8", xml_declaration=True)
 
-    Database.add_new(Database,item)
+            Database.add_new(Database,item)
 
     return render(
         request,

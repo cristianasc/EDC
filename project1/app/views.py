@@ -16,6 +16,7 @@ from .models import Database
 def home(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
+
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
     news = {}
@@ -53,8 +54,6 @@ def basex_test_view(request):
     """Renders the contact page."""
     assert isinstance(request, HttpRequest)
 
-
-
     return render(
         request,
         'app/contact.html',
@@ -69,6 +68,7 @@ def basex_test_view(request):
 def contact(request):
     """Renders the contact page."""
     assert isinstance(request, HttpRequest)
+
     return render(
         request,
         'app/contact.html',
@@ -117,6 +117,8 @@ def createNew(request):
             desc.text = description
 
             tree.write('news_ua.xml', encoding="utf-8", xml_declaration=True)
+
+    Database.add_new(Database,item)
 
     return render(
         request,

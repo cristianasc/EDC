@@ -2,7 +2,6 @@ from BaseXClient import BaseXClient
 
 
 class Database:
-
     def __init__(self):
 
         session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
@@ -18,5 +17,23 @@ class Database:
 
         finally:
             # close session
+            if session:
+                session.close()
+
+
+    def add_new(self, new):
+        session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+
+        try:
+            # add new news
+            add = "let $doc := collection('news')/channel " \
+                  "return insert node (<item><description>" + new + "</description></item>before $doc/item[1]"
+
+            query = session.query(add)
+
+            # close query object
+            query.close()
+
+        finally:
             if session:
                 session.close()

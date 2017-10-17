@@ -3,7 +3,7 @@ Definition of views.
 """
 from xml.dom import minidom
 
-from django.core.serializers import json
+from BaseXClient import BaseXClient
 from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
@@ -12,6 +12,21 @@ from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
 from .models import Database
 
+
+def get_all(request):
+    db = Database()
+    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+    input = "for $i in 1 to 100 return <xml>Text { $i }</xml>"
+    query = session.query(input)
+    print(query)
+    session.close()
+    return render(
+        request,
+        'app/index.html',
+        {
+            'title': "OK"
+        }
+    )
 
 def home(request):
     """Renders the about page."""

@@ -44,5 +44,6 @@ urlpatterns = [
         },
         name='logout'),
     url(r'^admin/', admin.site.urls),
+    url(r'^get_all/', app.views.get_all, name='get_all'),
     url(r'^createNew', app.views.createNew, name='createNew'),
 ]

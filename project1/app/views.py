@@ -117,6 +117,7 @@ def createNew(request):
             titulo.text = title
             desc.text = description
 
+            indent(root)
             tree.write('news_ua.xml', encoding="utf-8", xml_declaration=True)
 
             db = Database()

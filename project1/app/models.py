@@ -4,36 +4,31 @@ from BaseXClient import BaseXClient
 class Database:
     def __init__(self):
 
-        session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+        self.session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
         f = open('news_ua.xml', 'r', encoding='utf-8')
 
         try:
             # create new database
-            session.create("database", f.read())
-            print(session.info())
+            self.session.create("database", f.read())
+            print(self.session.info())
 
             # run query on database
-            print("\n" + session.execute("xquery doc('database')"))
+            print("\n" + self.session.execute("xquery doc('database')"))
 
         finally:
             # close session
-            if session:
-                session.close()
+            if self.session:
+                self.session.close()
 
 
     def add_new(self, new):
-        session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
 
-        try:
-            # add new news
-            add = "let $doc := collection('news')/channel " \
-                  "return insert node (<item><description>" + new + "</description></item>before $doc/item[1]"
+        print("here, the new " + new)
+        # add new news
+        add = "let $doc := collection('news')/channel " \
+              "return insert node <newnode/> into $doc"
 
-            query = session.query(add)
+        query = self.session.execute(add)
 
-            # close query object
-            query.close()
-
-        finally:
-            if session:
-                session.close()
+        # close query object
+        query.close()

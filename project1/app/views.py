@@ -10,6 +10,7 @@ from django.template import RequestContext
 from datetime import datetime
 from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
+from xml.etree.ElementTree import ElementTree, tostring
 from .models import Database
 
 
@@ -18,7 +19,6 @@ def get_all(request):
     session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
     input = "for $i in 1 to 100 return <xml>Text { $i }</xml>"
     query = session.query(input)
-    print(query)
     session.close()
     return render(
         request,
@@ -118,7 +118,8 @@ def createNew(request):
 
             tree.write('news_ua.xml', encoding="utf-8", xml_declaration=True)
 
-            Database.add_new(Database,item)
+            db = Database()
+            db.add_new(tostring(item, encoding="unicode"))
 
     return render(
         request,

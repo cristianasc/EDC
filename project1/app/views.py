@@ -7,7 +7,8 @@ from BaseXClient import BaseXClient
 from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
-from datetime import datetime
+from datetime import datetime, time
+from time import gmtime, strftime
 from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import ElementTree, tostring
@@ -33,36 +34,37 @@ def home(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
 
-    tree = ET.parse('news_ua.xml')
-    root = tree.getroot()
-    news1 = {}
-    guid = []
+    """
+       tree = ET.parse('news_ua.xml')
+       root = tree.getroot()
+       news1 = {}
+       for child in root:
+           title = child.find("title").text
+           description = child.find("description").text
+           for child1 in child.findall('item'):
+               guid += [child1.find('guid').text]
+               news1[child1.find('title').text] = [child1.find('description').text]
+    """
+
     ids = []
     title = ""
-    description = ""
 
-    for child in root:
-        title = child.find("title").text
-        description = child.find("description").text
-        for child1 in child.findall('item'):
-            guid += [child1.find('guid').text]
-            news1[child1.find('title').text] = [child1.find('description').text]
+    db = Database()
+    news, guid = db.news()
+
+    keys = news.keys()
 
     for id in guid:
         o = urlparse(id)
         ids += [o.query]
 
-    db = Database()
-    news = db.news()
 
-    keys = news.keys()
 
     return render(
         request,
         'app/index.html',
         {
             'title': title,
-            'description': description,
             'guid': zip(keys, ids),
 
         }
@@ -117,7 +119,7 @@ def createNew(request):
         id = o.query.replace("c=", '')
         ids += [id]
 
-    next_id = int(ids[len(ids)-1])+1
+    next_id = 6000+1
 
     if 'title' in request.POST and 'description' in request.POST:
         title = request.POST['title']
@@ -132,20 +134,19 @@ def createNew(request):
             pubDate = ET.SubElement(item, 'pubDate')
             titulo.text = title
             guid.text = "https://uaonline.ua.pt/pub/detail.asp?c="+ str(next_id)
+            link.text = "https://uaonline.ua.pt/pub/detail.asp?c=" + str(next_id)
             desc.text = description
+            pubDate.text = strftime("%a, %d %b %Y %H:%M:%S GMT", gmtime())
 
             #tree.write('news_ua.xml', encoding="utf-8", xml_declaration=True)
 
             db = Database()
             db.add_new(tostring(item, encoding="unicode"))
 
-
-
     return render(
         request,
         'app/createNew.html',
         {
-            """"'guid': request.GET['id'],"""
             'year': datetime.now().year,
         }
     )
@@ -153,16 +154,22 @@ def createNew(request):
 
 def about(request):
     assert isinstance(request, HttpRequest)
+
+    ids = []
+
+    """
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
     news = {}
     guid = []
-    ids = []
-
     for child in root:
         for child1 in child.findall('item'):
             guid += [child1.find('guid').text]
             news[child1.find('title').text] = [child1.find('description').text]
+    """
+
+    db = Database()
+    news, guid = db.news()
 
     for id in guid:
         o = urlparse(id)

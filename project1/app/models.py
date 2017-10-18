@@ -36,6 +36,7 @@ class Database:
         news = {}
         titles = []
         descriptions = []
+        guid = []
         i = 1
 
         count = self.session.execute("XQUERY let $items:=doc('database')//channel/item/title[1]/text() return count($items)")
@@ -45,12 +46,13 @@ class Database:
         while(i<=int(count)):
             titles += [self.session.execute("XQUERY (for $i in doc('database')//channel/item/title/text() return $i)["+str(i)+"]")]
             descriptions += [self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/description/text() return $i)["+str(i)+"]")]
+            guid += [self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/guid/text() return $i)["+str(i)+"]")]
             i = i + 1
 
         for i,j in zip(titles,descriptions):
             news[i] = [j]
 
-        return news
+        return news, guid
 
 
 

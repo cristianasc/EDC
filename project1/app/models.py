@@ -7,6 +7,7 @@ from datetime import datetime
 from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
 import json
+import xmltodict
 
 
 class Database:
@@ -14,6 +15,8 @@ class Database:
 
         self.session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
         f = open('news_ua.xml', 'r', encoding='utf-8')
+
+        self.session.execute("open database")
 
         try:
             # create new database
@@ -33,24 +36,17 @@ class Database:
         self.session.execute("XQUERY insert node "+new+" into rss/channel")
 
     def news(self):
-        news = []
-        i = 1
+        news_txt = self.session.execute("XQUERY doc('database')")
+        news = xmltodict.parse(news_txt)["rss"]["channel"]["item"]
 
-        count = self.session.execute("XQUERY let $items:=doc('database')//channel/item/title[1]/text() return count($items)")
-
-        self.session.execute("open database")
-
-        while(i<=int(count)):
-            new = {}
-            new['title'] = self.session.execute("XQUERY (for $i in doc('database')//channel/item/title/text() return $i)["+str(i)+"]")
-            new['description'] = self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/description/text() return $i)["+str(i)+"]")
-            new['guid'] = self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/guid/text() return $i)["+str(i)+"]")
-            new["uid"] = urlparse(new['guid']).query
-            new['pubDate'] = self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/pubDate/text() return $i)["+str(i)+"]")
-            i += 1
-            news.append(new)
+        for i in range(0, len(news)):
+            news[i]["uid"] = urlparse(news[i]['guid']).query
 
         return news
+
+    def get_new(self, uid):
+        new_txt = self.session.execute("XQUERY doc('database')//rss/channel/item[guid=\"https://uaonline.ua.pt/pub/detail.asp?c="+uid+"\"]")
+        return dict(xmltodict.parse(new_txt)["item"])
 
 
 

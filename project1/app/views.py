@@ -129,28 +129,15 @@ def createNew(request):
 def about(request):
     assert isinstance(request, HttpRequest)
 
-    ids = []
+    if "c" not in request.GET:
+        pass # not found...
 
-    """
-    tree = ET.parse('news_ua.xml')
-    root = tree.getroot()
-    news = {}
-    guid = []
-    for child in root:
-        for child1 in child.findall('item'):
-            guid += [child1.find('guid').text]
-            news[child1.find('title').text] = [child1.find('description').text]
-    """
-
-    db = Database()
-    news = db.news()
+    selected_new = Database().get_new(request.GET["c"])
 
     return render(
         request,
         'app/about.html',
         {
-            'id': request.GET['c'],
-            'data': news,
-            'year': datetime.now().year,
+            'data': selected_new
         }
     )

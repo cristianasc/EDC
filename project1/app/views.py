@@ -34,39 +34,13 @@ def home(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
 
-    """
-       tree = ET.parse('news_ua.xml')
-       root = tree.getroot()
-       news1 = {}
-       for child in root:
-           title = child.find("title").text
-           description = child.find("description").text
-           for child1 in child.findall('item'):
-               guid += [child1.find('guid').text]
-               news1[child1.find('title').text] = [child1.find('description').text]
-    """
-
-    ids = []
-    title = ""
-
-    db = Database()
-    news, guid = db.news()
-
-    keys = news.keys()
-
-    for id in guid:
-        o = urlparse(id)
-        ids += [o.query]
-
-
+    news = Database().news()
 
     return render(
         request,
         'app/index.html',
         {
-            'title': title,
-            'guid': zip(keys, ids),
-
+            'data': news
         }
     )
 
@@ -169,22 +143,14 @@ def about(request):
     """
 
     db = Database()
-    news, guid = db.news()
-
-    for id in guid:
-        o = urlparse(id)
-        id = o.query.replace("c=", '')
-        ids += [id]
-
-    values = news.values()
-    keys = news.keys()
+    news = db.news()
 
     return render(
         request,
         'app/about.html',
         {
             'id': request.GET['c'],
-            'news': zip(keys, ids, values),
+            'data': news,
             'year': datetime.now().year,
         }
     )

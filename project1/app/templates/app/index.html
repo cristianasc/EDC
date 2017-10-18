@@ -2,25 +2,25 @@
 
 {% block content %}
 
-<div class="container body-content">
-            <div>
-                <h1>{{ title }}</h1>
-                <h5>{{ description }}</h5>
-            </div>
-</div>
+    <div class="container body-content" style="margin-top: 30px; margin-bottom: 30px;">
+        <div class = "page-header">
 
-<div class="transbox" style="margin-top: 30px; margin-bottom: 30px;">
-    <div class="row">
-        <div class="col-md-12">
-            <form action="home" method="post">
-                {% csrf_token %}
-                {% for key, id in guid %}
-                    <h4><a href="about.html?{{ id }}">{{ key }}</a></h4>
-                {% endfor %}
-            </form>
+           <h1>
+              University of Aveiro
+              <small>latest news</small>
+           </h1>
+
+        </div>
+
+        <div class="list-group">
+            {% for new in data %}
+                <a href="about.html?{{ new.uid }}" class="list-group-item active">
+                    <h4 class="list-group-item-heading">{{ new.title }}</h4>
+                    <p class="list-group-item-text">{{ new.pubDate }}</p>
+                </a>
+            {% endfor %}
         </div>
     </div>
-</div>
 
 
 {% endblock %}

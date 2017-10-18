@@ -33,10 +33,7 @@ class Database:
         self.session.execute("XQUERY insert node "+new+" into rss/channel")
 
     def news(self):
-        news = {}
-        titles = []
-        descriptions = []
-        guid = []
+        news = []
         i = 1
 
         count = self.session.execute("XQUERY let $items:=doc('database')//channel/item/title[1]/text() return count($items)")
@@ -44,15 +41,16 @@ class Database:
         self.session.execute("open database")
 
         while(i<=int(count)):
-            titles += [self.session.execute("XQUERY (for $i in doc('database')//channel/item/title/text() return $i)["+str(i)+"]")]
-            descriptions += [self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/description/text() return $i)["+str(i)+"]")]
-            guid += [self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/guid/text() return $i)["+str(i)+"]")]
-            i = i + 1
+            new = {}
+            new['title'] = self.session.execute("XQUERY (for $i in doc('database')//channel/item/title/text() return $i)["+str(i)+"]")
+            new['description'] = self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/description/text() return $i)["+str(i)+"]")
+            new['guid'] = self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/guid/text() return $i)["+str(i)+"]")
+            new["uid"] = urlparse(new['guid']).query
+            new['pubDate'] = self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/pubDate/text() return $i)["+str(i)+"]")
+            i += 1
+            news.append(new)
 
-        for i,j in zip(titles,descriptions):
-            news[i] = [j]
-
-        return news, guid
+        return news
 
 
 

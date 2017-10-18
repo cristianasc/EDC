@@ -3,23 +3,23 @@
 {% block content %}
 
 <div class="container body-content">
-            <div>
-                <h1>Criar Notícia</h1>
-                <h5>Publica aqui a tua notícia.</h5>
-            </div>
-</div>
-
-<div class="transbox" style="margin-top: 30px; margin-bottom: 30px;">
-    <div class="row">
-        <div class="col-md-8">
-            <form action="createNew" method="post">
-            {% csrf_token %}
-            <p>Titulo      <input style="padding-right: 100%;" type="text" name="title"></p>
-            <p>Descrição   <textarea style="padding-right: 100%; padding-bottom: 30%" type="text" name="description"></textarea></p>
-            <p><input type="submit" value="Enviar Notícia"></p>
-            </form>
-        </div>
+    <div>
+        <h1>Criar Notícia</h1>
+        <h5>Publica aqui a tua notícia.</h5>
     </div>
+
+    <form action="create_new" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input style="padding-right: 70%;" type="text" class="form-control" name="title">
+        </div>
+        <div class="form-group">
+              <label for="corpo">Corpo:</label>
+              <textarea style="padding-right: 70%;" class="form-control" rows="15" id="corpo" name="description"></textarea>
+        </div>
+        <button type="submit" class="btn btn-default" value="Enviar Notícia">Enviar</button>
+    </form>
 </div>
 
 {% endblock %}

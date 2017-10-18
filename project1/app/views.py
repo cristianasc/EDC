@@ -93,7 +93,7 @@ def createNew(request):
         id = o.query.replace("c=", '')
         ids += [id]
 
-    next_id = 6000+1
+    next_id = int(ids[len(ids)-1])+10
 
     if 'title' in request.POST and 'description' in request.POST:
         title = request.POST['title']

@@ -1,4 +1,12 @@
 from BaseXClient import BaseXClient
+from xml.etree.ElementTree import ElementTree, tostring
+from django.shortcuts import render
+from django.http import HttpRequest
+from django.template import RequestContext
+from datetime import datetime
+from urllib.parse import urlparse
+import xml.etree.ElementTree as ET
+import json
 
 
 class Database:
@@ -21,8 +29,31 @@ class Database:
 
 
     def add_new(self, new):
+        self.session.execute("open database")
+        self.session.execute("XQUERY insert node "+new+" into rss/channel")
+
+    def news(self):
+        news = {}
+        titles = []
+        descriptions = []
+        i = 1
+
+        count = self.session.execute("XQUERY let $items:=doc('database')//channel/item/title[1]/text() return count($items)")
 
         self.session.execute("open database")
-        query = self.session.execute("XQUERY insert node "+new+" into rss/channel")
-        print(query)
+
+        while(i<=int(count)):
+            titles += [self.session.execute("XQUERY (for $i in doc('database')//channel/item/title/text() return $i)["+str(i)+"]")]
+            descriptions += [self.session.execute("XQUERY (for $i in doc('database')/rss/channel/item/description/text() return $i)["+str(i)+"]")]
+            i = i + 1
+
+        for i,j in zip(titles,descriptions):
+            news[i] = [j]
+
+        return news
+
+
+
+
+
 

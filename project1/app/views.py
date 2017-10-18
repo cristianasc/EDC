@@ -35,7 +35,7 @@ def home(request):
 
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
-    news = {}
+    news1 = {}
     guid = []
     ids = []
     title = ""
@@ -46,11 +46,14 @@ def home(request):
         description = child.find("description").text
         for child1 in child.findall('item'):
             guid += [child1.find('guid').text]
-            news[child1.find('title').text] = [child1.find('description').text]
+            news1[child1.find('title').text] = [child1.find('description').text]
 
     for id in guid:
         o = urlparse(id)
         ids += [o.query]
+
+    db = Database()
+    news = db.news()
 
     keys = news.keys()
 
@@ -85,6 +88,8 @@ def createNew(request):
     assert isinstance(request, HttpRequest)
     tree = ET.parse('news_ua.xml')
     root = tree.getroot()
+    ids = []
+    guids = []
 
     """'INDENT()' to ident new data in file. source: stack overflow"""
 
@@ -103,6 +108,17 @@ def createNew(request):
             if level and (not elem.tail or not elem.tail.strip()):
                 elem.tail = i
 
+    for child in root:
+        for child1 in child.findall('item'):
+            guids += [child1.find('guid').text]
+
+    for id in guids:
+        o = urlparse(id)
+        id = o.query.replace("c=", '')
+        ids += [id]
+
+    next_id = int(ids[len(ids)-1])+1
+
     if 'title' in request.POST and 'description' in request.POST:
         title = request.POST['title']
         description = request.POST['description']
@@ -115,12 +131,15 @@ def createNew(request):
             desc = ET.SubElement(item, 'description')
             pubDate = ET.SubElement(item, 'pubDate')
             titulo.text = title
+            guid.text = "https://uaonline.ua.pt/pub/detail.asp?c="+ str(next_id)
             desc.text = description
 
             #tree.write('news_ua.xml', encoding="utf-8", xml_declaration=True)
 
             db = Database()
             db.add_new(tostring(item, encoding="unicode"))
+
+
 
     return render(
         request,
@@ -141,8 +160,6 @@ def about(request):
     ids = []
 
     for child in root:
-        title = child.find("title").text
-        desc = child.find("description").text
         for child1 in child.findall('item'):
             guid += [child1.find('guid').text]
             news[child1.find('title').text] = [child1.find('description').text]

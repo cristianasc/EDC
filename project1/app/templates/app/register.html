@@ -13,30 +13,41 @@
                 <div class="form-group">
                     <label for="id_firstname" class="col-md-2 control-label">Primeiro Nome</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" name="firstname" placeholder="Primeiro Nome"/>
+                        {{ form.first_name }}
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="id_lastname" class="col-md-2 control-label">Último Nome</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" name="lastname" placeholder="Último Nome"/>
+                        <input type="text" class="form-control" name="last_name" placeholder="Último Nome"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="id_email" class="col-md-2 control-label">E-mail</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" name="username" placeholder="E-mail"/>
+                        {{ form.email }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_username" class="col-md-2 control-label">Username</label>
+                    <div class="col-md-10">
+                        {{ form.username }}
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="id_password" class="col-md-2 control-label">Password</label>
                     <div class="col-md-10">
-                         <input type="password" class="form-control" name="password" placeholder="Password"/>
+                         {{ form.password1 }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password" class="col-md-2 control-label">Confirmar Password</label>
+                    <div class="col-md-10">
+                         {{ form.password2 }}
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="hidden" name="next" value="/" />
                         <input type="submit" value="Registar" class="btn btn-default" />
                     </div>
                 </div>

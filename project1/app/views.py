@@ -10,8 +10,7 @@ from datetime import datetime
 import xml.etree.ElementTree as ET
 import uuid
 from .models import Database
-from django.contrib.auth.models import User
-
+from .forms import RegistrationForm
 
 def get_all(request):
     Database()
@@ -80,18 +79,23 @@ def create_new(request):
     )
 
 
-
 def register(request):
     assert isinstance(request, HttpRequest)
 
-    return render(
-        request,
-        'app/register.html',
-        {
-            'title': 'Registar Utilizador',
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(
+                request,
+                'app/index.html')
+    else:
+        form = RegistrationForm()
+        x = {'form': form}
+        return render(
+                request,
+                'app/register.html', x)
 
-        }
-    )
 
 def about(request):
     assert isinstance(request, HttpRequest)

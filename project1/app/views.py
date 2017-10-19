@@ -80,6 +80,20 @@ def create_new(request):
     )
 
 
+
+def register(request):
+    assert isinstance(request, HttpRequest)
+
+
+    return render(
+        request,
+        'app/register.html',
+        {
+            'title': 'Registar Utilizador',
+
+        }
+    )
+
 def about(request):
     assert isinstance(request, HttpRequest)
 

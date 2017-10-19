@@ -1,0 +1,47 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+
+<div class="container body-content">
+    <h2>{{ title }}</h2>
+        <section id="loginForm">
+            <form action="register" method="post" class="form-horizontal">
+                {% csrf_token %}
+                <h4>Introduz os teus dados para te registares.</h4>
+                <hr />
+                <div class="form-group">
+                    <label for="id_username" class="col-md-2 control-label">Primeiro Nome</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="firstname" placeholder="Primeiro Nome">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_username" class="col-md-2 control-label">Último Nome</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="lastname" placeholder="Último Nome">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_username" class="col-md-2 control-label">User name</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="username" placeholder="User name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password" class="col-md-2 control-label">Password</label>
+                    <div class="col-md-10">
+                         <input type="text" class="form-control" name="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="hidden" name="next" value="/" />
+                        <input type="submit" value="Registar" class="btn btn-default" />
+                    </div>
+                </div>
+            </form>
+        </section>
+</div>
+
+{% endblock %}

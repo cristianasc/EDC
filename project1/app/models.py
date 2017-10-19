@@ -1,14 +1,6 @@
 from BaseXClient import BaseXClient
-from xml.etree.ElementTree import ElementTree, tostring
-from django.shortcuts import render
-from django.http import HttpRequest
-from django.template import RequestContext
-from datetime import datetime
 from urllib.parse import urlparse
-import xml.etree.ElementTree as ET
-import json
 import xmltodict
-
 
 class Database:
     def __init__(self):
@@ -37,8 +29,4 @@ class Database:
         validate = self.session.execute("XQUERY let $schema:= 'news_ua.xsd' let $doc:= doc('database') return validate:xsd($doc, $schema)")
 
         print(validate)
-
-
-
-
 

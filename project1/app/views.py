@@ -7,10 +7,10 @@ from BaseXClient import BaseXClient
 from django.shortcuts import render
 from django.http import HttpRequest
 from datetime import datetime
-
 import xml.etree.ElementTree as ET
 import uuid
 from .models import Database
+from django.contrib.auth.models import User
 
 
 def get_all(request):
@@ -83,7 +83,6 @@ def create_new(request):
 
 def register(request):
     assert isinstance(request, HttpRequest)
-
 
     return render(
         request,

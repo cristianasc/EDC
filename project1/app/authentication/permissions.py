@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from webserver.exceptions import Forbidden
+from .exceptions import Forbidden
 
 
 class MustBeSuperUser(permissions.BasePermission):

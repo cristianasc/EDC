@@ -1,6 +1,5 @@
 import json
 
-from authentication.permissions import MustBeSuperUser
 from django.shortcuts import get_object_or_404
 from rest_framework import mixins, viewsets, views, status, permissions, models, serializers
 from rest_framework.response import Response

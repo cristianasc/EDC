@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from authentication.models import Account
+from .models import Account
 from rest_framework.validators import ValidationError
 
 from django.core.validators import MinLengthValidator

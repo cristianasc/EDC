@@ -15,6 +15,8 @@ from django.core.files.base import ContentFile
 from webproj import settings
 from .forms import RegistrationForm
 from xml.dom import minidom
+from django.http.response import HttpResponseBadRequest
+
 
 def get_all(request):
     Database()
@@ -47,47 +49,41 @@ def home(request):
     )
 
 
-def upload_image(request):
-    assert isinstance(request, HttpRequest)
-
-    name = str(uuid.uuid4)
-    default_storage.save(os.path.join(settings.BASE_DIR, 'images/'+name+'.png'), ContentFile(request.FILES['file'].read()))
-
-    return render(
-        request,
-        'app/index.html',
-        {
-
-        }
-    )
-
-
 def create_new(request):
     assert isinstance(request, HttpRequest)
 
-    title = request.POST.get("title")
-    description = request.POST.get("description")
+    if request.method == "POST":
 
-    root = ET.Element('item')
-    guid_child = ET.SubElement(root, "guid")
-    guid_child.text = "https://uaonline.ua.pt/pub/detail.asp?c=" + str(uuid.uuid4())
+        if "file" not in request.FILES:
+            return HttpResponseBadRequest()
 
-    title_child = ET.SubElement(root, "title")
-    title_child.text = title
+        title = request.POST.get("title")
+        description = request.POST.get("description")
 
-    link_child = ET.SubElement(root, "link")
-    link_child.text = ""
+        root = ET.Element('item')
+        guid_child = ET.SubElement(root, "guid")
+        new_uuid = str(uuid.uuid4())
+        guid_child.text = new_uuid
 
-    description_child = ET.SubElement(root, "description")
-    description_child.text = description
+        title_child = ET.SubElement(root, "title")
+        title_child.text = title
 
-    date_child = ET.SubElement(root, "pubDate")
-    date_child.text = str(datetime.now())
+        link_child = ET.SubElement(root, "link")
+        link_child.text = ""
 
-    xmlstr = ET.tostring(root, encoding='utf8', method='xml')
+        description_child = ET.SubElement(root, "description")
+        description_child.text = '&lt;img src="http://'+request.META['HTTP_HOST']+'/static/'+new_uuid+'.png" alt="'+title+'" title="'+title+'" /&gt; ' + description
 
-    print(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""))
-    Database().add_new(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""))
+        date_child = ET.SubElement(root, "pubDate")
+        date_child.text = str(datetime.now())
+
+        xmlstr = ET.tostring(root, encoding='utf8', method='xml')
+
+        print(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""))
+        Database().add_new(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""))
+
+        default_storage.save(os.path.join(settings.BASE_DIR, 'static/' + new_uuid + '.png'),
+                             ContentFile(request.FILES['file'].read()))
 
     return render(
         request,

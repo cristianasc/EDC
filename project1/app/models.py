@@ -17,12 +17,17 @@ class Database:
         news = xmltodict.parse(news_txt)["rss"]["channel"]["item"]
 
         for i in range(0, len(news)):
-            news[i]["uid"] = urlparse(news[i]['guid']).query
+            parsed_url = urlparse(news[i]['guid'])
+
+            if bool(parsed_url.scheme):
+                news[i]["uid"] = parsed_url.query
+            else:
+                news[i]["uid"] = "c="+news[i]['guid']
 
         return news
 
     def get_new(self, uid):
-        new_txt = self.session.execute("XQUERY doc('database')//rss/channel/item[guid=\"https://uaonline.ua.pt/pub/detail.asp?c="+uid+"\"]")
+        new_txt = self.session.execute("XQUERY doc('database')//rss/channel/item[contains(guid, \""+str(uid)+"\")]")
         return dict(xmltodict.parse(new_txt)["item"])
 
     def validate_xml(self):

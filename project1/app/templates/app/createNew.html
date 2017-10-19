@@ -8,24 +8,23 @@
             <h5>Publica aqui a tua notícia.</h5>
         </div>
 
-        <form action="create_new" method="post">
+        <form id="new" action="create_new" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="title">Título</label>
-                <input style="padding-right: 70%;" type="text" class="form-control" name="title">
+                <input style="width: 70%;" type="text" class="form-control" id="title" name="title">
             </div>
             <div class="form-group">
                 <label for="corpo">Corpo:</label>
-                <textarea style="padding-right: 70%;" class="form-control" rows="15" id="corpo"
+                <textarea style="width: 70%;" class="form-control" rows="15" id="description"
                           name="description"></textarea>
             </div>
-            <button type="submit" style="width: 70px" class="btn btn-default" value="Enviar Notícia">Enviar</button>
             <button type="button" style="width: 70px" class="btn btn-info" data-toggle="modal" data-target="#myModal">
-                Upload
+                Escolher imagem
             </button>
 
+            <button class="btn btn-primary" type="submit" id="upload-button">Criar notícia</button>
         </form>
-
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" role="dialog">
@@ -40,39 +39,21 @@
                             <div style="max-width: 650px; margin: auto;">
                                 <p>Select a PNG or JPEG image, having maximum size <span id="max-size"></span> KB.</p>
 
-                                <form id="upload-image-form" action="upload_image" method="post"
-                                      enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <div id="image-preview-div" style="display: none">
-                                        <label for="exampleInputFile">Selected image:</label>
-                                        <br>
-                                        <img style="width: 100px" id="preview-img" src="noimage">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="file" name="file" id="file" required>
-                                    </div>
-                                    <button class="btn btn-primary" id="upload-button" type="submit" disabled>Upload</button>
-                                </form>
-
-                                <br>
-                                <div class="alert alert-info" id="loading" style="display: none;" role="alert">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                             aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
-                                             style="width: 100%">
-                                        </div>
-                                    </div>
+                                <div id="image-preview-div" style="display: none">
+                                    <label for="exampleInputFile">Selected image:</label>
+                                    <br>
+                                    <img style="width: 100px" id="preview-img" src="noimage">
                                 </div>
-                                <div id="message"></div>
+                                <div class="form-group">
+                                    <input type="file" name="file" id="file" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
 {% endblock %}

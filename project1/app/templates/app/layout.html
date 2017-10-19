@@ -42,6 +42,11 @@
     </div>
 
     <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
+
+    <script type="text/javascript">
+        // using jQuery
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    </script>
     <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'app/scripts/respond.js' %}"></script>
     <script src="{% static 'app/scripts/upload.js' %}"></script>

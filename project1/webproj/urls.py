@@ -42,7 +42,7 @@ urlpatterns = [
             'next_page': '/',
         },
         name='logout'),
-    url(r'^register/', app.views.register, name='register'),
+    url(r'^register$', app.views.register, name='register'),
     url(r'^admin/', admin.site.urls),
     url(r'^get_all/', app.views.get_all, name='get_all'),
     url(r'^del_new/', app.views.del_new, name='del_new'),

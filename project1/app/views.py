@@ -4,18 +4,20 @@ Definition of views.
 
 import os
 from BaseXClient import BaseXClient
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from datetime import datetime
 from django.core.files.storage import default_storage
 import xml.etree.ElementTree as ET
 import uuid
+
+from django.template import RequestContext
 from .models import Database
 from django.core.files.base import ContentFile
 from webproj import settings
 from .forms import RegistrationForm
 from xml.dom import minidom
-from django.http.response import HttpResponseBadRequest
+from django.http.response import HttpResponseBadRequest, HttpResponseRedirect, HttpResponse
 
 
 def get_all(request):
@@ -99,17 +101,13 @@ def register(request):
 
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
+        print(form)
         if form.is_valid():
             form.save()
-            return render(
-                request,
-                'app/index.html')
+            return HttpResponseRedirect('/login/')
     else:
         form = RegistrationForm()
-        x = {'form': form}
-        return render(
-                request,
-                'app/register.html', x)
+        return render(request, 'app/register.html', {'form': form})
 
 
 def del_new(request):

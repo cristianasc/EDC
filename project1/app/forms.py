@@ -1,6 +1,7 @@
 """
 Definition of forms.
 """
+import sys
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -22,7 +23,7 @@ class BootstrapAuthenticationForm(AuthenticationForm):
 class RegistrationForm(UserCreationForm):
 
     email = forms.EmailField(required=True, max_length=254,
-                                 widget=forms.TextInput({
+                                 widget=forms.EmailInput({
                                      'class': 'form-control',
                                      'placeholder': 'E-mail'}))
 
@@ -61,12 +62,12 @@ class RegistrationForm(UserCreationForm):
                   'password2')
 
     def save(self, commit=True):
-        user = super(RegistrationForm, self.save(commit=False))
+        user = super(RegistrationForm, self).save(commit=False)
         user.first_name = self.cleaned_data.get('first_name')
         user.last_name = self.cleaned_data.get('last_name')
         user.email = self.cleaned_data.get('email')
 
-        if commit():
+        if commit:
             user.save()
 
         return user

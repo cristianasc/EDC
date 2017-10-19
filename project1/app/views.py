@@ -33,6 +33,7 @@ def home(request):
     assert isinstance(request, HttpRequest)
 
     news = Database().news()
+    Database().validate_xml()
 
     return render(
         request,

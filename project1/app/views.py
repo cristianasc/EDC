@@ -38,8 +38,8 @@ def home(request):
     assert isinstance(request, HttpRequest)
 
     news = Database().news()
-	Database().validate_xml()
-	
+    Database().validate_xml()
+
     return render(
         request,
         'app/index.html',
@@ -72,7 +72,7 @@ def create_new(request):
         link_child.text = ""
 
         description_child = ET.SubElement(root, "description")
-        description_child.text = '&lt;img src="http://'+request.META['HTTP_HOST']+'/static/'+new_uuid+'.png" alt="'+title+'" title="'+title+'" /&gt; ' + description
+        description_child.text = '<img src="http://'+request.META['HTTP_HOST']+'/static/'+new_uuid+'.png" alt="'+title+'" title="'+title+'" style="width:70px;"/> ' + description
 
         date_child = ET.SubElement(root, "pubDate")
         date_child.text = str(datetime.now())
@@ -93,23 +93,23 @@ def create_new(request):
         }
     )
 
+
 def register(request):
-	assert isinstance(request, HttpRequest)
+    assert isinstance(request, HttpRequest)
 
-	if request.method == 'POST':
-	    form = RegistrationForm(request.POST)
-	    if form.is_valid():
-	        form.save()
-	        return render(
-	            request,
-	            'app/index.html')
-	else:
-	    form = RegistrationForm()
-	    x = {'form': form}
-	    return render(
-	            request,
-	            'app/register.html', x)
-
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(
+                request,
+                'app/index.html')
+    else:
+        form = RegistrationForm()
+        x = {'form': form}
+        return render(
+                request,
+                'app/register.html', x)
 
 
 def about(request):

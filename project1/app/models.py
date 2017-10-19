@@ -31,7 +31,7 @@ class Database:
         return dict(xmltodict.parse(new_txt)["item"])
 
     def validate_xml(self):
-        validate = self.session.execute("XQUERY let $schema:= 'news_ua.xsd' let $doc:= doc('database') return validate:xsd($doc, $schema)")
+        self.session.execute("XQUERY let $schema:= 'news_ua.xsd' let $doc:= doc('database') return validate:xsd($doc, $schema)")
 
-        print(validate)
-
+    def del_new(self, id):
+        pass

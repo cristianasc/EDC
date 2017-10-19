@@ -3,10 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ title }} Jornal Online Universidade de Aveiro</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 
@@ -25,6 +27,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'create_new' %}">Criar Notícia</a></li>
+                    <li><a href="{% url 'del_new' %}">Eliminar Notícia</a></li>
                 </ul>
                 {% include 'app/loginpartial.html' %}
             </div>

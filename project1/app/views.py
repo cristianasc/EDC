@@ -112,6 +112,15 @@ def register(request):
                 'app/register.html', x)
 
 
+def del_new(request):
+    return render(
+        request,
+        'app/delNew.html',
+        {
+            'data': Database().news()
+        }
+    )
+
 def about(request):
     assert isinstance(request, HttpRequest)
 

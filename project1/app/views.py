@@ -1,16 +1,20 @@
 """
 Definition of views.
 """
-from xml.dom import minidom
 
+import os
 from BaseXClient import BaseXClient
 from django.shortcuts import render
 from django.http import HttpRequest
 from datetime import datetime
+from django.core.files.storage import default_storage
 import xml.etree.ElementTree as ET
 import uuid
 from .models import Database
+from django.core.files.base import ContentFile
+from webproj import settings
 from .forms import RegistrationForm
+from xml.dom import minidom
 
 def get_all(request):
     Database()
@@ -32,13 +36,28 @@ def home(request):
     assert isinstance(request, HttpRequest)
 
     news = Database().news()
-    Database().validate_xml()
-
+	Database().validate_xml()
+	
     return render(
         request,
         'app/index.html',
         {
             'data': news
+        }
+    )
+
+
+def upload_image(request):
+    assert isinstance(request, HttpRequest)
+
+    name = str(uuid.uuid4)
+    default_storage.save(os.path.join(settings.BASE_DIR, 'images/'+name+'.png'), ContentFile(request.FILES['file'].read()))
+
+    return render(
+        request,
+        'app/index.html',
+        {
+
         }
     )
 
@@ -78,23 +97,23 @@ def create_new(request):
         }
     )
 
-
 def register(request):
-    assert isinstance(request, HttpRequest)
+	assert isinstance(request, HttpRequest)
 
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return render(
-                request,
-                'app/index.html')
-    else:
-        form = RegistrationForm()
-        x = {'form': form}
-        return render(
-                request,
-                'app/register.html', x)
+	if request.method == 'POST':
+	    form = RegistrationForm(request.POST)
+	    if form.is_valid():
+	        form.save()
+	        return render(
+	            request,
+	            'app/index.html')
+	else:
+	    form = RegistrationForm()
+	    x = {'form': form}
+	    return render(
+	            request,
+	            'app/register.html', x)
+
 
 
 def about(request):

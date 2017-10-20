@@ -3,6 +3,8 @@ Definition of views.
 """
 
 import os
+from urllib.request import urlopen
+
 from BaseXClient import BaseXClient
 from django.shortcuts import render
 from django.http import HttpRequest
@@ -16,7 +18,7 @@ from webproj import settings
 from .forms import RegistrationForm
 from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-
+from requests import request, HTTPError
 
 
 def get_all(request):
@@ -40,6 +42,12 @@ def home(request):
     assert isinstance(request, HttpRequest)
 
     Database().validate_xml()
+    social_user = request.user.social_auth.filter(
+        provider='facebook',
+    ).first()
+    photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
+
+    print("ok")
 
     return render(
         request,

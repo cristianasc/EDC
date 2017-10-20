@@ -8,9 +8,14 @@
             <div class="panel panel-default">
                 <div class="panel-heading">{{ data.pubDate }}</div>
                 <div class="panel-body">
-                    {{ data.description|safe }}
+                    <h5>{{ data.description|safe }}</h5>
                     <br>
-                    <p style="text-align: right;"><a href="{% url 'see_more' %}">Ver mais...</a></p>
+                    <p style="text-align: right"><button type="button" class="btn btn-success" data-toggle="collapse" data-target="#textbody">Ver mais...</button></p>
+                    <div id="textbody" class="collapse">
+                        {% for i in textbody %}
+                        <p>{{ i }}</p>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
 

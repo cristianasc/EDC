@@ -16,6 +16,8 @@ from webproj import settings
 from .forms import RegistrationForm
 from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from lxml import html
+import requests
 
 def get_all(request):
     Database()
@@ -64,6 +66,8 @@ def home(request):
         provider='facebook',
     ).first()
     #photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
+
+
 
     return render(
         request,
@@ -160,23 +164,18 @@ def about(request):
 
     selected_new = Database().get_new(request.GET["c"])
 
+    selected_new.get("guid")
+
+    page = requests.get(selected_new.get("guid"))
+    tree = html.fromstring(page.content)
+
+    textbody = tree.xpath('//*[@id="contents"]/div[7]/p/text()')
+
     return render(
         request,
         'app/about.html',
         {
-            'data': selected_new
+            'data': selected_new,
+            'textbody': textbody
         }
     )
-
-def see_more(request):
-    assert isinstance(request, HttpRequest)
-
-
-    return render(
-        request,
-        'app/see_more.html',
-        {
-
-        }
-    )
-

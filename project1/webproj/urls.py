@@ -50,6 +50,5 @@ urlpatterns = [
     url(r'^del_new/', app.views.del_new, name='del_new'),
     url(r'^like_ranking/', app.views.like_ranking, name='like_ranking'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
-    url(r'^see_more/', app.views.see_more, name='see_more'),
     url(r'^create_new/', app.views.create_new, name='create_new'),
 ]

@@ -9,8 +9,8 @@ class Database:
 
         self.session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
         self.session.execute("open database")
-        self.session.execute("open likes")
-        self.session.execute("open comments")
+        #self.session.execute("open likes")
+        #self.session.execute("open comments")
 
     def add_new(self, new):
         self.session.execute("open database")

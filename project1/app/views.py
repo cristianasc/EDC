@@ -4,20 +4,17 @@ Definition of views.
 
 import os
 from BaseXClient import BaseXClient
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import HttpRequest
 from datetime import datetime
 from django.core.files.storage import default_storage
 import xml.etree.ElementTree as ET
 import uuid
-
-from django.template import RequestContext
 from .models import Database
 from django.core.files.base import ContentFile
 from webproj import settings
 from .forms import RegistrationForm
-from xml.dom import minidom
-from django.http.response import HttpResponseBadRequest, HttpResponseRedirect, HttpResponse
+from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
 
 
 def get_all(request):
@@ -39,14 +36,13 @@ def get_all(request):
 def home(request):
     assert isinstance(request, HttpRequest)
 
-    news = Database().news()
     Database().validate_xml()
 
     return render(
         request,
         'app/index.html',
         {
-            'data': news
+            'data': Database().news()
         }
     )
 
@@ -74,7 +70,7 @@ def create_new(request):
         link_child.text = ""
 
         description_child = ET.SubElement(root, "description")
-        description_child.text = '<img src="http://'+request.META['HTTP_HOST']+'/static/'+new_uuid+'.png" alt="'+title+'" title="'+title+'" style="width:70px;"/> ' + description
+        description_child.text = '<img src="http://'+request.META['HTTP_HOST']+'/static/images/'+new_uuid+'.png" alt="'+title+'" title="'+title+'" style="width:70px;"/> ' + description
 
         date_child = ET.SubElement(root, "pubDate")
         date_child.text = str(datetime.now())
@@ -84,7 +80,7 @@ def create_new(request):
         print(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""))
         Database().add_new(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""))
 
-        default_storage.save(os.path.join(settings.BASE_DIR, 'static/' + new_uuid + '.png'),
+        default_storage.save(os.path.join(settings.BASE_DIR, 'static/images/' + new_uuid + '.png'),
                              ContentFile(request.FILES['file'].read()))
 
     return render(
@@ -101,7 +97,6 @@ def register(request):
 
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
-        print(form)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/login/')
@@ -111,6 +106,13 @@ def register(request):
 
 
 def del_new(request):
+    Database().del_new("9439da33-1a4d-4b8a-9a0e-0f2e19c5b679")
+
+    # delete new's img if exists
+    path = os.path.join(settings.BASE_DIR, 'static/images/9439da33-1a4d-4b8a-9a0e-0f2e19c5b679.png')
+    if os.path.exists(path):
+        os.system("rm " + path)
+
     return render(
         request,
         'app/delNew.html',
@@ -118,6 +120,7 @@ def del_new(request):
             'data': Database().news()
         }
     )
+
 
 def about(request):
     assert isinstance(request, HttpRequest)

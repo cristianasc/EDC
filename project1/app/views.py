@@ -42,11 +42,9 @@ def like_ranking(request):
         provider='facebook',
     ).first()
 
-    print(social_user.uid)
 
     if "like" in request.POST:
-        #CREATE A NODE TO INSERT BEFORE CALL THE FUNCTION AS CREATE_NEW -- falta receber de que notícia é o like
-        Database().like(social_user.uid, request.POST["like"])
+        Database().like(social_user.uid, request.POST["like"], newid)
     else:
         Database().dislike(social_user.uid, request.POST["like"])
 
@@ -161,10 +159,14 @@ def del_new(request):
 def about(request):
     assert isinstance(request, HttpRequest)
 
+    global newid
+
     if "c" not in request.GET:
         return HttpResponseBadRequest("Erro: notícia não identificada.")
 
     selected_new = Database().get_new(request.GET["c"])
+
+    newid = selected_new.get("guid")
 
     page = requests.get(selected_new.get("guid"))
     tree = html.fromstring(page.content)

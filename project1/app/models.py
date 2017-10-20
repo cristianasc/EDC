@@ -58,6 +58,8 @@ class Database:
         self.session.execute("XQUERY let $doc:= doc('database') return delete node $doc//rss/channel//item[contains(guid, \"" + str(uid) + "\")]")
 
     def like(self, uid, value, guid):
+        print("OLAA")
+        print(guid)
         #self.session.execute("XQUERY doc('likes') insert node <new>"+str(guid)+"</new> into likes")
         pass
 

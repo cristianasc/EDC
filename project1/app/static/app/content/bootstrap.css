@@ -137,6 +137,13 @@ sub {
 
 img {
   border: 0;
+  float: left;
+  width: 233px;
+  margin-right: 2%;
+}
+
+logo {
+  border: 0;
 }
 
 svg:not(:root) {

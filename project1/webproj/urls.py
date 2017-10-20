@@ -14,9 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from datetime import datetime
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 import django.contrib.auth.views
+from django.contrib.auth import views as auth_views
+
 
 import app.forms
 import app.views
@@ -46,5 +48,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^get_all/', app.views.get_all, name='get_all'),
     url(r'^del_new/', app.views.del_new, name='del_new'),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^create_new/', app.views.create_new, name='create_new'),
 ]

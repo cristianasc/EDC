@@ -27,6 +27,7 @@
                         <input type="submit" value="Log in" class="btn btn-default" />
                     </div>
                 </div>
+                <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
                 <p class="col-md-10">Ainda não estás registado? Resgista-te <a href="{% url 'register' %}">aqui.</a></p>
                 {% if form.errors %}
                 <p class="validation-summary-errors">Por favor introduza o user ou password correcta.</p>

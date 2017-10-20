@@ -15,6 +15,8 @@ from django.core.files.base import ContentFile
 from webproj import settings
 from .forms import RegistrationForm
 from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+
 
 
 def get_all(request):
@@ -33,6 +35,7 @@ def get_all(request):
     )
 
 
+@login_required
 def home(request):
     assert isinstance(request, HttpRequest)
 
@@ -141,3 +144,7 @@ def about(request):
             'data': selected_new
         }
     )
+
+
+def update_likes(request):
+    pass

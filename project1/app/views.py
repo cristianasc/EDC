@@ -67,7 +67,7 @@ def home(request):
     social_user = request.user.social_auth.filter(
         provider='facebook',
     ).first()
-    #photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
+    photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
 
 
 

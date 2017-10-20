@@ -13,8 +13,8 @@ class Database:
         self.session.execute("open comments")
 
     def add_new(self, new, new_uid):
-        #self.session.execute("open database")
-        #self.session.execute("XQUERY insert node "+new+" into rss/channel")
+        self.session.execute("open database")
+        self.session.execute("XQUERY insert node "+new+" into rss/channel")
 
         self.session.execute("open likes")
         self.session.execute("XQUERY insert node <new/> into likes")

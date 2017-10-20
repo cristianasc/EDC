@@ -47,8 +47,6 @@ def home(request):
     ).first()
     photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
 
-    print("ok")
-
     return render(
         request,
         'app/index.html',

@@ -35,20 +35,6 @@ LOGIN_REDIRECT_URL = 'home'
 SOCIAL_AUTH_FACEBOOK_KEY = '340023213126005'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = 'a1dbf915eb26ba54be28c49c8a634958'  # App Secret
 
-SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
-    'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
-    'social.pipeline.social_auth.associate_by_email',
-    'social.pipeline.user.create_user',
-    'social.pipeline.social_auth.associate_user',
-    'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details',
-    'projects.pipeline.save_profile_picture', #save facebook profile image,
-)
-
 # Application definition
 
 INSTALLED_APPS = [

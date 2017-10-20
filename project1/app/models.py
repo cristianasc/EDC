@@ -17,7 +17,7 @@ class Database:
         self.session.execute("XQUERY insert node "+new+" into rss/channel")
 
         self.session.execute("open likes")
-        self.session.execute("XQUERY insert node <new/> into likes")
+        self.session.execute("XQUERY insert node <new/> before likes/new[1]")
         self.session.execute("XQUERY insert node attribute id {'"+str(new_uid)+"'} into likes/new[1]")
         self.session.execute("XQUERY insert node <like/> into likes/new[1]")
         self.session.execute("XQUERY replace value of node likes/new[1]/like[1] with '0'")

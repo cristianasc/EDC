@@ -18,7 +18,7 @@ class Database:
 
         self.session.execute("open likes")
         self.session.execute("XQUERY insert node <new/> into likes")
-        self.session.execute("XQUERY insert node attribute newattr {'"+str(new_uid)+"'} into likes/new[1]")
+        self.session.execute("XQUERY insert node attribute id {'"+str(new_uid)+"'} into likes/new[1]")
         self.session.execute("XQUERY insert node <like/> into likes/new[1]")
         self.session.execute("XQUERY replace value of node likes/new[1]/like[1] with '0'")
         self.session.execute("XQUERY insert node <dislike/> into likes/new[1]")
@@ -58,8 +58,6 @@ class Database:
         self.session.execute("XQUERY let $doc:= doc('database') return delete node $doc//rss/channel//item[contains(guid, \"" + str(uid) + "\")]")
 
     def like(self, uid, value, guid):
-        print("OLAA")
-        print(guid)
         #self.session.execute("XQUERY doc('likes') insert node <new>"+str(guid)+"</new> into likes")
         pass
 

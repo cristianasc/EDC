@@ -15,9 +15,39 @@ class Command(BaseCommand):
 
         session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
         session.create("database", f.read())
-        session.create("likes", "<?xml version='1.0' encoding='utf-8'?>"
-                                "<likes>"
-                                "</likes>")
+        self.session.create("likes", "<?xml version='1.0' encoding='utf-8'?>"
+                                     "<likes>"
+                                     "   <new id='https://uaonline.ua.pt/pub/detail.asp?c=52018'>"
+                                     "   <like>0</like>"
+                                     "   <dislike>0</dislike>"
+                                     "   <userid> </userid>"
+                                     "   </new>"
+                                     "   <new id='https://uaonline.ua.pt/pub/detail.asp?c=52013'>"
+                                     "   <like>0</like>"
+                                     "   <dislike>0</dislike>"
+                                     "   <userid> </userid>"
+                                     "   </new>"
+                                     "   <new id='https://uaonline.ua.pt/pub/detail.asp?c=52011'>"
+                                     "   <like>0</like>"
+                                     "   <dislike>0</dislike>"
+                                     "   <userid> </userid>"
+                                     "   </new>"
+                                     "   <new id='https://uaonline.ua.pt/pub/detail.asp?c=51996'>"
+                                     "   <like>0</like>"
+                                     "   <dislike>0</dislike>"
+                                     "   <userid> </userid>"
+                                     "   </new>"
+                                     "   <new id='https://uaonline.ua.pt/pub/detail.asp?c=47839'>"
+                                     "   <like>0</like>"
+                                     "   <dislike>0</dislike>"
+                                     "   <userid> </userid>"
+                                     "   </new>"
+                                     "   <new id='https://uaonline.ua.pt/pub/detail.asp?c=51995'>"
+                                     "   <like>0</like>"
+                                     "   <dislike>0</dislike>"
+                                     "   <userid> </userid>"
+                                     "   </new>"
+                                     "</likes>")
         session.create("comments", "")
 
         print(session.info())

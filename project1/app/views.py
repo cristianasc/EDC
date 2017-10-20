@@ -33,6 +33,28 @@ def get_all(request):
     )
 
 
+def like_ranking(request):
+    assert isinstance(request, HttpRequest)
+
+    social_user = request.user.social_auth.filter(
+        provider='facebook',
+    ).first()
+
+    if "like" in request.POST:
+        #CREATE A NODE TO INSERT BEFORE CALL THE FUNCTION AS CREATE_NEW
+        Database().like(social_user.uid, request.POST["like"])
+    else:
+        Database().dislike(social_user.uid, request.POST["like"])
+
+    return render(
+        request,
+        'app/about.html',
+        {
+            'hora': ""
+        }
+    )
+
+
 @login_required
 def home(request):
     assert isinstance(request, HttpRequest)
@@ -82,7 +104,6 @@ def create_new(request):
 
         xmlstr = ET.tostring(root, encoding='utf8', method='xml')
 
-        print(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""))
         Database().add_new(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""))
 
         default_storage.save(os.path.join(settings.BASE_DIR, 'static/images/' + new_uuid + '.png'),
@@ -161,3 +182,4 @@ def see_more(request):
 
 def update_likes(request):
     pass
+    )

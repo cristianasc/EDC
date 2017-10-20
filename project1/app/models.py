@@ -9,6 +9,8 @@ class Database:
 
         self.session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
         self.session.execute("open database")
+        self.session.execute("open likes")
+        self.session.execute("open comments")
 
     def add_new(self, new):
         self.session.execute("open database")
@@ -42,3 +44,13 @@ class Database:
 
     def del_new(self, uid):
         self.session.execute("XQUERY let $doc:= doc('database') return delete node $doc//rss/channel//item[contains(guid, \"" + str(uid) + "\")]")
+
+    def like(self, uid, value):
+        #self.session.execute("XQUERY insert node")
+        pass
+
+    def dislike(self, uid, value):
+        pass
+
+    def comment(self, uid, comment):
+        pass

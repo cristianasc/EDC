@@ -15,6 +15,8 @@ class Command(BaseCommand):
 
         session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
         session.create("database", f.read())
+        session.create("likes", "")
+        session.create("comments", "")
 
         print(session.info())
         print(session.execute("xquery doc('database')"))

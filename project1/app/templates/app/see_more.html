@@ -1,0 +1,20 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <h2>{{ data.title }}</h2>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ data.pubDate }}</div>
+                <div class="panel-body">{{ data.description|safe }}</div>
+            </div>
+        </div>
+        <br>
+        <button id="like" style="background:transparent; border:none; color:transparent;" type="button"><i id="like_icon"
+                class="glyphicon glyphicon-thumbs-up" style="font-size:25px;color:dimgrey"></i></button>
+        <button id="dislike" style="background:transparent; border:none; color:transparent;" type="button"><i id="dislike_icon"
+                class="glyphicon glyphicon-thumbs-down" style="font-size:25px;color:dimgrey"></i></button>
+    </div>
+
+{% endblock %}

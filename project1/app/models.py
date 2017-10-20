@@ -58,7 +58,8 @@ class Database:
         self.session.execute("XQUERY let $doc:= doc('database') return delete node $doc//rss/channel//item[contains(guid, \"" + str(uid) + "\")]")
 
     def like(self, uid, value, guid):
-        #self.session.execute("XQUERY doc('likes') insert node <new>"+str(guid)+"</new> into likes")
+        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '"+guid+"']/like[1] with '"+value+"'")
+        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '" + guid + "']/userid[1] with '" + uid + "'")
         pass
 
     def dislike(self, uid, value):

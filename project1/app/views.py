@@ -106,12 +106,16 @@ def register(request):
 
 
 def del_new(request):
-    Database().del_new("9439da33-1a4d-4b8a-9a0e-0f2e19c5b679")
 
-    # delete new's img if exists
-    path = os.path.join(settings.BASE_DIR, 'static/images/9439da33-1a4d-4b8a-9a0e-0f2e19c5b679.png')
-    if os.path.exists(path):
-        os.system("rm " + path)
+    if request.method == 'POST':
+        uid = request.POST.get("uid")
+        print(uid)
+        Database().del_new(uid)
+
+        # delete new's img if exists
+        path = os.path.join(settings.BASE_DIR, 'static/images/'+uid+'.png')
+        if os.path.exists(path):
+            os.system("rm " + path)
 
     return render(
         request,

@@ -17,6 +17,14 @@
                 <a href="about.html?c={{ new.guid }}" class="list-group-item active">
                     <h4 class="list-group-item-heading">{{ new.title }}</h4>
                     <p class="list-group-item-text">{{ new.pubDate }}</p>
+                    {% for key,value in likes.items %}
+                        {% if new.guid == key %}
+                            <p class="list-group-item-text" style="text-align: right;">
+                                <i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i> {{ value.0 }}
+                                <i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i> {{ value.1 }}
+                            </p>
+                        {% endif %}
+                    {% endfor %}
                 </a>
             {% endfor %}
         </div>

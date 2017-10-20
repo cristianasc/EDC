@@ -82,13 +82,20 @@ def home(request):
     ).first()
     photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
 
+    likes = {}
 
+    for i in Database().news():
+        likes[i["guid"]] = []
+        likes[i["guid"]] += Database().get_likes(i["guid"])
+
+    print(likes)
 
     return render(
         request,
         'app/index.html',
         {
-            'data': Database().news()
+            'data': Database().news(),
+            'likes': likes,
         }
     )
 

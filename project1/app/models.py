@@ -51,6 +51,11 @@ class Database:
         new_txt = self.session.execute("XQUERY doc('database')//rss/channel/item[contains(guid, \""+str(uid)+"\")]")
         return dict(xmltodict.parse(new_txt)["item"])
 
+    def get_likes(self, uid):
+        likes = self.session.execute("XQUERY doc('likes')/likes/new[@id = 'https://uaonline.ua.pt/pub/detail.asp?c=" + str(uid) + "']/like[1]/text()")
+        dislikes = self.session.execute("XQUERY doc('likes')/likes/new[@id = 'https://uaonline.ua.pt/pub/detail.asp?c=" + str(uid) + "']/dislike[1]/text()")
+        return likes, dislikes
+
     def validate_xml(self):
         self.session.execute("XQUERY let $schema:= 'news_ua.xsd' let $doc:= doc('database') return validate:xsd($doc, $schema)")
 

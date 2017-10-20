@@ -130,7 +130,7 @@ def about(request):
     assert isinstance(request, HttpRequest)
 
     if "c" not in request.GET:
-        raise Exception("Erro: notícia não identificada.")
+        return HttpResponseBadRequest("Erro: notícia não identificada.")
 
     selected_new = Database().get_new(request.GET["c"])
 

@@ -14,7 +14,7 @@
 
         <div class="list-group">
             {% for new in data %}
-                <a href="about.html?{{ new.uid }}" class="list-group-item active">
+                <a href="about.html?c={{ new.guid }}" class="list-group-item active">
                     <h4 class="list-group-item-heading">{{ new.title }}</h4>
                     <p class="list-group-item-text">{{ new.pubDate }}</p>
                 </a>

@@ -13,14 +13,17 @@ function delnew(new_id) {
         }
     });
 
-    var fd = new FormData();
-    fd.append('uid', new_id.split("c=")[1])
+    fd = new FormData();
+    fd.append('uid', new_id);
 
     $.ajax({
         url: '/del_new/',
         data: fd,
         processData: false,
         contentType: false,
-        type: 'POST'
+        type: 'POST',
+        success: function (data) {
+            $('div[rel="new'+new_id.replace("c=", "")+'"]').hide();
+        }
     });
 }

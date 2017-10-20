@@ -1,6 +1,8 @@
 from BaseXClient import BaseXClient
 from urllib.parse import urlparse
 import xmltodict
+from collections import OrderedDict
+
 
 class Database:
     def __init__(self):
@@ -14,15 +16,20 @@ class Database:
 
     def news(self):
         news_txt = self.session.execute("XQUERY doc('database')")
-        news = xmltodict.parse(news_txt)["rss"]["channel"]["item"]
+        news = xmltodict.parse(news_txt)
+
+        if "rss" in news and "channel" in news["rss"] and "item" in news["rss"]["channel"]:
+            news = news["rss"]["channel"]["item"]
+            if type(news) is OrderedDict:
+                news = [news]
+        else:
+            return []
 
         for i in range(0, len(news)):
             parsed_url = urlparse(news[i]['guid'])
 
             if bool(parsed_url.scheme):
-                news[i]["uid"] = parsed_url.query
-            else:
-                news[i]["uid"] = "c="+news[i]['guid']
+                news[i]["guid"] = parsed_url.query.replace("c=","")
 
         return news
 

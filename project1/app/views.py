@@ -41,7 +41,7 @@ def like_ranking(request):
     ).first()
 
     if "like" in request.POST:
-        #CREATE A NODE TO INSERT BEFORE CALL THE FUNCTION AS CREATE_NEW
+        #CREATE A NODE TO INSERT BEFORE CALL THE FUNCTION AS CREATE_NEW -- falta receber de que notícia é o like
         Database().like(social_user.uid, request.POST["like"])
     else:
         Database().dislike(social_user.uid, request.POST["like"])
@@ -180,6 +180,3 @@ def see_more(request):
         }
     )
 
-def update_likes(request):
-    pass
-    )

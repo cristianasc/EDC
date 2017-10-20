@@ -59,10 +59,12 @@ class Database:
 
     def like(self, uid, value, guid):
         self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '"+guid+"']/like[1] with '"+value+"'")
-        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '" + guid + "']/userid[1] with '" + uid + "'")
+        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '"+guid+"']/userid[1] with '"+uid+"'")
         pass
 
-    def dislike(self, uid, value):
+    def dislike(self, uid, value, guid):
+        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '" + guid + "']/dislike[1] with '" + value + "'")
+        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '" + guid + "']/userid[1] with '" + uid + "'")
         pass
 
     def comment(self, uid, comment):

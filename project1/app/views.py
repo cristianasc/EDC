@@ -46,7 +46,7 @@ def like_ranking(request):
     if "like" in request.POST:
         Database().like(social_user.uid, request.POST["like"], newid)
     else:
-        Database().dislike(social_user.uid, request.POST["like"])
+        Database().dislike(social_user.uid, request.POST["dislike"], newid)
 
     return render(
         request,

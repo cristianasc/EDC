@@ -42,6 +42,8 @@ def like_ranking(request):
         provider='facebook',
     ).first()
 
+    print(social_user.uid)
+
     if "like" in request.POST:
         #CREATE A NODE TO INSERT BEFORE CALL THE FUNCTION AS CREATE_NEW -- falta receber de que notícia é o like
         Database().like(social_user.uid, request.POST["like"])
@@ -108,7 +110,7 @@ def create_new(request):
 
         xmlstr = ET.tostring(root, encoding='utf8', method='xml')
 
-        Database().add_new(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""))
+        Database().add_new(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""), new_uuid)
 
         default_storage.save(os.path.join(settings.BASE_DIR, 'static/images/' + new_uuid + '.png'),
                              ContentFile(request.FILES['file'].read()))
@@ -163,8 +165,6 @@ def about(request):
         return HttpResponseBadRequest("Erro: notícia não identificada.")
 
     selected_new = Database().get_new(request.GET["c"])
-
-    selected_new.get("guid")
 
     page = requests.get(selected_new.get("guid"))
     tree = html.fromstring(page.content)

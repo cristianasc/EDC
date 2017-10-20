@@ -15,7 +15,9 @@ class Command(BaseCommand):
 
         session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
         session.create("database", f.read())
-        session.create("likes", "")
+        session.create("likes", "<?xml version='1.0' encoding='utf-8'?>"
+                                "<likes>"
+                                "</likes>")
         session.create("comments", "")
 
         print(session.info())

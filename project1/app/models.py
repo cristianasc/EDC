@@ -9,12 +9,20 @@ class Database:
 
         self.session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
         self.session.execute("open database")
-        #self.session.execute("open likes")
-        #self.session.execute("open comments")
+        self.session.execute("open likes")
+        self.session.execute("open comments")
 
-    def add_new(self, new):
-        self.session.execute("open database")
-        self.session.execute("XQUERY insert node "+new+" into rss/channel")
+    def add_new(self, new, new_uid):
+        #self.session.execute("open database")
+        #self.session.execute("XQUERY insert node "+new+" into rss/channel")
+
+        self.session.execute("open likes")
+        self.session.execute("XQUERY insert node <new/> into likes")
+        self.session.execute("XQUERY insert node <like/> into likes/new[1]")
+        self.session.execute("XQUERY insert node <dislike/> into likes/new[1]")
+        self.session.execute("XQUERY insert node <userid/> into likes/new[1]")
+
+        self.session.close()
 
     def news(self):
         news_txt = self.session.execute("XQUERY doc('database')")
@@ -45,8 +53,8 @@ class Database:
     def del_new(self, uid):
         self.session.execute("XQUERY let $doc:= doc('database') return delete node $doc//rss/channel//item[contains(guid, \"" + str(uid) + "\")]")
 
-    def like(self, uid, value):
-        #self.session.execute("XQUERY insert node")
+    def like(self, uid, value, guid):
+        #self.session.execute("XQUERY doc('likes') insert node <new>"+str(guid)+"</new> into likes")
         pass
 
     def dislike(self, uid, value):

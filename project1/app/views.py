@@ -56,6 +56,21 @@ def like_ranking(request):
         }
     )
 
+def comments(request):
+    assert isinstance(request, HttpRequest)
+
+    social_user = request.user.social_auth.filter(
+        provider='facebook',
+    ).first()
+
+    return render(
+        request,
+        'app/about.html',
+        {
+            'hora': ""
+        }
+    )
+
 
 @login_required
 def home(request):
@@ -161,6 +176,11 @@ def about(request):
 
     global newid
 
+    social_user = request.user.social_auth.filter(
+        provider='facebook',
+    ).first()
+    photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
+
     if "c" not in request.GET:
         return HttpResponseBadRequest("Erro: notícia não identificada.")
 
@@ -178,6 +198,8 @@ def about(request):
         'app/about.html',
         {
             'data': selected_new,
-            'textbody': textbody
+            'textbody': textbody,
+            'user': social_user.uid,
+            'photo': photo_url
         }
     )

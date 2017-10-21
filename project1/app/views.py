@@ -21,20 +21,30 @@ import requests
 def like_ranking(request):
     assert isinstance(request, HttpRequest)
 
-    social_user = request.user.social_auth.filter(
-        provider='facebook',
-    ).first()
+    if request.method == "POST":
+        social_user = request.user.social_auth.filter(
+            provider='facebook',
+        ).first()
 
-    if "like" in request.POST:
-        Database().like(social_user.uid, request.POST["like"], request.POST["guid"])
-    else:
-        Database().dislike(social_user.uid, request.POST["dislike"], request.POST["guid"])
+        if "like" in request.POST:
+            Database().like(social_user.uid, request.POST["like"], request.POST["guid"])
+        else:
+            Database().dislike(social_user.uid, request.POST["dislike"], request.POST["guid"])
+
+    top_news_ids = Database().get_favorites(3)
+
+    news = []
+
+    for key, value in top_news_ids.items():
+        news += [Database().get_new(value)]
+
+    print(news)
 
     return render(
         request,
-        'app/about.html',
+        'app/ranking.html',
         {
-            'hora': ""
+            'data': news
         }
     )
 

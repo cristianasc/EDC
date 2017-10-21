@@ -1,0 +1,33 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+    <div class="container body-content" style="margin-top: 30px; margin-bottom: 30px;">
+        <div class = "page-header">
+
+           <h1>
+              <small>notícias favoritas</small>
+           </h1>
+
+        </div>
+
+        <div class="list-group">
+            {% for value in data %}
+                <a href="/about.html?c={{ value.guid }}" class="list-group-item active">
+                    <h4 class="list-group-item-heading">{{ value.title }}</h4>
+                    <p class="list-group-item-text">{{ value.pubDate }}</p>
+                    {% for key,value in likes.items %}
+                        {% if new.guid == key %}
+                            <p class="list-group-item-text" style="text-align: right;">
+                                <i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i> {{ value.0 }}
+                                <i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i> {{ value.1 }}
+                            </p>
+                        {% endif %}
+                    {% endfor %}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

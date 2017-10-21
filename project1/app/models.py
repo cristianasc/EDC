@@ -91,3 +91,16 @@ class Database:
             return comments
         except TypeError:
             return []
+
+    def get_favorites(self, limit):
+        i=1
+        top_news={}
+        query = self.session.execute("XQUERY for $b in doc('likes')//likes/new order by $b/like descending return $b")
+        news = xmltodict.parse("<new>"+query+"</new>")["new"]["new"]
+        for new in news:
+            if i <= limit:
+                if new['like'] != "0":
+                    top_news[str(i)] = (new["@id"])
+                    i += 1
+
+        return top_news

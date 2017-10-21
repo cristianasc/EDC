@@ -58,6 +58,7 @@ class Database:
 
     def validate_xml(self):
         self.session.execute("XQUERY let $schema:= 'news_ua.xsd' let $doc:= doc('database') return validate:xsd($doc, $schema)")
+        self.session.execute("XQUERY let $schema:= 'likes.xsd' let $doc:= doc('likes') return validate:xsd($doc, $schema)")
 
     def del_new(self, uid):
         self.session.execute("XQUERY let $doc:= doc('database') return delete node $doc//rss/channel//item[contains(guid, \"" + str(uid) + "\")]")

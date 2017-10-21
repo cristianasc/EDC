@@ -37,20 +37,6 @@ class Database:
 
         return news
 
-    def likes_xml(self):
-        news = self.news()
-        for i in news:
-            print(str(i['guid']))
-            self.session.execute("open likes")
-            self.session.execute("XQUERY insert node <new/> before likes/new[1]")
-            self.session.execute("XQUERY insert node attribute id {'" + str(i['guid']) + "'} into likes/new[1]")
-            self.session.execute("XQUERY insert node <like/> into likes/new[1]")
-            self.session.execute("XQUERY replace value of node likes/new[1]/like[1] with '0'")
-            self.session.execute("XQUERY insert node <dislike/> into likes/new[1]")
-            self.session.execute("XQUERY replace value of node likes/new[1]/dislike[1] with '0'")
-            self.session.execute("XQUERY insert node <userid/> into likes/new[1]")
-
-
     def get_new(self, uid):
         new_txt = self.session.execute("XQUERY doc('database')//rss/channel/item[contains(guid, \""+str(uid)+"\")]")
         return dict(xmltodict.parse(new_txt)["item"])

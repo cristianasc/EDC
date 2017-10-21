@@ -1,3 +1,4 @@
 *.pyc
 .idea
 /static/images
+db.sqlite3

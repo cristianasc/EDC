@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
 from BaseXClient import BaseXClient
 import lxml.etree as ET
+import urllib.request
+
 
 from app.models import Database
 
@@ -9,12 +11,16 @@ class Command(BaseCommand):
     help = 'Imports and creates a basex database'
 
     def add_arguments(self, parser):
-        parser.add_argument('file_name', type=str)
+        parser.add_argument('url', type=str)
 
     def handle(self, *args, **options):
-        file_name = options["file_name"]
+        url = options["url"]
 
-        dom = ET.parse(file_name)
+        fp = urllib.request.urlopen(url)
+        file_content = fp.read()
+        fp.close()
+
+        dom = ET.fromstring(file_content)
         xslt = ET.parse("transformation.xslt")
         transform = ET.XSLT(xslt)
         newdom = transform(dom)

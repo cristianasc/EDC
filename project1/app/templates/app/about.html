@@ -22,11 +22,12 @@
         </div>
 
         <br>
-        <p style="text-align: right"><button id="like" style="background:transparent; border:none; color:transparent;" type="button"><i id="like_icon"
-                class="glyphicon glyphicon-thumbs-up" style="font-size:25px;color:dimgrey"></i></button>
-        <button id="dislike" style="background:transparent; border:none; color:transparent; text-align: right" type="button" ><i id="dislike_icon"
-                class="glyphicon glyphicon-thumbs-down" style="font-size:25px;color:dimgrey"></i></button></p>
-
+        {% if user.is_authenticated  %}
+            <p style="text-align: right"><button id="like" style="background:transparent; border:none; color:transparent;" type="button"><i id="like_icon"
+                    class="glyphicon glyphicon-thumbs-up" style="font-size:25px;color:dimgrey"></i></button>
+            <button id="dislike" style="background:transparent; border:none; color:transparent; text-align: right" type="button" ><i id="dislike_icon"
+                    class="glyphicon glyphicon-thumbs-down" style="font-size:25px;color:dimgrey"></i></button></p>
+        {% endif %}
         <br>
         <hr>
         <div class="panel-group">

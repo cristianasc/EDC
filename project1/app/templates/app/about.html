@@ -63,8 +63,8 @@
                 </div>
             {% endif %}
         </div>
-        {% for comment in comments %}
-            <div class="panel-group">
+        <div class="panel-group" id="newComment">
+            {% for comment in comments %}
                 <div class="col-lg-1">
                     <img style="width: 90px; border: 1px solid #428bca" class="img-responsive img-rounded" src="http://graph.facebook.com/{{ comment.profile_uid }}/picture?type=large"/>
                 </div>
@@ -84,7 +84,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
+
+

@@ -60,6 +60,7 @@ def comments(request):
 
         Database().comment(social_user.uid, social_user.user.first_name + " " + social_user.user.last_name, request.POST["comment"], request.POST["new_id"])
 
+
     except:
         pass
 
@@ -171,7 +172,6 @@ def del_new(request):
             'data': Database().news()
         }
     )
-
 
 def about(request):
     assert isinstance(request, HttpRequest)

@@ -18,7 +18,8 @@ $("#comment").click(function () {
 
     fd = new FormData();
     fd.append("comment", text_to_comment);
-    fd.append("new_id", new_id)
+    fd.append("new_id", new_id);
+
 
     $.ajax({
         url: '/comments/',
@@ -26,6 +27,13 @@ $("#comment").click(function () {
         processData: false,
         contentType: false,
         type: 'POST',
+        success: function(data){
+            var item = $(data).hide().fadeIn(800);
+            $('#newComment').append(item);
+      },
+      error: function(e) {
+          alert(e);
+      }
     });
-});
 
+});

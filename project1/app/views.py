@@ -196,10 +196,15 @@ def about(request):
 
     selected_new = Database().get_new(request.GET["c"])
 
-    page = requests.get(selected_new.get("guid"))
-    tree = html.fromstring(page.content)
+    textbody = ""
 
-    textbody = tree.xpath('//*[@id="contents"]/div[7]/p/text()')
+    if ("https://uaonline.ua.pt/pub/detail.asp?c=") in selected_new.get("link"):
+        page = requests.get(selected_new.get("guid"))
+        tree = html.fromstring(page.content)
+
+        textbody = tree.xpath('//*[@id="contents"]/div[7]/p/text()')
+    else:
+        textbody = selected_new.get("link")
 
     return render(
         request,

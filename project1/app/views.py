@@ -107,7 +107,6 @@ def create_new(request):
         link_child = ET.SubElement(root, "link")
         link_child.text = abstract
 
-
         description_child = ET.SubElement(root, "description")
         description_child.text = '<img src="http://'+request.META['HTTP_HOST']+'/static/images/'+new_uuid+'.png" alt="'+title+'" title="'+title+'" style="width:70px;"/> ' + description
 
@@ -173,6 +172,7 @@ def about(request):
         ).first()
         photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
         user_name = social_user.user.first_name + " " + social_user.user.last_name
+
     except AttributeError:
         photo_url = None
         user_name = None

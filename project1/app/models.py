@@ -6,11 +6,7 @@ from collections import OrderedDict
 
 class Database:
     def __init__(self):
-
         self.session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
-        self.session.execute("open database")
-        self.session.execute("open likes")
-        self.session.execute("open comments")
 
     def add_new(self, new, new_uid):
         self.session.execute("open database")
@@ -38,12 +34,6 @@ class Database:
                 news = [news]
         else:
             return []
-
-        for i in range(0, len(news)):
-            parsed_url = urlparse(news[i]['guid'])
-
-            if bool(parsed_url.scheme):
-                news[i]["guid"] = parsed_url.query.replace("c=","")
 
         return news
 
@@ -77,6 +67,8 @@ class Database:
 
     def del_new(self, uid):
         self.session.execute("XQUERY let $doc:= doc('database') return delete node $doc//rss/channel//item[contains(guid, \"" + str(uid) + "\")]")
+        self.session.execute("XQUERY let $doc:= doc('comments') return delete node $doc/comments/comment[contains(new_id, '" + str(uid) + "')]")
+        self.session.execute("XQUERY let $doc:= doc('likes') return delete node $doc/likes/new[contains(@id, '" + str(uid) + "')]")
 
     def like(self, uid, value, guid):
         self.session.execute("XQUERY replace value of node doc('likes')/likes/new[contains(@id, '" + guid + "')]/like[1] with '"+value+"'")
@@ -110,7 +102,10 @@ class Database:
         i=1
         top_news={}
         query = self.session.execute("XQUERY for $b in doc('likes')//likes/new order by $b/like descending where $b/like > 0 return $b")
-        print(query)
+
+        if query == "":
+            return []
+
         news = xmltodict.parse("<new>"+query+"</new>")["new"]["new"]
 
         if type(news) is OrderedDict:

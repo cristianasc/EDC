@@ -23,7 +23,7 @@ class Command(BaseCommand):
         session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
         session.create("database", content)
         session.create("likes", "<?xml version='1.0' encoding='utf-8'?>"
-                                     "<likes>"
+                                     "<likes> <new/> </likes>")
 
         Database().likes_xml()
         session.create("comments", "<?xml version='1.0' encoding='utf-8'?>"

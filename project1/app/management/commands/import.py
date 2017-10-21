@@ -17,10 +17,6 @@ class Command(BaseCommand):
         session.create("database", f.read())
         session.create("likes", "<?xml version='1.0' encoding='utf-8'?>"
                                      "<likes>"
-                                        "<new> "
-                                            "</like>"
-                                            "</dislike>"
-                                            "<userid/>"
                                         "</new>"
                                      "</likes>")
         session.create("comments", "<?xml version='1.0' encoding='utf-8'?>"

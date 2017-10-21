@@ -48,7 +48,9 @@ class Command(BaseCommand):
                                      "   <userid> </userid>"
                                      "   </new>"
                                      "</likes>")
-        session.create("comments", "")
+        session.create("comments", "<?xml version='1.0' encoding='utf-8'?>"
+                                   "<comments>"
+                                   "</comments>")
 
         print(session.info())
         print(session.execute("xquery doc('database')"))

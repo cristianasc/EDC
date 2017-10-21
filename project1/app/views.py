@@ -62,9 +62,15 @@ def like_ranking(request):
 def comments(request):
     assert isinstance(request, HttpRequest)
 
-    social_user = request.user.social_auth.filter(
-        provider='facebook',
-    ).first()
+    try:
+        social_user = request.user.social_auth.filter(
+            provider='facebook',
+        ).first()
+
+        Database().comment(social_user.uid, social_user.user.first_name + " " + social_user.user.last_name, request.POST["comment"], request.POST["new_id"])
+
+    except:
+        pass
 
     return render(
         request,
@@ -195,6 +201,7 @@ def about(request):
         return HttpResponseBadRequest("Erro: notícia não identificada.")
 
     selected_new = Database().get_new(request.GET["c"])
+    print(Database().get_comments(selected_new.get("guid")))
 
     textbody = ""
 
@@ -213,6 +220,7 @@ def about(request):
             'data': selected_new,
             'textbody': textbody,
             'user_name': user_name,
+            'new_id': selected_new.get("guid"),
             'photo': photo_url
         }
     )

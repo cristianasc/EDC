@@ -66,10 +66,18 @@ class Database:
         self.session.execute("XQUERY replace value of node doc('likes')/likes/new[contains(@id, '" + guid + "')]/like[1] with '"+value+"'")
         self.session.execute("XQUERY replace value of node doc('likes')/likes/new[contains(@id, '" + guid + "')]/userid[1] with '"+uid+"'")
 
-
     def dislike(self, uid, value, guid):
         self.session.execute("XQUERY replace value of node doc('likes')/likes/new[contains(@id, '" + guid + "')]/dislike[1] with '" + value + "'")
         self.session.execute("XQUERY replace value of node doc('likes')/likes/new[contains(@id, '" + guid + "')]/userid[1] with '" + uid + "'")
 
-    def comment(self, uid, comment):
-        pass
+    def comment(self, uid, name, comment, new_id):
+        self.session.execute("XQUERY insert node <comment>"
+                              "<new_id>"+new_id+"</new_id>"
+                              "<profile_uid>"+uid+"</profile_uid>"
+                              "<profile_name>"+name+"</profile_name>"
+                              "<text>"+comment+"</text>"
+                              "</comment> into comments")
+        print(self.session.execute("XQUERY doc('comments')"))
+
+    def get_comments(self, new_id):
+        return self.session.execute("XQUERY doc('comments')/comments/comment[contains(new_id, '" + new_id + "')]")

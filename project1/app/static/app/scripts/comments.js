@@ -1,3 +1,31 @@
-/**
- * Created by Daniela on 21/10/17.
- */
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+$("#comment").click(function () {
+    text_to_comment = $("#text_to_comment").val();
+    console.log(text_to_comment);
+    new_id = $("#new_id").text();
+
+    fd = new FormData();
+    fd.append("comment", text_to_comment);
+    fd.append("new_id", new_id)
+
+    $.ajax({
+        url: '/comments/',
+        data: fd,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+    });
+});
+

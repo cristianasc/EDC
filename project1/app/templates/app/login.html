@@ -3,32 +3,35 @@
 {% block content %}
 
 <div class="container body-content">
-    <h2>{{ title }}</h2>
-        <section id="loginForm">
+    <h2>  </h2>
+        <section id="loginForm" style="text-align: center">
             <form action="." method="post" class="form-horizontal">
                 {% csrf_token %}
-                <h4>Usa a tua conta para fazer login.</h4>
-                <hr />
-                <div class="form-group">
-                    <label for="id_username" class="col-md-2 control-label">User name</label>
-                    <div class="col-md-10">
-                        {{ form.username }}
+                <h2 style="margin-top: 10%"><a href="{% url 'social:begin' 'facebook' %}"><i class="fa fa-facebook-square"></i> Login com Facebook </a></h2>
+
+                <div style="margin-top: 5%"><h4>Login para Administrador</h4>
+                    <hr/>
+                    <form action="." method="post" class="form-horizontal" class="col-md-3">
+                    <div class="form-group">
+                        <label for="id_username" class="col-md-5 control-label">User name</label>
+                        <div class="col-md-3">
+                            {{ form.username }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="id_password" class="col-md-2 control-label">Password</label>
-                    <div class="col-md-10">
-                        {{ form.password }}
+                    <div class="form-group">
+                        <label for="id_password" class="col-md-5 control-label">Password</label>
+                        <div class="col-md-3">
+                            {{ form.password }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="hidden" name="next" value="/" />
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <input type="hidden" name="next" value="/" />
+                            <input type="submit" value="Log in" class="btn btn-default" />
+                        </div>
                     </div>
+                    </form>
                 </div>
-                <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
-                <p class="col-md-10">Ainda não estás registado? Resgista-te <a href="{% url 'register' %}">aqui.</a></p>
                 {% if form.errors %}
                 <p class="validation-summary-errors">Por favor introduza o user ou password correcta.</p>
                 {% endif %}

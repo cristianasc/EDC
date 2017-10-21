@@ -2,8 +2,9 @@ from django.core.management.base import BaseCommand
 from BaseXClient import BaseXClient
 import lxml.etree as ET
 import urllib.request
+import
 
-
+from app.models import Database
 
 
 class Command(BaseCommand):
@@ -11,20 +12,6 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('url', type=str)
-
-    def likes_xml(self):
-        news = self.news()
-        for i in news:
-            print(str(i['guid']))
-            self.session.execute("open likes")
-            self.session.execute("XQUERY insert node <new/> before likes/new[1]")
-            self.session.execute("XQUERY insert node attribute id {'" + str(i['guid']) + "'} into likes/new[1]")
-            self.session.execute("XQUERY insert node <like/> into likes/new[1]")
-            self.session.execute("XQUERY replace value of node likes/new[1]/like[1] with '0'")
-            self.session.execute("XQUERY insert node <dislike/> into likes/new[1]")
-            self.session.execute("XQUERY replace value of node likes/new[1]/dislike[1] with '0'")
-            self.session.execute("XQUERY insert node <userid/> into likes/new[1]")
-
 
     def handle(self, *args, **options):
         url = options["url"]
@@ -44,7 +31,18 @@ class Command(BaseCommand):
         session.create("likes", "<?xml version='1.0' encoding='utf-8'?>"
                                      "<likes> <new/> </likes>")
 
-        self.likes_xml()
+        news = Database().news()
+        for i in news:
+            print(str(i['guid']))
+            session.execute("open likes")
+            session.execute("XQUERY insert node <new/> before likes/new[1]")
+            session.execute("XQUERY insert node attribute id {'" + str(i['guid']) + "'} into likes/new[1]")
+            session.execute("XQUERY insert node <like/> into likes/new[1]")
+            session.execute("XQUERY replace value of node likes/new[1]/like[1] with '0'")
+            session.execute("XQUERY insert node <dislike/> into likes/new[1]")
+            session.execute("XQUERY replace value of node likes/new[1]/dislike[1] with '0'")
+            session.execute("XQUERY insert node <userid/> into likes/new[1]")
+
         session.create("comments", "<?xml version='1.0' encoding='utf-8'?>"
                                    "<comments>"
                                    "</comments>")

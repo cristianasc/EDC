@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
         session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
         session.create("database", f.read())
-        self.session.create("likes", "<?xml version='1.0' encoding='utf-8'?>"
+        session.create("likes", "<?xml version='1.0' encoding='utf-8'?>"
                                      "<likes>"
                                      "   <new id='https://uaonline.ua.pt/pub/detail.asp?c=52018'>"
                                      "   <like>0</like>"

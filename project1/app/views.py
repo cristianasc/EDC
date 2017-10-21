@@ -35,6 +35,7 @@ def get_all(request):
     )
 
 
+@login_required
 def like_ranking(request):
     assert isinstance(request, HttpRequest)
 
@@ -42,11 +43,10 @@ def like_ranking(request):
         provider='facebook',
     ).first()
 
-
     if "like" in request.POST:
-        Database().like(social_user.uid, request.POST["like"], newid)
+        Database().like(social_user.uid, request.POST["like"], request.POST["guid"])
     else:
-        Database().dislike(social_user.uid, request.POST["dislike"], newid)
+        Database().dislike(social_user.uid, request.POST["dislike"], request.POST["guid"])
 
     return render(
         request,
@@ -56,6 +56,8 @@ def like_ranking(request):
         }
     )
 
+
+@login_required
 def comments(request):
     assert isinstance(request, HttpRequest)
 
@@ -72,23 +74,16 @@ def comments(request):
     )
 
 
-@login_required
 def home(request):
     assert isinstance(request, HttpRequest)
 
     Database().validate_xml()
-    social_user = request.user.social_auth.filter(
-        provider='facebook',
-    ).first()
-    photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
 
     likes = {}
 
     for i in Database().news():
         likes[i["guid"]] = []
         likes[i["guid"]] += Database().get_likes(i["guid"])
-
-    print(likes)
 
     return render(
         request,
@@ -100,6 +95,7 @@ def home(request):
     )
 
 
+@login_required
 def create_new(request):
     assert isinstance(request, HttpRequest)
 
@@ -157,6 +153,7 @@ def register(request):
         return render(request, 'app/register.html', {'form': form})
 
 
+@login_required
 def del_new(request):
 
     if request.method == 'POST':
@@ -181,19 +178,20 @@ def del_new(request):
 def about(request):
     assert isinstance(request, HttpRequest)
 
-    global newid
-
-    social_user = request.user.social_auth.filter(
-        provider='facebook',
-    ).first()
-    photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
+    try:
+        social_user = request.user.social_auth.filter(
+            provider='facebook',
+        ).first()
+        photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
+        user_name = social_user.user.first_name + " " + social_user.user.last_name
+    except AttributeError:
+        photo_url = None
+        user_name = None
 
     if "c" not in request.GET:
         return HttpResponseBadRequest("Erro: notícia não identificada.")
 
     selected_new = Database().get_new(request.GET["c"])
-
-    newid = selected_new.get("guid")
 
     page = requests.get(selected_new.get("guid"))
     tree = html.fromstring(page.content)
@@ -206,7 +204,7 @@ def about(request):
         {
             'data': selected_new,
             'textbody': textbody,
-            'user': social_user.uid,
+            'user_name': user_name,
             'photo': photo_url
         }
     )

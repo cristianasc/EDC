@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
 from BaseXClient import BaseXClient
 
+from app.models import Database
+
 
 class Command(BaseCommand):
     help = 'Imports and creates a basex database'
@@ -19,6 +21,8 @@ class Command(BaseCommand):
                                      "<likes>"
                                         "</new>"
                                      "</likes>")
+
+        Database().likes_xml()
         session.create("comments", "<?xml version='1.0' encoding='utf-8'?>"
                                    "<comments>"
                                    "</comments>")

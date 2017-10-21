@@ -78,8 +78,6 @@ def home(request):
 
     Database().validate_xml()
 
-    Database().likes_xml()
-
     likes = {}
 
     for i in Database().news():

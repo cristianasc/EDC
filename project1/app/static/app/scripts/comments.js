@@ -28,8 +28,7 @@ $("#comment").click(function () {
         contentType: false,
         type: 'POST',
         success: function(data){
-            var item = $(data).hide().fadeIn(800);
-            $('#newComment').append(item);
+            location.reload();
       },
       error: function(e) {
           alert(e);

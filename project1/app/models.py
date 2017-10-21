@@ -65,6 +65,7 @@ class Database:
         self.session.execute("XQUERY replace value of node doc('likes')/likes/new[contains(@id, '" + guid + "')]/userid[1] with '" + uid + "'")
 
     def comment(self, uid, name, comment, new_id):
+        self.session.execute("open comments")
         self.session.execute("XQUERY insert node <comment>"
                               "<new_id>"+new_id+"</new_id>"
                               "<profile_uid>"+uid+"</profile_uid>"

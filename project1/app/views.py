@@ -78,6 +78,8 @@ def home(request):
 
     Database().validate_xml()
 
+    Database().likes_xml()
+
     likes = {}
 
     for i in Database().news():
@@ -180,6 +182,7 @@ def about(request):
         social_user = request.user.social_auth.filter(
             provider='facebook',
         ).first()
+
         photo_url = "http://graph.facebook.com/%s/picture?type=large" % social_user.uid
         user_name = social_user.user.first_name + " " + social_user.user.last_name
 

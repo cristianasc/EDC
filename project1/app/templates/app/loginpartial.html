@@ -1,8 +1,13 @@
 {% if user.is_authenticated %}
+<ul class="nav navbar-nav">
+    <li><a href="{% url 'create_new' %}">Criar Notícia</a></li>
+    <li><a href="{% url 'del_new' %}">Eliminar Notícia</a></li>
+    <li><a href="{% url 'like_ranking' %}">Notícias Favoritas</a></li>
+</ul>
 <form id="logoutForm" action="/logout" method="post" class="navbar-right">
     {% csrf_token %}
     <ul class="nav navbar-nav navbar-right">
-        <li><span class="navbar-brand">Hello {{ user.username }}!</span></li>
+        <li><span class="navbar-brand">Olá {{ user.username }}!</span></li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>
 

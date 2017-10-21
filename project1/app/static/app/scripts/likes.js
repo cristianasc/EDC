@@ -14,6 +14,7 @@ $.ajaxSetup({
     }
 });
 
+
 $("#like").click(function () {
 
     if(!blue){
@@ -23,6 +24,7 @@ $("#like").click(function () {
 
         fd = new FormData();
         fd.append("like", "1");
+        fd.append("guid", $("#new_id").text());
 
         $.ajax({
             url: '/like_ranking/',
@@ -39,6 +41,7 @@ $("#like").click(function () {
 
         fd = new FormData();
         fd.append("like", "-1");
+        fd.append("guid", $("#new_id").text());
 
         $.ajax({
             url: '/like_ranking/',
@@ -58,6 +61,7 @@ $("#dislike").click(function () {
 
         fd = new FormData();
         fd.append("dislike", "1");
+        fd.append("guid", $("#new_id").text());
 
         $.ajax({
             url: '/like_ranking/',
@@ -74,6 +78,7 @@ $("#dislike").click(function () {
 
         fd = new FormData();
         fd.append("dislike", "-1");
+        fd.append("guid", $("#new_id").text());
 
         $.ajax({
             url: '/like_ranking/',

@@ -1,7 +1,3 @@
-"""
-Definition of views.
-"""
-
 import os
 from BaseXClient import BaseXClient
 from django.shortcuts import render

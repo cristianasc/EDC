@@ -20,21 +20,6 @@ from django.contrib.auth.decorators import login_required
 from lxml import html
 import requests
 
-def get_all(request):
-    Database()
-    session = BaseXClient.Session('localhost', 1984, 'admin', 'admin')
-    input = "xquery doc('database')"
-    query = session.execute(input)
-    print(query)
-    session.close()
-    return render(
-        request,
-        'app/index.html',
-        {
-            'title': "OK"
-        }
-    )
-
 
 @login_required
 def like_ranking(request):
@@ -167,7 +152,6 @@ def del_new(request):
 
     if request.method == 'POST':
         uid = request.POST.get("uid")
-        print(uid)
         Database().del_new(uid)
 
         # delete new's img if exists
@@ -201,9 +185,7 @@ def about(request):
         return HttpResponseBadRequest("Erro: notícia não identificada.")
 
     selected_new = Database().get_new(request.GET["c"])
-    print(Database().get_comments(selected_new.get("guid")))
-
-    textbody = ""
+    comments = Database().get_comments(selected_new.get("guid"))
 
     if ("https://uaonline.ua.pt/pub/detail.asp?c=") in selected_new.get("link"):
         page = requests.get(selected_new.get("guid"))
@@ -221,6 +203,7 @@ def about(request):
             'textbody': textbody,
             'user_name': user_name,
             'new_id': selected_new.get("guid"),
-            'photo': photo_url
+            'photo': photo_url,
+            'comments': comments
         }
     )

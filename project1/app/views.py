@@ -6,7 +6,8 @@ import os
 from BaseXClient import BaseXClient
 from django.shortcuts import render
 from django.http import HttpRequest
-from datetime import datetime
+from datetime import datetime, time
+from time import gmtime, strftime
 from django.core.files.storage import default_storage
 import xml.etree.ElementTree as ET
 import uuid
@@ -106,6 +107,7 @@ def create_new(request):
 
         title = request.POST.get("title")
         description = request.POST.get("description")
+        abstract = request.POST.get("link")
 
         root = ET.Element('item')
         guid_child = ET.SubElement(root, "guid")
@@ -116,13 +118,14 @@ def create_new(request):
         title_child.text = title
 
         link_child = ET.SubElement(root, "link")
-        link_child.text = ""
+        link_child.text = abstract
+
 
         description_child = ET.SubElement(root, "description")
         description_child.text = '<img src="http://'+request.META['HTTP_HOST']+'/static/images/'+new_uuid+'.png" alt="'+title+'" title="'+title+'" style="width:70px;"/> ' + description
 
         date_child = ET.SubElement(root, "pubDate")
-        date_child.text = str(datetime.now())
+        date_child.text = strftime("%a, %d %b %Y %H:%M:%S GMT", gmtime())
 
         xmlstr = ET.tostring(root, encoding='utf8', method='xml')
 

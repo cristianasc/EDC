@@ -34,7 +34,9 @@ $(document).ready(function (e) {
         }else{
             fd.append('file', file);
             fd.append('description', $("#description").val());
+            fd.append('link', $("#link").val());
             fd.append('title', $("#title").val());
+
 
             $.ajaxSetup({
                 beforeSend: function(xhr, settings) {

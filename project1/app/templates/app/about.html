@@ -28,12 +28,13 @@
                 class="glyphicon glyphicon-thumbs-down" style="font-size:25px;color:dimgrey"></i></button></p>
 
         <br>
+        <hr>
         <div class="panel-group">
             {% if user_name != None %}
-                <div class="col-lg-2">
+                <div class="col-lg-1">
                     <img style="width: 90px; border: 1px solid #428bca" class="img-responsive img-rounded" src="{{ photo }}"/>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
@@ -51,7 +52,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12" style="margin-top: 10px;">
+                        <div class="col-lg-12" style="margin-top: 10px;"></div>
                     </div>
                 </div>
             {% else %}
@@ -64,10 +65,10 @@
         </div>
         {% for comment in comments %}
             <div class="panel-group">
-                <div class="col-lg-2">
+                <div class="col-lg-1">
                     <img style="width: 90px; border: 1px solid #428bca" class="img-responsive img-rounded" src="http://graph.facebook.com/{{ comment.profile_uid }}/picture?type=large"/>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
@@ -85,6 +86,5 @@
                 </div>
             </div>
         {% endfor %}
-        </div>
     </div>
 {% endblock %}

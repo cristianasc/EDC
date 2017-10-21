@@ -52,8 +52,8 @@ class Database:
         return dict(xmltodict.parse(new_txt)["item"])
 
     def get_likes(self, uid):
-        likes = self.session.execute("XQUERY doc('likes')/likes/new[@id = 'https://uaonline.ua.pt/pub/detail.asp?c=" + str(uid) + "']/like[1]/text()")
-        dislikes = self.session.execute("XQUERY doc('likes')/likes/new[@id = 'https://uaonline.ua.pt/pub/detail.asp?c=" + str(uid) + "']/dislike[1]/text()")
+        likes = self.session.execute("XQUERY doc('likes')/likes/new[contains(@id, '" + str(uid) + "')]/like[1]/text()")
+        dislikes = self.session.execute("XQUERY doc('likes')/likes/new[contains(@id, '" + str(uid) + "')]/dislike[1]/text()")
         return likes, dislikes
 
     def validate_xml(self):
@@ -63,13 +63,13 @@ class Database:
         self.session.execute("XQUERY let $doc:= doc('database') return delete node $doc//rss/channel//item[contains(guid, \"" + str(uid) + "\")]")
 
     def like(self, uid, value, guid):
-        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '"+guid+"']/like[1] with '"+value+"'")
-        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '"+guid+"']/userid[1] with '"+uid+"'")
+        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[contains(@id, '" + guid + "')]/like[1] with '"+value+"'")
+        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[contains(@id, '" + guid + "')]/userid[1] with '"+uid+"'")
         pass
 
     def dislike(self, uid, value, guid):
-        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '" + guid + "']/dislike[1] with '" + value + "'")
-        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[@id = '" + guid + "']/userid[1] with '" + uid + "'")
+        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[contains(@id, '" + guid + "')]/dislike[1] with '" + value + "'")
+        self.session.execute("XQUERY replace value of node doc('likes')/likes/new[contains(@id, '" + guid + "')]/userid[1] with '" + uid + "'")
         pass
 
     def comment(self, uid, comment):

@@ -2,8 +2,6 @@ from django.core.management.base import BaseCommand
 from BaseXClient import BaseXClient
 import lxml.etree as ET
 import urllib.request
-import
-
 from app.models import Database
 
 

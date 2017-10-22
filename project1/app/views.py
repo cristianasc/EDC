@@ -199,7 +199,7 @@ def about(request):
     selected_new = db.get_new(request.GET["c"])
     comments = db.get_comments(selected_new.get("guid"))
 
-    if ("https://uaonline.ua.pt/pub/detail.asp?c=") in selected_new.get("link"):
+    if ("http://uaonline.ua.pt/pub/detail.asp?c=") in selected_new.get("link"):
         page = requests.get(selected_new.get("link"))
         tree = html.fromstring(page.content)
 

@@ -3,8 +3,20 @@
   <xs:element name="likes"/>
   <xs:complexType name="new">
     <xs:sequence>
-      <xs:element name="like"/>
-      <xs:element name="dislike"/>
+      <xs:element name="like">
+        <xs:simpleType>
+             <xs:restriction base="xs:integer">
+                 <xs:minInclusive value="0"/>
+             </xs:restriction>
+        </xs:simpleType>
+        </xs:element>
+      <xs:element name="dislike">
+        <xs:simpleType>
+             <xs:restriction base="xs:integer">
+                 <xs:minInclusive value="0"/>
+             </xs:restriction>
+        </xs:simpleType>
+        </xs:element>
       <xs:element name="userid"/>
     </xs:sequence>
     <xs:attribute name="id" type="xs:integer"/>

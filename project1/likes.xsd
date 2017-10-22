@@ -2,11 +2,11 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="likes"/>
   <xs:complexType name="new">
-      <xs:attribute name="id" type="xs:integer"/>
     <xs:sequence>
       <xs:element name="like"/>
       <xs:element name="dislike"/>
       <xs:element name="userid"/>
     </xs:sequence>
+    <xs:attribute name="id" type="xs:integer"/>
   </xs:complexType>
 </xs:schema>

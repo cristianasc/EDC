@@ -3,11 +3,11 @@
   <xs:element name="rss" type="rssType"/>
   <xs:complexType name="itemType">
     <xs:sequence>
-      <xs:element name="guid"/>
-      <xs:element name="title"/>
-      <xs:element name="link"/>
-      <xs:element name="description"/>
-      <xs:element name="pubDate"/>
+      <xs:element name="guid" type="xs:integer"/>
+      <xs:element name="title" type="xs:string"/>
+      <xs:element name="link" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="pubDate" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="channelType">

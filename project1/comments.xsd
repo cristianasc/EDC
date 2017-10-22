@@ -3,10 +3,10 @@
   <xs:element name="comments"/>
   <xs:complexType name="comment">
     <xs:sequence>
-      <xs:element name="new_id"/>
-      <xs:element name="profile_uid"/>
-      <xs:element name="profile_name"/>
-      <xs:element name="text"/>
+      <xs:element name="new_id" type="xs:integer"/>
+      <xs:element name="profile_uid" type="xs:integer"/>
+      <xs:element name="profile_name" type="xs:string"/>
+      <xs:element name="text" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

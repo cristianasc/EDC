@@ -17,9 +17,6 @@ from lxml import html
 import requests
 
 
-db = Database()
-
-
 @login_required
 def like_ranking(request):
     assert isinstance(request, HttpRequest)
@@ -32,17 +29,17 @@ def like_ranking(request):
         ).first()
 
         if "like" in request.POST:
-            db.like(social_user.uid, request.POST["like"], request.POST["guid"])
+            Database().like(social_user.uid, request.POST["like"], request.POST["guid"])
         else:
-            db.dislike(social_user.uid, request.POST["dislike"], request.POST["guid"])
+            Database().dislike(social_user.uid, request.POST["dislike"], request.POST["guid"])
     else:
-        top_news_ids = db.get_favorites(3)
+        top_news_ids = Database().get_favorites(3)
 
         if top_news_ids == []:
             news = []
         else:
             for key, value in top_news_ids.items():
-                news += [db.get_new(value)]
+                news += [Database().get_new(value)]
 
     return render(
         request,
@@ -62,7 +59,7 @@ def comments(request):
             provider='facebook',
         ).first()
 
-        db.comment(social_user.uid, social_user.user.first_name + " " + social_user.user.last_name, request.POST["comment"], request.POST["new_id"])
+        Database().comment(social_user.uid, social_user.user.first_name + " " + social_user.user.last_name, request.POST["comment"], request.POST["new_id"])
 
 
     except:
@@ -80,19 +77,19 @@ def comments(request):
 def home(request):
     assert isinstance(request, HttpRequest)
 
-    db.validate_xml()
+    Database().validate_xml()
 
     likes = {}
 
-    for i in db.news():
+    for i in Database().news():
         likes[i["guid"]] = []
-        likes[i["guid"]] += db.get_likes(i["guid"])
+        likes[i["guid"]] += Database().get_likes(i["guid"])
 
     return render(
         request,
         'app/index.html',
         {
-            'data': db.news(),
+            'data': Database().news(),
             'likes': likes,
         }
     )
@@ -130,7 +127,7 @@ def create_new(request):
 
         xmlstr = ET.tostring(root, encoding='utf8', method='xml')
 
-        db.add_new(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""), new_uuid)
+        Database().add_new(xmlstr.decode().replace("<?xml version='1.0' encoding='utf8'?>", ""), new_uuid)
 
         default_storage.save(os.path.join(settings.BASE_DIR, 'static/images/' + new_uuid + '.png'),
                              ContentFile(request.FILES['file'].read()))
@@ -162,7 +159,7 @@ def del_new(request):
 
     if request.method == 'POST':
         uid = request.POST.get("uid")
-        db.del_new(uid)
+        Database().del_new(uid)
 
         # delete new's img if exists
         path = os.path.join(settings.BASE_DIR, 'static/images/'+uid+'.png')
@@ -173,7 +170,7 @@ def del_new(request):
         request,
         'app/delNew.html',
         {
-            'data': db.news()
+            'data': Database().news()
         }
     )
 
@@ -196,8 +193,8 @@ def about(request):
     if "c" not in request.GET:
         return HttpResponseBadRequest("Erro: notícia não identificada.")
 
-    selected_new = db.get_new(request.GET["c"])
-    comments = db.get_comments(selected_new.get("guid"))
+    selected_new = Database().get_new(request.GET["c"])
+    comments = Database().get_comments(selected_new.get("guid"))
 
     if ("http://uaonline.ua.pt/pub/detail.asp?c=") in selected_new.get("link"):
         page = requests.get(selected_new.get("link"))

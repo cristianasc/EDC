@@ -1,1 +1,6 @@
 xmltodict
+django
+social-auth-app-django
+BaseXClient
+lxml
+

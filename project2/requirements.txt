@@ -3,3 +3,4 @@ django
 social-auth-app-django
 lxml
 spotipy
+graphdb

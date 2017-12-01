@@ -1,0 +1,59 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+
+<div class="container body-content">
+    <h2>{{ title }}</h2>
+        <section id="loginForm">
+            <form action="register" method="post" class="form-horizontal">
+                {% csrf_token %}
+                <h4>Introduz os teus dados para te registares.</h4>
+                <hr />
+                <div class="form-group">
+                    <label for="id_firstname" class="col-md-2 control-label">Primeiro Nome</label>
+                    <div class="col-md-10">
+                        {{ form.first_name }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_lastname" class="col-md-2 control-label">Último Nome</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="last_name" placeholder="Último Nome"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_email" class="col-md-2 control-label">E-mail</label>
+                    <div class="col-md-10">
+                        {{ form.email }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_username" class="col-md-2 control-label">Username</label>
+                    <div class="col-md-10">
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password" class="col-md-2 control-label">Password</label>
+                    <div class="col-md-10">
+                         {{ form.password1 }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_password" class="col-md-2 control-label">Confirmar Password</label>
+                    <div class="col-md-10">
+                         {{ form.password2 }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Registar" class="btn btn-default" />
+                    </div>
+                </div>
+            </form>
+        </section>
+</div>
+
+{% endblock %}
+

@@ -76,7 +76,9 @@ class Database:
     def get_comments(self, new_id):
         try:
             comments = self.session.execute("XQUERY doc('comments')/comments/comment[contains(new_id, '" + new_id + "')]")
+            print(comments)
             comments = xmltodict.parse("<comments>"+comments+"</comments>")["comments"]["comment"]
+
 
             if type(comments) is OrderedDict:
                 comments = [comments]

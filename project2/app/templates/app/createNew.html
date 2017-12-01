@@ -1,0 +1,62 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+    <div class="container body-content">
+        <div>
+            <h1>Criar Notícia</h1>
+            <h5>Publica aqui a tua notícia.</h5>
+        </div>
+
+        <form id="new" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">Título</label>
+                <input style="width: 70%;" type="text" class="form-control" id="title" name="title"/>
+            </div>
+            <div class="form-group">
+                <label for="link">Resumo:</label>
+                <textarea style="width: 70%;" class="form-control" rows="5" id="link" name="link"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="description">Corpo:</label>
+                <textarea style="width: 70%;" class="form-control" rows="15" id="description" name="description"></textarea>
+            </div>
+            <button type="button" style="width: 80px" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+                Imagem
+            </button>
+
+            <button class="btn btn-primary" type="submit" id="upload-button">Criar notícia</button>
+        </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Escolha uma fotografia que ilustre a sua notícia</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div style="max-width: 650px; margin: auto;">
+                                <p>Select a PNG or JPEG image, having maximum size <span id="max-size"></span> KB.</p>
+
+                                <div id="image-preview-div" style="display: none">
+                                    <label for="exampleInputFile">Selected image:</label>
+                                    <br>
+                                    <img style="width: 100px" id="preview-img" src="noimage">
+                                </div>
+                                <div class="form-group">
+                                    <input type="file" name="file" id="file" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

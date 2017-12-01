@@ -1,0 +1,93 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <h2>{{ data.title }}</h2>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ data.pubDate }}</div>
+                <div class="panel-body">
+                    <p style="margin-right: 10%; text-align: justify; font-style: italic;">{{ data.description|safe }}</p>
+                    <br>
+                    <p style="text-align: right"><button type="button" class="btn btn-success" data-toggle="collapse" data-target="#textbody">Ver mais...</button></p>
+                    <div id="textbody" class="collapse" style="margin-right: 10%; text-align: justify;">
+                        {% for i in textbody %}
+                        {{ i }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <p style="display: none" id="new_id">{{ new_id }}</p>
+        </div>
+
+        <br>
+        {% if user.is_authenticated and not user.is_superuser %}
+            <p style="text-align: right"><button id="like" style="background:transparent; border:none; color:transparent;" type="button"><i id="like_icon"
+                    class="glyphicon glyphicon-thumbs-up" style="font-size:25px;color:dimgrey"></i></button>
+            <button id="dislike" style="background:transparent; border:none; color:transparent; text-align: right" type="button" ><i id="dislike_icon"
+                    class="glyphicon glyphicon-thumbs-down" style="font-size:25px;color:dimgrey"></i></button></p>
+        {% endif %}
+        <br>
+        <hr>
+        <div class="panel-group">
+            {% if user_name != None %}
+                <div class="col-lg-1">
+                    <img style="width: 90px; border: 1px solid #428bca" class="img-responsive img-rounded" src="{{ photo }}"/>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                <strong>{{ user_name }}</strong> <span class="text-muted"></span>
+                                </div>
+                                <div class="panel-body">
+                                    <form method="post" >
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <textarea class="form-control" placeholder="Deixe aqui o seu comentário." rows="3" name="comment" id="text_to_comment"></textarea>
+                                        </div>
+                                    </form>
+                                    <button style="text-align: right" class="btn btn-primary" id="comment">Comentar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-top: 10px;"></div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-lg-12">
+                    <div class="alert alert-info" role="alert">
+                        Para inserir um comentário faça login.
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="panel-group" id="newComment">
+            {% for comment in comments %}
+                <div class="col-lg-1">
+                    <img style="width: 90px; border: 1px solid #428bca" class="img-responsive img-rounded" src="http://graph.facebook.com/{{ comment.profile_uid }}/picture?type=large"/>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                <strong>{{ comment.profile_name }}</strong> <span class="text-muted"></span>
+                                </div>
+                                <div class="panel-body">
+                                    {{ comment.text }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="margin-top: 10px;">
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+

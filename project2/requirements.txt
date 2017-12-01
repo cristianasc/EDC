@@ -1,0 +1,5 @@
+xmltodict
+django
+social-auth-app-django
+lxml
+

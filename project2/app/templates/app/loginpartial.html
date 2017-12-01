@@ -1,0 +1,28 @@
+{% if user.is_authenticated %}
+    {% if user.is_superuser %}
+        <ul class="nav navbar-nav">
+            <li><a href="{% url 'create_new' %}">Criar Notícia</a></li>
+            <li><a href="{% url 'del_new' %}">Eliminar Notícia</a></li>
+            <li><a href="{% url 'like_ranking' %}">Notícias Favoritas</a></li>
+        </ul>
+    {% else %}
+        <ul class="nav navbar-nav">
+            <li><a href="{% url 'like_ranking' %}">Notícias Favoritas</a></li>
+        </ul>
+    {% endif %}
+<form id="logoutForm" action="/logout" method="post" class="navbar-right">
+    {% csrf_token %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><span class="navbar-brand">Olá {{ user.username }}!</span></li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log out</a></li>
+    </ul>
+
+</form>
+
+{% else %}
+
+<ul class="nav navbar-nav navbar-right">
+    <li><a href="{% url 'login' %}">Log in</a></li>
+</ul>
+
+{% endif %}

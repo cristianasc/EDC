@@ -1,0 +1,23 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+    <div class="container body-content" style="margin-top: 30px; margin-bottom: 30px;">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+            {% csrf_token %}
+                {% for new in data %}
+                    <div class="panel-heading" rel="new{{ new.guid }}" style="border: 0.5px solid #f5f5f5; border-bottom-color: gray;">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ new.title }}</a>
+                            <button type="button" id="delNew" class="btn-xs pull-right" onclick="delnew('{{ new.guid }}')"><i class="glyphicon glyphicon-remove"></i></button>
+                        </h4>
+                    </div>
+                    <div id="collapse{{ forloop.counter }}" rel="new{{ new.guid }}" class="panel-collapse collapse">
+                        <div class="panel-body">{{ new.description |safe}}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

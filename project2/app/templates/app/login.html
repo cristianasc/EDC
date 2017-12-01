@@ -32,12 +32,12 @@
                     </div>
                     </form>
                 </div>
+                <p class="col-md-10">Ainda não estás registado? Resgista-te <a href="{% url 'register' %}">aqui.</a></p>
                 {% if form.errors %}
                 <p class="validation-summary-errors">Por favor introduza o user ou password correcta.</p>
                 {% endif %}
             </form>
         </section>
-
     <div class="col-md-4">
         <section id="socialLoginForm"></section>
     </div>

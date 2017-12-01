@@ -4,3 +4,4 @@ social-auth-app-django
 lxml
 spotipy
 graphdb
+s4api

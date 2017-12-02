@@ -17,6 +17,10 @@ class Command(BaseCommand):
         transform = ET.XSLT(xslt)
         newdom = transform(dom)
         content = ET.tostring(newdom, pretty_print=False).decode()
+        file = open("new-releases.rdf", "w")
+        file.write(content)
 
-        query = {"update": content}
-        db.accessor.sparql_update(body=query, repo_name=db.repo_name)
+        db.accessor.upload_data_file("new-releases.rdf", repo_name=db.repo_name)
+
+        '''query = {"update": content}
+        db.accessor.sparql_update(body=query, repo_name=db.repo_name)'''

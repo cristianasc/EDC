@@ -1,0 +1,108 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:foaf="http://xmlns.com/foaf/0.1/"><rdf:Description rdf:about="http://www.new-releases.com/">
+	
+		https://api.spotify.com/v1/browse/new-releases?offset=0&amp;limit=20
+	
+	<rdf:Description rdf:about="&#10;&#9;&#9;&#9;https://api.spotify.com/v1/albums/52kvZcbEDm0v2kWZQXjuuA&#10;&#9;&#9;"><foaf:album_type>
+			single
+		</foaf:album_type><foaf:external_urls>
+				https://open.spotify.com/album/52kvZcbEDm0v2kWZQXjuuA
+			</foaf:external_urls><foaf:id>
+			52kvZcbEDm0v2kWZQXjuuA
+		</foaf:id><foaf:href>
+			https://api.spotify.com/v1/albums/52kvZcbEDm0v2kWZQXjuuA
+		</foaf:href><foaf:available_markets>
+			AD
+			AR
+			AT
+			AU
+			BE
+			BG
+			BO
+			BR
+			CA
+			CH
+			CL
+			CO
+			CR
+			CY
+			CZ
+			DE
+			DK
+			DO
+			EC
+			EE
+			ES
+			FI
+			FR
+			GB
+			GR
+			GT
+			HK
+			HN
+			HU
+			ID
+			IE
+			IS
+			IT
+			JP
+			LI
+			LT
+			LU
+			LV
+			MC
+			MT
+			MX
+			MY
+			NI
+			NL
+			NO
+			NZ
+			PA
+			PE
+			PH
+			PL
+			PT
+			PY
+			SE
+			SG
+			SK
+			SV
+			TH
+			TR
+			TW
+			US
+			UY
+			VN
+		</foaf:available_markets></rdf:Description><rdf:Description rdf:about="http://www.new-releases.com/artists/&#10;&#9;&#9;&#9;&#9;6eUKZXaKkcviH0Ku9w2n3V&#10;&#9;&#9;&#9;"><foaf:external_urls_spotify>
+					https://open.spotify.com/artist/6eUKZXaKkcviH0Ku9w2n3V
+				</foaf:external_urls_spotify><foaf:href>
+				https://api.spotify.com/v1/artists/6eUKZXaKkcviH0Ku9w2n3V
+			</foaf:href><foaf:id>
+				6eUKZXaKkcviH0Ku9w2n3V
+			</foaf:id><foaf:name>
+				Ed Sheeran
+			</foaf:name><foaf:type>
+				artist
+			</foaf:type><foaf:uri>
+				spotify:artist:6eUKZXaKkcviH0Ku9w2n3V
+			</foaf:uri></rdf:Description><rdf:Description rdf:about="&#10;&#9;&#9;&#9;&#9;https://i.scdn.co/image/6d27b4ab01b5f52ad8a4ed1b56422c6c7f71fcf2&#10;&#9;&#9;&#9;"><foaf:height>
+				640
+			</foaf:height><foaf:width>
+				640
+			</foaf:width></rdf:Description>
+	
+		20
+	
+	
+		https://api.spotify.com/v1/browse/new-releases?offset=20&amp;limit=20
+	
+	
+		0
+	
+	
+		None
+	
+	
+		500
+	
+</rdf:Description></rdf:RDF>

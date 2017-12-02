@@ -48,7 +48,8 @@ def home(request):
     headers = {"Authorization": "Bearer " + token["access_token"]}
     r = requests.get('https://api.spotify.com/v1/browse/new-releases', headers=headers)
     j = json.loads(r.text)
-    print(json2xml(j))
+    file = open("new-releases.xml", "wb")
+    file.write(json2xml(j).encode())
 
     return render(
         request,

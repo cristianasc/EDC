@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         db = Database()
 
-        dom = ET.fromstring("new-releases.xml")
+        dom = ET.parse("new-releases.xml")
         xslt = ET.parse("new-releases.xslt")
         transform = ET.XSLT(xslt)
         newdom = transform(dom)

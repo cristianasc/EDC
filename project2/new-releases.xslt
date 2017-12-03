@@ -5,7 +5,7 @@
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
                 xmlns:foaf="http://xmlns.com/foaf/spec/"
-                xmlns:spot="http://new-releases.com/pred/">
+                xmlns:spot="http://new-releases.org/pred/">
 
     <xsl:template match="/">
     <rdf:RDF>
@@ -19,6 +19,7 @@
     <xsl:template match="items">
 
         <items>
+            <xsl:variable name="items"><xsl:value-of select="name"/></xsl:variable>
             <rdf:Description rdf:about="http://www.new-releases.com/items/{$items}">
                 <foaf:name><xsl:value-of select="name"/></foaf:name>
                 <spot:name><xsl:value-of select="album_type"/></spot:name>
@@ -34,7 +35,6 @@
                     </spot:available_markets>
                 </xsl:for-each>
 
-
                 <xsl:for-each select="artists">
                     <spot:artists>
                         <rdf:Description rdf:about="http://www.new-releases.com/artists">
@@ -48,10 +48,9 @@
                     </spot:artists>
                 </xsl:for-each>
 
-
-                <xsl:for-each select="images">
+                <xsl:for-each select="images/image">
                     <spot:image>
-                        <rdf:Description rdf:about="http://www.new-releases.com/images">
+                        <rdf:Description rdf:about="http://www.new-releases.com/image">
                             <foaf:name><xsl:value-of select="url"/></foaf:name>
                             <spot:width><xsl:value-of select="width"/></spot:width>
                             <spot:height><xsl:value-of select="height"/></spot:height>
@@ -61,6 +60,7 @@
 
             </rdf:Description>
         </items>
+
     </xsl:template>
 
 </xsl:stylesheet>

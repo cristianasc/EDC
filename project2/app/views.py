@@ -7,9 +7,12 @@ from django.shortcuts import redirect
 from spotipy.oauth2 import SpotifyOAuth
 from .models import Database
 import requests
+import json
 
-'''from stackoverflow'''
+
 def json2xml(json_obj, line_padding=""):
+    """from stackoverflow"""
+
     result_list = list()
 
     json_obj_type = type(json_obj)
@@ -31,9 +34,9 @@ def json2xml(json_obj, line_padding=""):
 
     return "%s%s" % (line_padding, json_obj)
 
+
 def home(request):
     db = Database()
-    db.populate()
 
     return render(
         request,
@@ -42,6 +45,7 @@ def home(request):
             'data': ""
         }
     )
+
 
 def new_releases(request):
     scope = "user-library-read"
@@ -123,7 +127,6 @@ def get_albuns_by_artist(request):
         return redirect(authorize_url)
 
 
-
 def get_playlists_per_user(request):
     scope = "user-library-read"
     client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
@@ -151,8 +154,6 @@ def get_playlists_per_user(request):
         authorize_url = client_credentials_manager.get_authorize_url()
         sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
         return redirect(authorize_url)
-
-
 
 
 def login(request):

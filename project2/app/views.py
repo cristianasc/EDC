@@ -38,30 +38,35 @@ def json2xml(json_obj, line_padding=""):
 def home(request):
     db = Database()
 
-    """Verify if the user is logged in"""
-    if request.COOKIES.get("SpotifyToken"):
-        token = request.COOKIES.get("SpotifyToken")
-        headers = {"Authorization": "Bearer " + token}
-        r = requests.get('https://api.spotify.com/v1/me', headers=headers)
-        r = json.loads(r.text)
-        print(r)
+    try:
+
+        """Verify if the user is logged in"""
+        if request.COOKIES.get("SpotifyToken"):
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            r = json.loads(r.text)
+            print(r)
+
+            return render(
+                request,
+                'app/index.html',
+                {
+                    'username': r["display_name"],
+                    'photo': r["images"][0]["url"]
+                }
+            )
 
         return render(
             request,
             'app/index.html',
             {
-                'username': r["display_name"],
-                'photo': r["images"][0]["url"]
+                'username': ""
             }
         )
 
-    return render(
-        request,
-        'app/index.html',
-        {
-            'username': ""
-        }
-    )
+    except:
+        return HttpResponseRedirect("/spotify_logout/")
 
 
 def new_releases(request):

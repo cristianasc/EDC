@@ -32,16 +32,7 @@
                   <button class="btn btn-secondary my-2 my-sm-0" type="button">Search</button>
                 </form>
               </div>
-            <div style="padding-left: 30px" class="nav-item dropdown">
-                <a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Account
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="/login/">Login</a>
-                  <a class="dropdown-item" href="#">Register</a>
-                </div>
-            </div>
-            <img src="{% static "app/img/nophoto.gif" %}" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
+            <a style="padding-left: 10px;">{% include 'app/loginpartial.html' %}</a>
         </div>
     </nav>
 

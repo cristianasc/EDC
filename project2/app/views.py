@@ -38,6 +38,8 @@ def json2xml(json_obj, line_padding=""):
 def home(request):
     db = Database()
 
+    print(request.COOKIES)
+
     return render(
         request,
         'app/index.html',
@@ -181,11 +183,22 @@ def register(request):
 def spotify_login(request):
     assert isinstance(request, HttpRequest)
 
+    scope = ""
+    client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
+                                              client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
+                                              redirect_uri='http://localhost:8000/spotify_login/')
+    spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+    authorize_url = client_credentials_manager.get_authorize_url()
+
     if request.method == 'GET':
-        scope = ""
-        client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
-                                                  client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
-                                                  redirect_uri='http://localhost:8000')
-        authorize_url = client_credentials_manager.get_authorize_url()
-        spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-        return HttpResponseRedirect(authorize_url)
+        if "code" in request.GET:
+            code = request.GET.get("code")
+            token = client_credentials_manager.get_access_token(code)
+            token = token["access_token"]
+
+            response = HttpResponseRedirect("/")
+            response.set_cookie("SpotifyToken", token)
+
+            return response
+        else:
+            return HttpResponseRedirect(authorize_url)

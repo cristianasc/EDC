@@ -3,7 +3,7 @@ from s4api.swagger import ApiClient
 
 
 class Database:
-    def __init__(self):
+   def __init__(self):
         self.endpoint = "http://localhost:7200"
         self.repo_name = "Spotify"
         self.client = ApiClient(endpoint=self.endpoint)

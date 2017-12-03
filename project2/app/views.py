@@ -5,7 +5,7 @@ from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
 import spotipy
 from django.shortcuts import redirect
 from spotipy.oauth2 import SpotifyOAuth
-import json
+from .models import Database
 import requests
 
 '''from stackoverflow'''
@@ -32,6 +32,18 @@ def json2xml(json_obj, line_padding=""):
     return "%s%s" % (line_padding, json_obj)
 
 def home(request):
+    db = Database()
+    db.populate()
+
+    return render(
+        request,
+        'app/index.html',
+        {
+            'data': ""
+        }
+    )
+
+def new_releases(request):
     scope = "user-library-read"
     client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
                                               client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,

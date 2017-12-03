@@ -38,7 +38,12 @@ def json2xml(json_obj, line_padding=""):
 def home(request):
     db = Database()
 
-    print(request.COOKIES)
+    """Verify if the user is logged in"""
+    if request.COOKIES.get("SpotifyToken"):
+        token = request.COOKIES.get("SpotifyToken")
+        headers = {"Authorization": "Bearer " + token}
+        r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+        print(r.text)
 
     return render(
         request,
@@ -166,6 +171,7 @@ def login(request):
             'data': ""
         }
     )
+
 
 def register(request):
     assert isinstance(request, HttpRequest)

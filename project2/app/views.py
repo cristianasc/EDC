@@ -8,6 +8,8 @@ from spotipy.oauth2 import SpotifyOAuth
 from .models import Database
 import requests
 import json
+from wikidata.client import Client
+import ssl
 
 
 def json2xml(json_obj, line_padding=""):
@@ -46,7 +48,6 @@ def home(request):
             headers = {"Authorization": "Bearer " + token}
             r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             r = json.loads(r.text)
-            print(r)
 
             return render(
                 request,
@@ -233,3 +234,17 @@ def spotify_logout(request):
 
     return response
 
+
+def wikidata(request):
+
+    """
+        Override the SSL verification
+    """
+    ssl._create_default_https_context = ssl._create_unverified_context
+    client = Client()
+    search_name = "Miley Cyrus" #only an example
+    search = client.request("w/api.php?action=wbsearchentities&search="+search_name.replace(" ", "%20")+"&format=json&language=en&uselang=en&type=item")
+    first_result = search["search"][0]
+    entity = client.get(first_result["id"], load=True)
+
+    # return will be defined later

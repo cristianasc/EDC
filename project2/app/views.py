@@ -43,13 +43,22 @@ def home(request):
         token = request.COOKIES.get("SpotifyToken")
         headers = {"Authorization": "Bearer " + token}
         r = requests.get('https://api.spotify.com/v1/me', headers=headers)
-        print(r.text)
+        r = json.loads(r.text)
+        print(r)
+
+        return render(
+            request,
+            'app/index.html',
+            {
+                'username': r["display_name"]
+            }
+        )
 
     return render(
         request,
         'app/index.html',
         {
-            'data': ""
+            'username': ""
         }
     )
 

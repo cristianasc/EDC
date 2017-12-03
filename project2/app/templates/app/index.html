@@ -1,32 +1,81 @@
 {% extends "app/layout.html" %}
+{% load staticfiles %}
 
 {% block content %}
-
-    <div class="container body-content" style="margin-top: 30px; margin-bottom: 30px;">
-        <div class = "page-header">
-
-           <h1>
-              Universidade de Aveiro
-              <small>últimas notícias</small>
-           </h1>
-
+    <div class="container body-content">
+        <div>
+            <h1>Trending</h1>
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Music Name (feat.xxx)</h4>
+                    <p class="card-text">Artists</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Music Name (feat.xxx)</h4>
+                    <p class="card-text">Artists</p>
+                  </div>
+                </div>
+              </div>
+                          <div class="col-sm-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Music Name (feat.xxx)</h4>
+                    <p class="card-text">Artists</p>
+                  </div>
+                </div>
+              </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Music Name (feat.xxx)</h4>
+                    <p class="card-text">Artists</p>
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
-
-        <div class="list-group">
-            {% for new in data %}
-                <a href="about.html?c={{ new.guid }}" class="list-group-item active">
-                    <h4 class="list-group-item-heading">{{ new.title }}</h4>
-                    <p class="list-group-item-text">{{ new.pubDate }}</p>
-                    {% for key,value in likes.items %}
-                        {% if new.guid == key %}
-                            <p class="list-group-item-text" style="text-align: right;">
-                                <i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i> {{ value.0 }}
-                                <i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i> {{ value.1 }}
-                            </p>
-                        {% endif %}
-                    {% endfor %}
-                </a>
-            {% endfor %}
+        <div style="padding-top: 30px">
+           <h1>New Releases</h1>
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Music Name (feat.xxx)</h4>
+                    <p class="card-text">Artists</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Music Name (feat.xxx)</h4>
+                    <p class="card-text">Artists</p>
+                  </div>
+                </div>
+              </div>
+                          <div class="col-sm-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Music Name (feat.xxx)</h4>
+                    <p class="card-text">Artists</p>
+                  </div>
+                </div>
+              </div>
+                <div class="col-sm-3">
+                    <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Music Name (feat.xxx)</h4>
+                    <p class="card-text">Artists</p>
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
     </div>
 

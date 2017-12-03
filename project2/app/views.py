@@ -50,7 +50,8 @@ def home(request):
             request,
             'app/index.html',
             {
-                'username': r["display_name"]
+                'username': r["display_name"],
+                'photo': r["images"][0]["url"]
             }
         )
 
@@ -217,3 +218,13 @@ def spotify_login(request):
             return response
         else:
             return HttpResponseRedirect(authorize_url)
+
+
+def spotify_logout(request):
+    assert isinstance(request, HttpRequest)
+
+    response = HttpResponseRedirect("/")
+    response.delete_cookie("SpotifyToken")
+
+    return response
+

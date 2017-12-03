@@ -1,24 +1,23 @@
-{% if user.is_authenticated %}
-    {% if user.is_superuser %}
-        <ul class="nav navbar-nav">
-            <li><a href="{% url 'create_new' %}">Criar Notícia</a></li>
-            <li><a href="{% url 'del_new' %}">Eliminar Notícia</a></li>
-            <li><a href="{% url 'like_ranking' %}">Notícias Favoritas</a></li>
-        </ul>
+{% if user.is_authenticated or username %}
+
+    {% if user.is_authenticated %}
+        <form id="logoutForm" action="/logout" method="post" class="navbar-right">
+            {% csrf_token %}
+            <ul class="nav navbar-nav navbar-right">
+                <li><span class="navbar-brand">Olá {{ user.username }}!</span></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log out</a></li>
+            </ul>
+        </form>
     {% else %}
-        <ul class="nav navbar-nav">
-            <li><a href="{% url 'like_ranking' %}">Notícias Favoritas</a></li>
-        </ul>
+        <div class="navbar-right">
+            {% csrf_token %}
+            <ul class="nav navbar-nav navbar-right">
+                <li style="padding-right: 10px;"><img src={{ photo }} style="height: 50px; width: 50px; border-radius: 30px 30px 30px 30px;"></li>
+                <li><span class="navbar-brand" style="color: #4cae4c; align-content: center">Olá {{ username }}</span></li>
+                <li><a href="/spotify_logout/">Log out</a></li>
+            </ul>
+        </div>
     {% endif %}
-<form id="logoutForm" action="/logout" method="post" class="navbar-right">
-    {% csrf_token %}
-    <ul class="nav navbar-nav navbar-right">
-        <li><span class="navbar-brand">Olá {{ user.username }}!</span></li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log out</a></li>
-    </ul>
-
-</form>
-
 {% else %}
 
 <ul class="nav navbar-nav navbar-right">

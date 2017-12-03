@@ -26,6 +26,7 @@ urlpatterns = [
         },
         name='logout'),
     url(r'^spotify_login/', app.views.spotify_login, name='spotify_login'),
+    url(r'^spotify_logout/', app.views.spotify_logout, name='spotify_logout'),
     url(r'^register$', app.views.register, name='register'),
     url(r'^admin/', admin.site.urls),
     url(r'^oauth/', include('social_django.urls', namespace='social')),

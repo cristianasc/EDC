@@ -8,8 +8,7 @@
             <form action="." method="post" class="form-horizontal">
                 {% csrf_token %}
                 <h2 style="margin-top: 10%"><a href="{% url 'social:begin' 'facebook' %}"><i class="fa fa-facebook-square"></i> Login com Facebook </a></h2>
-
-                <div style="margin-top: 5%"><h4>Login</h4>
+                <h2 style="color: #4cae4c"><a href="{% url 'spotify_login' %}"><i class="fa fa-spotify"></i> Login com Spotify </a></h2>
                     <hr/>
                     <form action="." method="post" class="form-horizontal" class="col-md-3">
                     <div class="form-group">
@@ -31,7 +30,6 @@
                         </div>
                     </div>
                     </form>
-                </div>
                 <p class="col-md-10">Ainda não estás registado? Resgista-te <a href="{% url 'register' %}">aqui.</a></p>
                 {% if form.errors %}
                 <p class="validation-summary-errors">Por favor introduza o user ou password correcta.</p>
@@ -47,8 +45,6 @@
 
 
 {% block scripts %}
-
     {% load staticfiles %}
-<script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
-
+        <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
 {% endblock %}

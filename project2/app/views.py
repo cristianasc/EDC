@@ -176,3 +176,16 @@ def register(request):
     else:
         form = RegistrationForm()
         return render(request, 'app/register.html', {'form': form})
+
+
+def spotify_login(request):
+    assert isinstance(request, HttpRequest)
+
+    if request.method == 'GET':
+        scope = ""
+        client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
+                                                  client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
+                                                  redirect_uri='http://localhost:8000')
+        authorize_url = client_credentials_manager.get_authorize_url()
+        spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+        return HttpResponseRedirect(authorize_url)

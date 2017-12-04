@@ -18,7 +18,6 @@
 
     <xsl:template match="items">
 
-        <items>
             <xsl:variable name="items"><xsl:value-of select="id"/></xsl:variable>
             <rdf:Description rdf:about="http://www.new-releases.com/items/{$items}">
                 <foaf:name><xsl:value-of select="name"/></foaf:name>
@@ -59,7 +58,6 @@
                 </xsl:for-each>
 
             </rdf:Description>
-        </items>
 
     </xsl:template>
 

@@ -8,45 +8,21 @@ from spotipy.oauth2 import SpotifyOAuth
 from .models import Database
 import requests
 import json
-
-
-def json2xml(json_obj, line_padding=""):
-    """from stackoverflow"""
-
-    result_list = list()
-
-    json_obj_type = type(json_obj)
-
-    if json_obj_type is list:
-        for sub_elem in json_obj:
-            result_list.append(json2xml(sub_elem, line_padding))
-
-        return "\n".join(result_list)
-
-    if json_obj_type is dict:
-        for tag_name in json_obj:
-            sub_obj = json_obj[tag_name]
-            result_list.append("%s<%s>" % (line_padding, tag_name))
-            result_list.append(json2xml(sub_obj, "\t" + line_padding))
-            result_list.append("%s</%s>" % (line_padding, tag_name))
-
-        return "\n".join(result_list)
-
-    return "%s%s" % (line_padding, json_obj)
+from wikidata.client import Client
+import ssl
+import xmltodict
 
 
 def home(request):
     db = Database()
 
     try:
-
         """Verify if the user is logged in"""
         if request.COOKIES.get("SpotifyToken"):
             token = request.COOKIES.get("SpotifyToken")
             headers = {"Authorization": "Bearer " + token}
             r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             r = json.loads(r.text)
-            print(r)
 
             return render(
                 request,
@@ -85,9 +61,9 @@ def new_releases(request):
 
     headers = {"Authorization": "Bearer " + token["access_token"]}
     r = requests.get('https://api.spotify.com/v1/browse/new-releases', headers=headers)
-    j = json.loads(r.text)
-    file = open("new-releases.xml", "wb")
-    file.write(json2xml(j).encode())
+    xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
+    file = open("new-releases.xml", "w")
+    file.write(xmlString)
 
     return render(
         request,
@@ -97,6 +73,34 @@ def new_releases(request):
         }
     )
 
+def top_tracks(request):
+    scope = "user-top-read"
+    client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
+                                              client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
+                                              redirect_uri='http://localhost:8000')
+    if "code" in request.GET:
+        code = request.GET.get("code")
+        token = client_credentials_manager.get_access_token(code)
+        sp = spotipy.Spotify(auth=token["access_token"])
+    else:
+        authorize_url = client_credentials_manager.get_authorize_url()
+        sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+        return redirect(authorize_url)
+
+    headers = {"Authorization": "Bearer " + token["access_token"]}
+    r = requests.get('https://api.spotify.com/v1/me/top/tracks', headers=headers)
+    xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
+    print(xmlString)
+    file = open("top-tracks.xml", "w")
+    file.write(xmlString)
+
+    return render(
+        request,
+        'app/index.html',
+        {
+            'data': ""
+        }
+    )
 
 def get_albuns_by_artist(request):
     assert isinstance(request, HttpRequest)
@@ -233,3 +237,17 @@ def spotify_logout(request):
 
     return response
 
+
+def wikidata(request):
+
+    """
+        Override the SSL verification
+    """
+    ssl._create_default_https_context = ssl._create_unverified_context
+    client = Client()
+    search_name = "Miley Cyrus" #only an example
+    search = client.request("w/api.php?action=wbsearchentities&search="+search_name.replace(" ", "%20")+"&format=json&language=en&uselang=en&type=item")
+    first_result = search["search"][0]
+    entity = client.get(first_result["id"], load=True)
+
+    # return will be defined later

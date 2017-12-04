@@ -4,64 +4,63 @@
                 xmlns:html="http://www.w3.org/1999/xhtml"
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-                xmlns:foaf="http://xmlns.com/foaf/0.1/">
+                xmlns:foaf="http://xmlns.com/foaf/spec/"
+                xmlns:spot="http://new-releases.org/pred/">
 
-<xsl:output method="xml" indent="yes"/>
-
-  <xsl:template match="/">
+    <xsl:template match="/">
     <rdf:RDF>
-      <rdf:Description rdf:about="http://www.new-releases.com/albums">
-        <xsl:apply-templates select="@*|node()"/>
+      <rdf:Description rdf:about="http://www.new-releases.com/">
+        <xsl:apply-templates/>
       </rdf:Description>
     </rdf:RDF>
-  </xsl:template>
-
-
-  <xsl:template match="items/">
-    <xsl:variable name="href"><xsl:value-of select="href"/></xsl:variable>
-      <rdf:Description rdf:about="{$href}">
-        <foaf:album_type><xsl:value-of select="album_type"/></foaf:album_type>
-        <foaf:external_urls><xsl:value-of select="external_urls/spotify"/></foaf:external_urls>
-        <foaf:id><xsl:value-of select="id"/></foaf:id>
-        <foaf:href><xsl:value-of select="href"/></foaf:href>
-        <foaf:available_markets><xsl:value-of select="available_markets"/></foaf:available_markets>
-      </rdf:Description>
-  </xsl:template>
-
-  <xsl:template match="items/artists/">
-      <xsl:variable name="artists_id"><xsl:value-of select="id"/></xsl:variable>
-        <rdf:Description rdf:about="http://www.new-releases.com/artists/{$artists_id}">
-            <foaf:external_urls_spotify>
-                <xsl:value-of select="external_urls/spotify"/>
-            </foaf:external_urls_spotify>
-            <foaf:href>
-                <xsl:value-of select="href"/>
-            </foaf:href>
-            <foaf:id>
-                <xsl:value-of select="id"/>
-            </foaf:id>
-            <foaf:name>
-                <xsl:value-of select="name"/>
-            </foaf:name>
-            <foaf:type>
-                <xsl:value-of select="type"/>
-            </foaf:type>
-            <foaf:uri>
-                <xsl:value-of select="uri"/>
-            </foaf:uri>
-        </rdf:Description>
     </xsl:template>
 
-    <xsl:template match="items/images">
-      <xsl:variable name="url"><xsl:value-of select="url"/></xsl:variable>
-        <rdf:Description rdf:about="{$url}">
-            <foaf:height>
-                <xsl:value-of select="height"/>
-            </foaf:height>
-            <foaf:width>
-                <xsl:value-of select="width"/>
-            </foaf:width>
-        </rdf:Description>
+
+    <xsl:template match="items">
+
+        <items>
+            <xsl:variable name="items"><xsl:value-of select="id"/></xsl:variable>
+            <rdf:Description rdf:about="http://www.new-releases.com/items/{$items}">
+                <foaf:name><xsl:value-of select="name"/></foaf:name>
+                <spot:name><xsl:value-of select="album_type"/></spot:name>
+                <spot:external_urls><xsl:value-of select="external_urls/spotify"/></spot:external_urls>
+                <spot:id><xsl:value-of select="id"/></spot:id>
+                <spot:href><xsl:value-of select="href"/></spot:href>
+
+                <xsl:for-each select="available_markets">
+                    <spot:available_markets>
+                        <rdf:Description rdf:about="http://www.new-releases.com/available_markets/{.}">
+                            <foaf:name><xsl:value-of select="."/></foaf:name>
+                        </rdf:Description>
+                    </spot:available_markets>
+                </xsl:for-each>
+
+                <xsl:for-each select="artists">
+                    <spot:artists>
+                        <rdf:Description rdf:about="http://www.new-releases.com/artists">
+                            <foaf:name><xsl:value-of select="name"/></foaf:name>
+                            <spot:external_urls_spotify><xsl:value-of select="external_urls/spotify"/></spot:external_urls_spotify>
+                            <spot:href><xsl:value-of select="href"/></spot:href>
+                            <spot:id><xsl:value-of select="id"/></spot:id>
+                            <spot:type><xsl:value-of select="type"/></spot:type>
+                            <spot:uri><xsl:value-of select="uri"/></spot:uri>
+                        </rdf:Description>
+                    </spot:artists>
+                </xsl:for-each>
+
+                <xsl:for-each select="images/image">
+                    <spot:image>
+                        <rdf:Description rdf:about="http://www.new-releases.com/image">
+                            <foaf:name><xsl:value-of select="url"/></foaf:name>
+                            <spot:width><xsl:value-of select="width"/></spot:width>
+                            <spot:height><xsl:value-of select="height"/></spot:height>
+                        </rdf:Description>
+                    </spot:image>
+                </xsl:for-each>
+
+            </rdf:Description>
+        </items>
+
     </xsl:template>
 
 </xsl:stylesheet>

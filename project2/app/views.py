@@ -17,7 +17,6 @@ def home(request):
     db = Database()
 
     try:
-
         """Verify if the user is logged in"""
         if request.COOKIES.get("SpotifyToken"):
             token = request.COOKIES.get("SpotifyToken")
@@ -74,6 +73,34 @@ def new_releases(request):
         }
     )
 
+def top_tracks(request):
+    scope = "user-top-read"
+    client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
+                                              client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
+                                              redirect_uri='http://localhost:8000')
+    if "code" in request.GET:
+        code = request.GET.get("code")
+        token = client_credentials_manager.get_access_token(code)
+        sp = spotipy.Spotify(auth=token["access_token"])
+    else:
+        authorize_url = client_credentials_manager.get_authorize_url()
+        sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+        return redirect(authorize_url)
+
+    headers = {"Authorization": "Bearer " + token["access_token"]}
+    r = requests.get('https://api.spotify.com/v1/me/top/tracks', headers=headers)
+    xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
+    print(xmlString)
+    file = open("top-tracks.xml", "w")
+    file.write(xmlString)
+
+    return render(
+        request,
+        'app/index.html',
+        {
+            'data': ""
+        }
+    )
 
 def get_albuns_by_artist(request):
     assert isinstance(request, HttpRequest)

@@ -12,6 +12,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         db = Database()
 
+        payload = {
+            "repositoryID": db.repo_name,
+            "label": "Spotify Database",
+            "ruleset": "owl-horst-optimized"
+        }
+        db.accessor.create_repository(body=payload)
+
         dom = ET.parse("new-releases.xml")
         xslt = ET.parse("new-releases.xslt")
         transform = ET.XSLT(xslt)

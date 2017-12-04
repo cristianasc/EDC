@@ -14,6 +14,7 @@
                     <label class="col-md-2 control-label">Primeiro Nome</label>
                     <div class="col-md-10">
                         {{ form.first_name }}
+                        {{ form.first_name.errors }}
                     </div>
                 </div>
                 <div class="form-group">
@@ -51,6 +52,12 @@
                         <input type="submit" value="Registar" class="btn btn-default" />
                     </div>
                 </div>
+
+                {% if form.errors %}
+                    {% for key, value in form.errors.items %}
+                        <p class="validation-summary-errors">{{ key }}: {{ value }}</p>
+                    {% endfor %}
+                {% endif %}
             </form>
         </section>
 </div>

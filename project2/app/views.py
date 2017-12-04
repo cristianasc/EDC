@@ -182,24 +182,18 @@ def get_playlists_per_user(request):
         return redirect(authorize_url)
 
 
-def login(request):
-    return render(
-        request,
-        'app/index.html',
-        {
-            'data': ""
-        }
-    )
-
-
 def register(request):
     assert isinstance(request, HttpRequest)
 
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
+
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/login/')
+        else:
+            # error
+            return render(request, 'app/register.html', {'form': form})
     else:
         form = RegistrationForm()
         return render(request, 'app/register.html', {'form': form})

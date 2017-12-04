@@ -9,6 +9,7 @@ class Database:
         self.client = ApiClient(endpoint=self.endpoint)
         self.accessor = GraphDBApi(self.client)
 
+
     def get_new_releases(self):
         print("new_releases")
 

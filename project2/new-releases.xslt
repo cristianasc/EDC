@@ -44,10 +44,10 @@
                     </spot:artists>
                 </xsl:for-each>
 
-                <xsl:for-each select="images/image">
+                <xsl:for-each select="images">
                     <spot:image>
                         <rdf:Description rdf:about="http://www.new-releases.com/image">
-                            <foaf:name><xsl:value-of select="url"/></foaf:name>
+                            <foaf:url><xsl:value-of select="url"/></foaf:url>
                             <spot:width><xsl:value-of select="width"/></spot:width>
                             <spot:height><xsl:value-of select="height"/></spot:height>
                         </rdf:Description>

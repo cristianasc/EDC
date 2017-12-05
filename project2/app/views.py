@@ -23,7 +23,7 @@ def home(request):
             headers = {"Authorization": "Bearer " + token}
             r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             r = json.loads(r.text)
-
+            
             return render(
                 request,
                 'app/index.html',

@@ -29,12 +29,3 @@ class Command(BaseCommand):
         file.write(content)
 
         db.accessor.upload_data_file("new-releases.rdf", repo_name=db.repo_name)
-
-        query = """
-        SELECT ?s ?p ?o
-        WHERE {
-            ?s ?p ?o .
-        }"""
-
-        payload_query = {"query": query}
-        print(db.accessor.sparql_select(body=payload_query, repo_name=db.repo_name))

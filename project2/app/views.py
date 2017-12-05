@@ -27,8 +27,6 @@ def home(request):
     for new in new_releases:
         news += [new["name"]["value"]]
 
-    new_releases = zip(news,images)
-
     try:
         """Verify if the user is logged in"""
         if request.COOKIES.get("SpotifyToken"):
@@ -43,7 +41,7 @@ def home(request):
                 {
                     'username': r["display_name"],
                     'photo': r["images"][0]["url"],
-                    'artists': new_releases
+                    'new_releases': zip(news,images)
                 }
             )
 
@@ -52,29 +50,12 @@ def home(request):
             'app/index.html',
             {
                 'username': "",
-                'artists': new_releases
+                'new_releases': zip(news,images)
             }
         )
 
     except:
         return HttpResponseRedirect("/spotify_logout/")
-                'username': r["display_name"],
-                'photo': r["images"][0]["url"],
-                'new_releases': zip(news,images)
-            }
-        )
-
-    return render(
-        request,
-        'app/index.html',
-        {
-            'username': "",
-            'new_releases': new_releases
-        }
-    )
-
-    #except:
-    #    return HttpResponseRedirect("/spotify_logout/")
 
 
 def new_releases(request):

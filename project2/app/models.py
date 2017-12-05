@@ -39,6 +39,3 @@ class Database:
         return (data["results"]["bindings"])[0:10]
 
 
-    def recent_played_by_user(self):
-
-

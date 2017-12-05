@@ -2,17 +2,17 @@
 {% load staticfiles %}
 
 {% block content %}
-<div style="padding-top: 20px" class="container body-content">
+<div style="padding-top: 50px" class="container body-content">
     <div>
-        <h1>New Releases</h1>
+        <h1>New Albums and Singles</h1>
         <div class="row">
-            {% for artist,image in new_releases %}
+            {% for name,image in new_releases %}
                 <div class="col-sm-3">
                     <div class="card">
                         <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
                              src="{{ image }}" alt="Card image">
                         <div class="card-body">
-                            <h6 class="card-title"> {{ artist }} </h6>
+                            <h6 class="card-title"> {{ name }} </h6>
                             <a href="#" class="card-text badge badge-pill badge-secondary ">Songs</a>
                         </div>
                     </div>

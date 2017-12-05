@@ -45,7 +45,7 @@
                 <xsl:for-each select="album">
                     <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
                     <spot:album>
-                        <rdf:Description rdf:about="http://www.new-releases.com/image/{$items}/{$id}">
+                        <rdf:Description rdf:about="http://www.new-releases.com/album/{$items}/{$id}">
                             <foaf:href><xsl:value-of select="href"/></foaf:href>
                             <spot:id><xsl:value-of select="id"/></spot:id>
                             <spot:album_type><xsl:value-of select="album_type"/></spot:album_type>

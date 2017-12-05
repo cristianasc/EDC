@@ -59,6 +59,7 @@ def home(request):
 
 
 def new_releases(request):
+    db = Database()
     scope = "user-library-read"
     client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
                                               client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
@@ -72,11 +73,7 @@ def new_releases(request):
         sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
         return redirect(authorize_url)
 
-    headers = {"Authorization": "Bearer " + token["access_token"]}
-    r = requests.get('https://api.spotify.com/v1/browse/new-releases', headers=headers)
-    xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
-    file = open("new-releases.xml", "w")
-    file.write(xmlString)
+    db.new_releases(token)
 
     return render(
         request,
@@ -88,6 +85,7 @@ def new_releases(request):
 
 
 def top_tracks(request):
+    db = Database()
     scope = "user-top-read"
     client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
                                               client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
@@ -101,12 +99,7 @@ def top_tracks(request):
         sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
         return redirect(authorize_url)
 
-    headers = {"Authorization": "Bearer " + token["access_token"]}
-    r = requests.get('https://api.spotify.com/v1/me/top/tracks', headers=headers)
-    xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
-    print(xmlString)
-    file = open("top-tracks.xml", "w")
-    file.write(xmlString)
+    db.top_tracks(token)
 
     return render(
         request,

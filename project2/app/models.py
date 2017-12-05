@@ -1,3 +1,4 @@
+import xmltodict
 from s4api.graphdb_api import GraphDBApi
 from s4api.swagger import ApiClient
 import json, requests
@@ -10,6 +11,24 @@ class Database:
         self.client = ApiClient(endpoint=self.endpoint)
         self.accessor = GraphDBApi(self.client)
 
+    """api queries"""
+
+    def new_releases(self, token):
+        headers = {"Authorization": "Bearer " + token["access_token"]}
+        r = requests.get('https://api.spotify.com/v1/browse/new-releases', headers=headers)
+        xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
+        file = open("new-releases.xml", "w")
+        file.write(xmlString)
+
+    def top_tracks(self, token):
+        headers = {"Authorization": "Bearer " + token["access_token"]}
+        r = requests.get('https://api.spotify.com/v1/me/top/tracks', headers=headers)
+        xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
+        print(xmlString)
+        file = open("top-tracks.xml", "w")
+        file.write(xmlString)
+
+    """database queries"""
     def get_new_releases(self):
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>

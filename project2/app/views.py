@@ -191,7 +191,14 @@ def login(request):
         }
     )
 
-
+def artist(request):
+    return render(
+        request,
+        'app/artistBio.html',
+        {
+            'data': ""
+        }
+    )
 def register(request):
     assert isinstance(request, HttpRequest)
 

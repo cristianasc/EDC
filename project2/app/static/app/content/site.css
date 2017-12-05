@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 70px;
+    padding-top: 30px;
     padding-bottom: 50px;
 }
 
@@ -14,6 +14,19 @@ div.card-header{
 
 a.card-link{
     color: #000000;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.jumbotron {
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: lighten;
+    height: 300px;
+
 }
 /* styles for validation helpers */
 .field-validation-error {

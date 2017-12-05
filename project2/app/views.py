@@ -16,7 +16,8 @@ import xmltodict
 def home(request):
     db = Database()
     new_releases = db.get_new_releases()
-    print(new_releases)
+    url_new_releases_images = db.get_new_releases_image()
+    print(url_new_releases_images)
 
     #try:
     """Verify if the user is logged in"""

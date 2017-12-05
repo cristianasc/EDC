@@ -22,3 +22,17 @@ class Database:
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
         return (data["results"]["bindings"])[0:10]
 
+    def get_new_releases_image(self):
+        query = """
+                PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                PREFIX spot: <http://new-releases.org/pred/>
+                SELECT ?name ?url
+                WHERE {
+                    ?p spot:image ?name .
+                    ?name foaf:url ?url .
+                }"""
+
+        payload_query = {"query": query}
+        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
+        return (data["results"]["bindings"])[0:10]
+

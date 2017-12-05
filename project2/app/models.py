@@ -106,7 +106,7 @@ class Database:
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
                 PREFIX spot: <http://top-tracks.org/pred/>
-                SELECT ?nameartist
+                SELECT ?name ?nameartist
                 WHERE {
                     ?p foaf:name_track ?name .
                     ?p spot:artists ?artists .

@@ -45,8 +45,9 @@
                 </xsl:for-each>
 
                 <xsl:for-each select="images">
+                    <xsl:variable name="size"><xsl:value-of select="width"/></xsl:variable>
                     <spot:image>
-                        <rdf:Description rdf:about="http://www.new-releases.com/image/{$items}">
+                        <rdf:Description rdf:about="http://www.new-releases.com/image/{$items}/{$size}">
                             <foaf:url><xsl:value-of select="url"/></foaf:url>
                             <spot:width><xsl:value-of select="width"/></spot:width>
                             <spot:height><xsl:value-of select="height"/></spot:height>

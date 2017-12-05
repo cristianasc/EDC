@@ -2,49 +2,60 @@
 <html>
 <head>
     {% load staticfiles %}
-<!-- Required meta tags -->
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Spotify</title>
-    <link rel="icon" type="image/x-icon" href="{% static 'app/images/spotify.ico' %}" />
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/images/spotify.ico' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/font-awesome.css' %}" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/x-icon" href="{% static 'app/images/spotify.ico' %}"/>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'app/images/spotify.ico' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/font-awesome.css' %}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
 
 </head>
 
+
 <body style="background-color: whitesmoke">
 
-    <nav class="navbar navbar-toggleable-md navbar-dark bg-dark fixed-top">
-        <div class="container">
-      <a style="padding-right: 5px" href="{% url 'home' %}" class="navbar-brand">Home</a>
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+
+
+<nav class="navbar navbar-toggleable-md navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a style="padding-right: 5px" href="{% url 'home' %}" class="navbar-brand">Home</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
                 <a class="nav-link" href="#">Statistics</a>
-              </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="text" placeholder="Search">
-              <button class="btn btn-secondary my-2 my-sm-0" type="button">Search</button>
-            </form>
-            {% include 'app/loginpartial.html' %}
-        </div>
-    </nav>
-
-
-    <div>
-
-    {% block content %}{% endblock %}
-
-            <footer class="container body-content">
-                 <hr/>
-                <p>&copy; 2017 EDC - Cristiana Carvalho, Daniela Simões, Domingos Nunes</p>
-            </footer>
+            </li>
+        </ul>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'user_account' %}">My Account</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-secondary my-2 my-sm-0" type="button">Search</button>
+        </form>
+        {% include 'app/loginpartial.html' %}
     </div>
+</nav>
 
+<div>
+
+     {% block content %}{% endblock %}
+
+    <footer class="container body-content">
+        <hr/>
+        <p>&copy; 2017 EDC - Cristiana Carvalho, Daniela Simões, Domingos Nunes</p>
+    </footer>
+</div>
 
 
 {% block scripts %}{% endblock %}

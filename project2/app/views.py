@@ -19,35 +19,35 @@ def home(request):
     url_new_releases_images = db.get_new_releases_image()
     print(url_new_releases_images)
 
-    #try:
-    """Verify if the user is logged in"""
-    if request.COOKIES.get("SpotifyToken"):
-        token = request.COOKIES.get("SpotifyToken")
-        headers = {"Authorization": "Bearer " + token}
-        r = requests.get('https://api.spotify.com/v1/me', headers=headers)
-        r = json.loads(r.text)
+    try:
+        """Verify if the user is logged in"""
+        if request.COOKIES.get("SpotifyToken"):
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            r = json.loads(r.text)
+
+            return render(
+                request,
+                'app/index.html',
+                {
+                    'username': r["display_name"],
+                    'photo': r["images"][0]["url"],
+                    'artists': new_releases
+                }
+            )
 
         return render(
             request,
             'app/index.html',
             {
-                'username': r["display_name"],
-                'photo': r["images"][0]["url"],
+                'username': "",
                 'artists': new_releases
             }
         )
 
-    return render(
-        request,
-        'app/index.html',
-        {
-            'username': "",
-            'artists': new_releases
-        }
-    )
-
-    #except:
-    #    return HttpResponseRedirect("/spotify_logout/")
+    except:
+        return HttpResponseRedirect("/spotify_logout/")
 
 
 def new_releases(request):
@@ -244,6 +244,41 @@ def spotify_login(request):
             return response
         else:
             return HttpResponseRedirect(authorize_url)
+
+
+def user_account(request):
+
+    try:
+
+        """Verify if the user is logged in"""
+        if request.COOKIES.get("SpotifyToken"):
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            r = json.loads(r.text)
+            print(r)
+
+            return render(
+                request,
+                'app/account.html',
+                {
+                    'username': r["display_name"],
+                    'photo': r["images"][0]["url"],
+                    'followers': r["followers"]["total"],
+                    'id': r["id"]
+                }
+            )
+
+        return render(
+            request,
+            'app/account.html',
+            {
+                'username': "",
+            }
+        )
+
+    except:
+        return HttpResponseRedirect("/spotify_logout/")
 
 
 def spotify_logout(request):

@@ -31,4 +31,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^artist/', app.views.artist, name='artist'),
+    url(r'^account/', app.views.user_account, name='user_account'),
 ]

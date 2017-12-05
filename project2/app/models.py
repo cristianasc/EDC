@@ -1,6 +1,6 @@
 from s4api.graphdb_api import GraphDBApi
 from s4api.swagger import ApiClient
-import json
+import json, requests
 
 
 class Database:
@@ -37,4 +37,8 @@ class Database:
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
         return (data["results"]["bindings"])[0:10]
+
+
+    def recent_played_by_user(self):
+
 

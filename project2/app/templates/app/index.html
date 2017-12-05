@@ -23,11 +23,11 @@
     <div style="padding-top: 30px">
         <h1>Top Tracks</h1>
         <div class="row">
-            {% for name in top_tracks %}
+            {% for name, image in top_tracks %}
                 <div class="col-sm-3">
                     <div class="card">
                         <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
-                             src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
+                             src="{{ image }}" alt="Card image">
                         <div class="card-body">
                             <h6 class="card-title">{{ name }}</h6>
                             <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>

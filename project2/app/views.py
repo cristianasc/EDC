@@ -17,11 +17,12 @@ def home(request):
     db = Database()
     new_releases = db.get_new_releases()
     url_new_releases_images = db.get_new_releases_image()
-    top_tracks = db.get_top_tracks_name()
+    top_tracks = db.get_top_tracks()
 
     images = []
     news = []
     toptracks_names = []
+    toptracks_images = []
 
     for image in url_new_releases_images:
         images += [image["url"]["value"]]
@@ -31,6 +32,7 @@ def home(request):
 
     for toptracks_name in top_tracks:
         toptracks_names += [toptracks_name["name"]["value"]]
+        toptracks_images += [toptracks_name["src"]["value"]]
 
 
     #try:
@@ -48,7 +50,7 @@ def home(request):
                 'username': r["display_name"],
                 'photo': r["images"][0]["url"],
                 'new_releases': zip(news,images),
-                'top-tracks': toptracks_names
+                'top_tracks': zip(toptracks_names,toptracks_images)
             }
         )
 
@@ -58,7 +60,7 @@ def home(request):
         {
             'username': "",
             'new_releases': zip(news,images),
-            'top_tracks': toptracks_names
+            'top_tracks': zip(toptracks_names,toptracks_images)
         }
     )
 

@@ -27,7 +27,16 @@ class Database:
         file = open("new-releases.rdf", "w")
         file.write(content)
 
+        dom = ET.parse("top-tracks.xml")
+        xslt = ET.parse("top-tracks.xslt")
+        transform = ET.XSLT(xslt)
+        newdom = transform(dom)
+        content = ET.tostring(newdom, pretty_print=False).decode()
+        file = open("top-tracks.rdf", "w")
+        file.write(content)
+
         self.accessor.upload_data_file("new-releases.rdf", repo_name=self.repo_name)
+        self.accessor.upload_data_file("top-tracks.rdf", repo_name=self.repo_name)
 
     """api queries"""
 

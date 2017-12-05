@@ -27,9 +27,11 @@ class Database:
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
                 PREFIX spot: <http://new-releases.org/pred/>
                 SELECT ?name ?url
-                WHERE {
+                WHERE
+                    {
                     ?p spot:image ?name .
                     ?name foaf:url ?url .
+                    filter regex(str(?name), "300" )
                 }"""
 
         payload_query = {"query": query}

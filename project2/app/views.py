@@ -10,7 +10,6 @@ import requests
 import json
 from wikidata.client import Client
 import ssl
-import xmltodict
 
 
 def home(request):
@@ -268,37 +267,38 @@ def spotify_login(request):
 
 def user_account(request):
 
-    try:
+    #try:
+    """Verify if the user is logged in"""
+    if request.COOKIES.get("SpotifyToken"):
+        token = request.COOKIES.get("SpotifyToken")
+        headers = {"Authorization": "Bearer " + token}
+        r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+        r = json.loads(r.text)
+        Database().recently_played_by_user(token)
 
-        """Verify if the user is logged in"""
-        if request.COOKIES.get("SpotifyToken"):
-            token = request.COOKIES.get("SpotifyToken")
-            headers = {"Authorization": "Bearer " + token}
-            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
-            r = json.loads(r.text)
-            print(r)
-
-            return render(
-                request,
-                'app/account.html',
-                {
-                    'username': r["display_name"],
-                    'photo': r["images"][0]["url"],
-                    'followers': r["followers"]["total"],
-                    'id': r["id"]
-                }
-            )
 
         return render(
             request,
             'app/account.html',
             {
-                'username': "",
+                'username': r["display_name"],
+                'photo': r["images"][0]["url"],
+                'followers': r["followers"]["total"],
+                'id': r["id"],
+                'external_urls': r["external_urls"]["spotify"]
             }
         )
 
-    except:
-        return HttpResponseRedirect("/spotify_logout/")
+    return render(
+        request,
+        'app/account.html',
+        {
+            'username': "",
+        }
+    )
+
+    #except:
+    #    return HttpResponseRedirect("/spotify_logout/")
 
 
 def spotify_logout(request):

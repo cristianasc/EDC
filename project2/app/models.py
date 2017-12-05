@@ -68,7 +68,6 @@ class Database:
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
         return ((data["results"]["bindings"]))
 
-
     def get_new_releases_image(self):
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
@@ -84,7 +83,6 @@ class Database:
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
         return ((data["results"]["bindings"]))
-
 
     def get_top_tracks(self):
         query = """
@@ -116,5 +114,25 @@ class Database:
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
         return ((data["results"]["bindings"]))
+
+    def recently_played_by_user(self, token):
+        headers = {"Authorization": "Bearer " + token["access_token"]}
+        r = requests.get('https://api.spotify.com/v1/me/player/recently-played', headers=headers)
+        xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
+        print(xmlString)
+        file = open("recently-played-by-user.xml", "w")
+        file.write(xmlString)
+
+    def get_recently_played_by_user(self):
+        query = """
+                        PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                        SELECT ?name
+                        WHERE {
+                        ?p foaf:name_track ?name .
+                        }"""
+
+        payload_query = {"query": query}
+        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
+        return ((data["results"]["bindings"])[0:10])
 
 

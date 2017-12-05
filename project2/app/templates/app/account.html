@@ -9,17 +9,17 @@
                 <img class="card-img-top" src={{ photo }} alt="Card image cap">
                 <div class="card-block">
                     </br>
-                    <center><h5 class="card-title align-content-between">{{ username }}</h5></center>
+                    <center><h5 class="card-title align-content-between"><i class="fa fa-spotify" aria-hidden="true" style="color: #4cae4c"></i> {{ username }} Account </h5></center>
                     <p class="card-text">
                     <ul style="list-style-type: none;">
-                        <li>Birthday: {{ birthdate }}</li>
-                        <li>Country: {{ country }}</li>
-                        <li>Followers: {{ followers }}</li>
-                        <li>Username: {{ id }}</li>
+                        <li><i class="fa fa-birthday-cake" aria-hidden="true" style="color: #4cae4c"></i> Birthday: {{ birthdate }}</li>
+                        <li><i class="fa fa-globe" aria-hidden="true" style="color: #4cae4c"></i> Country: {{ country }}</li>
+                        <li><i class="fa fa-users" aria-hidden="true" style="color: #4cae4c"></i> Followers: {{ followers }}</li>
+                        <li><i class="fa fa-user" aria-hidden="true" style="color: #4cae4c"></i> Username: {{ id }}</li>
 
                     </ul>
                     </p>
-                    <a href={{ external_urls }} class="btn btn-toolbar" target="_blank">My spotify page</a>
+                    <a href={{ external_urls }} class="btn btn-toolbar" target="_blank" style="color: #4cae4c">My spotify page</a>
                 </div>
             </div>
         </div>

@@ -15,6 +15,7 @@ import xmltodict
 
 def home(request):
     db = Database()
+    db.get_new_releases()
 
     try:
         """Verify if the user is logged in"""

@@ -40,8 +40,8 @@ class Database:
         transform = ET.XSLT(xslt)
         newdom = transform(dom)
         content = ET.tostring(newdom, pretty_print=False).decode()
-        file = open("recently-played-by-user.rdf", "w")
-        file.write(content)
+        #file = open("recently-played-by-user.rdf", "w")
+        #file.write(content)
 
         self.accessor.upload_data_file("new-releases.rdf", repo_name=self.repo_name)
         self.accessor.upload_data_file("top-tracks.rdf", repo_name=self.repo_name)

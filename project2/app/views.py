@@ -290,7 +290,9 @@ def user_account(request):
                     'photo': r["images"][0]["url"],
                     'followers': r["followers"]["total"],
                     'id': r["id"],
-                    'external_urls': r["external_urls"]["spotify"]
+                    'external_urls': r["external_urls"]["spotify"],
+                    'birthdate': r["birthdate"],
+                    'country': r["country"]
                 }
             )
 

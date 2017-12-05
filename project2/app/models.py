@@ -1,4 +1,4 @@
-import xmltodict
+import xmltodict, dicttoxml
 from s4api.graphdb_api import GraphDBApi
 from s4api.swagger import ApiClient
 import json, requests
@@ -35,6 +35,14 @@ class Database:
         file = open("top-tracks.rdf", "w")
         file.write(content)
 
+        dom = ET.parse("recently-played-by-user.xml")
+        xslt = ET.parse("recently-played-by-user.xslt")
+        transform = ET.XSLT(xslt)
+        newdom = transform(dom)
+        content = ET.tostring(newdom, pretty_print=False).decode()
+        file = open("recently-played-by-user.rdf", "w")
+        file.write(content)
+
         self.accessor.upload_data_file("new-releases.rdf", repo_name=self.repo_name)
         self.accessor.upload_data_file("top-tracks.rdf", repo_name=self.repo_name)
 
@@ -51,8 +59,14 @@ class Database:
         headers = {"Authorization": "Bearer " + token["access_token"]}
         r = requests.get('https://api.spotify.com/v1/me/top/tracks', headers=headers)
         xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
-        print(xmlString)
         file = open("top-tracks.xml", "w")
+        file.write(xmlString)
+
+    def recently_played_by_user(self, token):
+        headers = {"Authorization": "Bearer " + token}
+        r = requests.get('https://api.spotify.com/v1/me/player/recently-played', headers=headers)
+        xmlString = dicttoxml.dicttoxml(json.loads(r.text))
+        file = open("recently-played-by-user.xml", "wb")
         file.write(xmlString)
 
     """database queries"""
@@ -82,7 +96,7 @@ class Database:
 
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return ((data["results"]["bindings"]))
+        return data["results"]["bindings"]
 
     def get_top_tracks(self):
         query = """
@@ -113,15 +127,8 @@ class Database:
 
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return ((data["results"]["bindings"]))
+        return data["results"]["bindings"]
 
-    def recently_played_by_user(self, token):
-        headers = {"Authorization": "Bearer " + token}
-        r = requests.get('https://api.spotify.com/v1/me/player/recently-played', headers=headers)
-        xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
-        print(xmlString)
-        file = open("recently-played-by-user.xml", "w")
-        file.write(xmlString)
 
     def get_recently_played_by_user(self):
         query = """

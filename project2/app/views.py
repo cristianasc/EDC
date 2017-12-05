@@ -248,7 +248,7 @@ def register(request):
 def spotify_login(request):
     assert isinstance(request, HttpRequest)
 
-    scope = ""
+    scope = "user-read-private user-read-birthdate user-read-recently-played"
     client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
                                               client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
                                               redirect_uri='http://localhost:8000/spotify_login/')

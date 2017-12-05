@@ -16,7 +16,7 @@
 
     <xsl:template match="items">
             <xsl:variable name="items"><xsl:value-of select="id"/></xsl:variable>
-            <rdf:Description rdf:about="http://www.top-tracks.com/items/{$items}">
+            <rdf:Description rdf:about="http://www.recently-played-by-user.com/items/{$items}">
                 <foaf:name_track><xsl:value-of select="name"/></foaf:name_track>
                 <spot:type><xsl:value-of select="type"/></spot:type>
                 <spot:external_urls><xsl:value-of select="external_urls/spotify"/></spot:external_urls>
@@ -31,7 +31,7 @@
                 <xsl:for-each select="artists">
                     <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
                     <spot:artists>
-                        <rdf:Description rdf:about="http://www.top-tracks.com/artists/{$items}/{$id}">
+                        <rdf:Description rdf:about="http://www.new-releases.com/artists/{$items}/{$id}">
                             <foaf:name><xsl:value-of select="name"/></foaf:name>
                             <spot:external_urls_spotify><xsl:value-of select="external_urls/spotify"/></spot:external_urls_spotify>
                             <spot:href><xsl:value-of select="href"/></spot:href>
@@ -45,7 +45,7 @@
                 <xsl:for-each select="album">
                     <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
                     <spot:album>
-                        <rdf:Description rdf:about="http://www.top-tracks.com/album/{$items}/{$id}">
+                        <rdf:Description rdf:about="http://www.new-releases.com/album/{$items}/{$id}">
                             <foaf:href><xsl:value-of select="href"/></foaf:href>
                             <spot:id><xsl:value-of select="id"/></spot:id>
                             <spot:album_type><xsl:value-of select="album_type"/></spot:album_type>
@@ -56,7 +56,7 @@
                 <xsl:for-each select="album/images">
                     <xsl:variable name="size"><xsl:value-of select="width"/></xsl:variable>
                     <spot:image>
-                        <rdf:Description rdf:about="http://www.top-tracks.com/image/{$items}/{$size}">
+                        <rdf:Description rdf:about="http://www.new-releases.com/image/{$items}/{$size}">
                             <foaf:url><xsl:value-of select="url"/></foaf:url>
                             <spot:width><xsl:value-of select="width"/></spot:width>
                             <spot:height><xsl:value-of select="height"/></spot:height>

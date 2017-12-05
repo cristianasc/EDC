@@ -204,9 +204,13 @@ def register(request):
 
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
+
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/login/')
+        else:
+            # error
+            return render(request, 'app/register.html', {'form': form})
     else:
         form = RegistrationForm()
         return render(request, 'app/register.html', {'form': form})

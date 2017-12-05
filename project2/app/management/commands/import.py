@@ -12,6 +12,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         db = Database()
 
+        payload = {
+            "repositoryID": db.repo_name,
+            "label": "Spotify",
+            "ruleset": "owl-horst-optimized"
+        }
+
+        db.accessor.create_repository(body=payload)
+
         dom = ET.parse("new-releases.xml")
         xslt = ET.parse("new-releases.xslt")
         transform = ET.XSLT(xslt)
@@ -21,6 +29,3 @@ class Command(BaseCommand):
         file.write(content)
 
         db.accessor.upload_data_file("new-releases.rdf", repo_name=db.repo_name)
-
-        '''query = {"update": content}
-        db.accessor.sparql_update(body=query, repo_name=db.repo_name)'''

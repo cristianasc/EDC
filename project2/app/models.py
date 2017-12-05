@@ -66,7 +66,8 @@ class Database:
 
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return (data["results"]["bindings"])[0:]
+        return ((data["results"]["bindings"])[0:10])
+
 
     def get_new_releases_image(self):
         query = """
@@ -82,7 +83,7 @@ class Database:
 
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return (data["results"]["bindings"])[0:]
+        return ((data["results"]["bindings"])[0:10])
 
 
     def get_top_tracks_name(self):
@@ -95,6 +96,6 @@ class Database:
 
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return (data["results"]["bindings"])[0:]
+        return ((data["results"]["bindings"])[0:10])
 
 

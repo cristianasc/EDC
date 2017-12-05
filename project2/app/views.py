@@ -33,37 +33,37 @@ def home(request):
         toptracks_names += [toptracks_name["name"]["value"]]
 
 
-    try:
-        """Verify if the user is logged in"""
-        if request.COOKIES.get("SpotifyToken"):
-            token = request.COOKIES.get("SpotifyToken")
-            headers = {"Authorization": "Bearer " + token}
-            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
-            r = json.loads(r.text)
-
-            return render(
-                request,
-                'app/index.html',
-                {
-                    'username': r["display_name"],
-                    'photo': r["images"][0]["url"],
-                    'new_releases': zip(news,images),
-                    'top-tracks': toptracks_names
-                }
-            )
+    #try:
+    """Verify if the user is logged in"""
+    if request.COOKIES.get("SpotifyToken"):
+        token = request.COOKIES.get("SpotifyToken")
+        headers = {"Authorization": "Bearer " + token}
+        r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+        r = json.loads(r.text)
 
         return render(
             request,
             'app/index.html',
             {
-                'username': "",
+                'username': r["display_name"],
+                'photo': r["images"][0]["url"],
                 'new_releases': zip(news,images),
                 'top-tracks': toptracks_names
             }
         )
 
-    except:
-        return HttpResponseRedirect("/spotify_logout/")
+    return render(
+        request,
+        'app/index.html',
+        {
+            'username': "",
+            'new_releases': zip(news,images),
+            'top_tracks': toptracks_names
+        }
+    )
+
+    #except:
+    #    return HttpResponseRedirect("/spotify_logout/")
 
 
 def new_releases(request):

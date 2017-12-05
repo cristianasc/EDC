@@ -17,7 +17,17 @@ def home(request):
     db = Database()
     new_releases = db.get_new_releases()
     url_new_releases_images = db.get_new_releases_image()
-    print(url_new_releases_images)
+
+    images = []
+    news = []
+
+    for image in url_new_releases_images:
+        images += [image["url"]["value"]]
+
+    for new in new_releases:
+        news += [new["name"]["value"]]
+
+    new_releases = zip(news,images)
 
     try:
         """Verify if the user is logged in"""
@@ -48,6 +58,23 @@ def home(request):
 
     except:
         return HttpResponseRedirect("/spotify_logout/")
+                'username': r["display_name"],
+                'photo': r["images"][0]["url"],
+                'new_releases': zip(news,images)
+            }
+        )
+
+    return render(
+        request,
+        'app/index.html',
+        {
+            'username': "",
+            'new_releases': new_releases
+        }
+    )
+
+    #except:
+    #    return HttpResponseRedirect("/spotify_logout/")
 
 
 def new_releases(request):

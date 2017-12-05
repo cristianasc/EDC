@@ -6,13 +6,13 @@
     <div>
         <h1>New Releases</h1>
         <div class="row">
-            {% for artist in artists %}
+            {% for artist,image in new_releases %}
                 <div class="col-sm-3">
                     <div class="card">
                         <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
-                             src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
+                             src="{{ image }}" alt="Card image">
                         <div class="card-body">
-                            <h4 class="card-title"> {{ artist.name.value }} </h4>
+                            <h4 class="card-title"> {{ artist }} </h4>
                             <a href="#" class="card-text badge badge-pill badge-secondary ">Songs</a>
                         </div>
                     </div>

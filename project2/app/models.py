@@ -26,7 +26,7 @@ class Database:
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
                 PREFIX spot: <http://new-releases.org/pred/>
-                SELECT ?name ?url
+                SELECT ?url
                 WHERE
                     {
                     ?p spot:image ?name .

@@ -2,6 +2,7 @@ import xmltodict
 from s4api.graphdb_api import GraphDBApi
 from s4api.swagger import ApiClient
 import json, requests
+import lxml.etree as ET
 
 
 class Database:
@@ -10,6 +11,23 @@ class Database:
         self.repo_name = "Spotify"
         self.client = ApiClient(endpoint=self.endpoint)
         self.accessor = GraphDBApi(self.client)
+        payload = {
+            "repositoryID": self.repo_name,
+            "label": "Spotify",
+            "ruleset": "owl-horst-optimized"
+        }
+
+        self.accessor.create_repository(body=payload)
+
+        dom = ET.parse("new-releases.xml")
+        xslt = ET.parse("new-releases.xslt")
+        transform = ET.XSLT(xslt)
+        newdom = transform(dom)
+        content = ET.tostring(newdom, pretty_print=False).decode()
+        file = open("new-releases.rdf", "w")
+        file.write(content)
+
+        self.accessor.upload_data_file("new-releases.rdf", repo_name=self.repo_name)
 
     """api queries"""
 

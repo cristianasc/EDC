@@ -1,9 +1,6 @@
 from django.core.management.base import BaseCommand
 from app.models import Database
 import lxml.etree as ET
-from s4api.graphdb_api import GraphDBApi
-from s4api.swagger import ApiClient
-import urllib.request
 
 
 class Command(BaseCommand):

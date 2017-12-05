@@ -2,108 +2,89 @@
 {% load staticfiles %}
 
 {% block content %}
-    <div style="padding-top: 20px" class="container body-content">
-        <div>
-            <h1>Trending</h1>
-            <div class="row">
-              <div class="col-sm-3">
-                <div class="card">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
-                  <div class="card-body">
-                    <h4 class="card-title">Music Name (feat.xxx)</h4>
-                    <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="card">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
-                  <div class="card-body">
-                    <h4 class="card-title">Music Name (feat.xxx)</h4>
-                    <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-3">
-                <div class="card">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
-                  <div class="card-body">
-                    <h4 class="card-title">Music Name (feat.xxx)</h4>
-                    <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
-                  </div>
-                </div>
-              </div>
+<div style="padding-top: 20px" class="container body-content">
+    <div>
+        <h1>New Releases</h1>
+        <div class="row">
+            {% for artist in artists %}
                 <div class="col-sm-3">
-                   <div class="card">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
-                  <div class="card-body">
-                    <h4 class="card-title">Music Name (feat.xxx)</h4>
-                    <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
-                  </div>
+                    <div class="card">
+                        <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
+                             src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
+                        <div class="card-body">
+                            <h4 class="card-title"> {{ artist.name.value }} </h4>
+                            <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
+            {% endfor %}
         </div>
-        <div style="padding-top: 30px">
-           <h1>New Releases</h1>
-            <div class="row">
-              <div class="col-sm-3">
+    </div>
+    <div style="padding-top: 30px">
+        <h1>Trending</h1>
+        <div class="row">
+            <div class="col-sm-3">
                 <div class="card">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
-                  <div class="card-body">
-                    <h4 class="card-title">Music Name (feat.xxx)</h4>
-                    <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
-                  </div>
+                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
+                         src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">Music Name (feat.xxx)</h4>
+                        <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
+                    </div>
                 </div>
-              </div>
-              <div class="col-sm-3">
+            </div>
+            <div class="col-sm-3">
                 <div class="card">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
-                  <div class="card-body">
-                    <h4 class="card-title">Music Name (feat.xxx)</h4>
-                    <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
-                  </div>
+                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
+                         src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">Music Name (feat.xxx)</h4>
+                        <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
+                    </div>
                 </div>
-              </div>
-                          <div class="col-sm-3">
-               <div class="card">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
-                  <div class="card-body">
-                    <h4 class="card-title">Music Name (feat.xxx)</h4>
-                    <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
-                  </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
+                         src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">Music Name (feat.xxx)</h4>
+                        <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
+                    </div>
                 </div>
-              </div>
-                <div class="col-sm-3">
-                   <div class="card">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
-                  <div class="card-body">
-                    <h4 class="card-title">Music Name (feat.xxx)</h4>
-                    <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
-                  </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
+                         src="{% static 'app/images/nophoto.gif' %}" alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">Music Name (feat.xxx)</h4>
+                        <a href="#" class="card-text badge badge-pill badge-secondary ">Artists</a>
+                    </div>
                 </div>
-              </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-              <div class="modal-header">
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h4 class="modal-title" id="mySmallModalLabel">Music Name</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
+                    <span aria-hidden="true">×</span>
                 </button>
-              </div>
-              <div class="modal-body">
+            </div>
+            <div class="modal-body">
                 <p><b>Album:</b> None</p>
                 <p><b>Artistas:</b> None</p>
                 <p><b>Ano:</b> None</p>
                 <p><b>Editora:</b> None</p>
-              </div>
             </div>
         </div>
     </div>
+</div>
 
 {% endblock %}

@@ -1,5 +1,6 @@
 from s4api.graphdb_api import GraphDBApi
 from s4api.swagger import ApiClient
+import json
 
 
 class Database:
@@ -9,7 +10,6 @@ class Database:
         self.client = ApiClient(endpoint=self.endpoint)
         self.accessor = GraphDBApi(self.client)
 
-        """album's names"""
     def get_new_releases(self):
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
@@ -19,6 +19,6 @@ class Database:
                 }"""
 
         payload_query = {"query": query}
-        data = self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)
-        print(data)
+        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
+        return (data["results"]["bindings"])[0:10]
 

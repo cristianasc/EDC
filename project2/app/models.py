@@ -116,7 +116,7 @@ class Database:
         return ((data["results"]["bindings"]))
 
     def recently_played_by_user(self, token):
-        headers = {"Authorization": "Bearer " + token["access_token"]}
+        headers = {"Authorization": "Bearer " + token}
         r = requests.get('https://api.spotify.com/v1/me/player/recently-played', headers=headers)
         xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
         print(xmlString)

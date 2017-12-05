@@ -41,39 +41,40 @@ def home(request):
         tt_names += [top_tracks_artist["name"]["value"]]
         toptracks_artists += [top_tracks_artist["nameartist"]["value"]]
 
-    #try:
-    """Verify if the user is logged in"""
-    if request.COOKIES.get("SpotifyToken"):
-        token = request.COOKIES.get("SpotifyToken")
-        headers = {"Authorization": "Bearer " + token}
-        r = requests.get('https://api.spotify.com/v1/me', headers=headers)
-        r = json.loads(r.text)
+    try:
+        """Verify if the user is logged in"""
+        if request.COOKIES.get("SpotifyToken"):
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            r = json.loads(r.text)
+            print(r)
+
+            return render(
+                request,
+                'app/index.html',
+                {
+                    'username': r["display_name"],
+                    'photo': r["images"][0]["url"],
+                    'new_releases': zip(news,images),
+                    'top_tracks': zip(toptracks_names,toptracks_images),
+                    'artists':zip(toptracks_artists,tt_names)
+                }
+            )
 
         return render(
             request,
             'app/index.html',
             {
-                'username': r["display_name"],
-                'photo': r["images"][0]["url"],
+                'username': "",
                 'new_releases': zip(news,images),
                 'top_tracks': zip(toptracks_names,toptracks_images),
-                'artists':zip(toptracks_artists,tt_names)
+                'artists': zip(toptracks_artists,tt_names)
             }
         )
 
-    return render(
-        request,
-        'app/index.html',
-        {
-            'username': "",
-            'new_releases': zip(news,images),
-            'top_tracks': zip(toptracks_names,toptracks_images),
-            'artists': zip(toptracks_artists,tt_names)
-        }
-    )
-
-    #except:
-    #    return HttpResponseRedirect("/spotify_logout/")
+    except KeyError:
+        return HttpResponseRedirect("/spotify_logout/")
 
 
 def new_releases(request):
@@ -267,38 +268,39 @@ def spotify_login(request):
 
 def user_account(request):
 
-    #try:
-    """Verify if the user is logged in"""
-    if request.COOKIES.get("SpotifyToken"):
-        token = request.COOKIES.get("SpotifyToken")
-        headers = {"Authorization": "Bearer " + token}
-        r = requests.get('https://api.spotify.com/v1/me', headers=headers)
-        r = json.loads(r.text)
-        Database().recently_played_by_user(token)
+    try:
+        """Verify if the user is logged in"""
+        if request.COOKIES.get("SpotifyToken"):
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            r = json.loads(r.text)
+            print(r)
+            Database().recently_played_by_user(token)
 
+
+            return render(
+                request,
+                'app/account.html',
+                {
+                    'username': r["display_name"],
+                    'photo': r["images"][0]["url"],
+                    'followers': r["followers"]["total"],
+                    'id': r["id"],
+                    'external_urls': r["external_urls"]["spotify"]
+                }
+            )
 
         return render(
             request,
             'app/account.html',
             {
-                'username': r["display_name"],
-                'photo': r["images"][0]["url"],
-                'followers': r["followers"]["total"],
-                'id': r["id"],
-                'external_urls': r["external_urls"]["spotify"]
+                'username': "",
             }
         )
 
-    return render(
-        request,
-        'app/account.html',
-        {
-            'username': "",
-        }
-    )
-
-    #except:
-    #    return HttpResponseRedirect("/spotify_logout/")
+    except KeyError:
+        return HttpResponseRedirect("/spotify_logout/")
 
 
 def spotify_logout(request):

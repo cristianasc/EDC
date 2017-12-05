@@ -102,4 +102,19 @@ class Database:
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
         return ((data["results"]["bindings"]))
 
+    def get_top_tracks_artists(self):
+        query = """
+                PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                PREFIX spot: <http://top-tracks.org/pred/>
+                SELECT ?nameartist
+                WHERE {
+                    ?p foaf:name_track ?name .
+                    ?p spot:artists ?artists .
+                    ?artists foaf:name ?nameartist
+                }"""
+
+        payload_query = {"query": query}
+        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
+        return ((data["results"]["bindings"]))
+
 

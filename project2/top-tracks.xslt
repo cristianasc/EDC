@@ -17,7 +17,7 @@
     <xsl:template match="items">
             <xsl:variable name="items"><xsl:value-of select="id"/></xsl:variable>
             <rdf:Description rdf:about="http://www.new-releases.com/items/{$items}">
-                <foaf:name><xsl:value-of select="name"/></foaf:name>
+                <foaf:name_track><xsl:value-of select="name"/></foaf:name_track>
                 <spot:type><xsl:value-of select="type"/></spot:type>
                 <spot:external_urls><xsl:value-of select="external_urls/spotify"/></spot:external_urls>
                 <spot:id><xsl:value-of select="id"/></spot:id>

@@ -17,15 +17,21 @@ def home(request):
     db = Database()
     new_releases = db.get_new_releases()
     url_new_releases_images = db.get_new_releases_image()
+    top_tracks = db.get_top_tracks_name()
 
     images = []
     news = []
+    toptracks_names = []
 
     for image in url_new_releases_images:
         images += [image["url"]["value"]]
 
     for new in new_releases:
         news += [new["name"]["value"]]
+
+    for toptracks_name in top_tracks:
+        toptracks_names += [toptracks_name["name"]["value"]]
+
 
     try:
         """Verify if the user is logged in"""
@@ -41,7 +47,8 @@ def home(request):
                 {
                     'username': r["display_name"],
                     'photo': r["images"][0]["url"],
-                    'new_releases': zip(news,images)
+                    'new_releases': zip(news,images),
+                    'top-tracks': toptracks_names
                 }
             )
 
@@ -50,7 +57,8 @@ def home(request):
             'app/index.html',
             {
                 'username': "",
-                'new_releases': zip(news,images)
+                'new_releases': zip(news,images),
+                'top-tracks': toptracks_names
             }
         )
 

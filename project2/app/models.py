@@ -85,3 +85,16 @@ class Database:
         return (data["results"]["bindings"])[0:]
 
 
+    def get_top_tracks_name(self):
+        query = """
+                PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                SELECT ?name 
+                WHERE {
+                ?p foaf:name_track ?name .
+                }"""
+
+        payload_query = {"query": query}
+        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
+        return (data["results"]["bindings"])[0:]
+
+

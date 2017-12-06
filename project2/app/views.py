@@ -10,6 +10,7 @@ import requests
 import json
 from wikidata.client import Client
 import ssl
+import ast
 
 
 def home(request):
@@ -94,25 +95,18 @@ def artist(request,id):
         if request.COOKIES.get("SpotifyToken"):
             token = request.COOKIES.get("SpotifyToken")
             headers = {"Authorization": "Bearer " + token}
-            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            r = requests.get('https://api.spotify.com/v1/artists/'+id, headers=headers)
             r = json.loads(r.text)
 
-            a = requests.get('https://api.spotify.com/v1/artists/'+id, headers=headers)
-            a = json.loads(a.text)
-
-            name= a["name"]
-            image= a["images"][0]["url"]
-            followers= a["followers"]["total"]
+            wikidata("")
 
             return render(
                 request,
                 'app/artistBio.html',
                 {
-                    'username': r["display_name"],
-                    'photo': r["images"][0]["url"],
-                    'name': name,
-                    'image': image,
-                    'followers': followers,
+                    'name': r["name"],
+                    'image': r["images"][0]["url"],
+                    'followers': r["followers"]["total"],
                 }
             )
 
@@ -123,6 +117,7 @@ def artist(request,id):
                 'username': "",
             }
         )
+
 
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
@@ -360,16 +355,18 @@ def spotify_logout(request):
     return response
 
 
-def wikidata(request):
+def wikidata(search_name):
 
     """
         Override the SSL verification
     """
     ssl._create_default_https_context = ssl._create_unverified_context
+    search_name = "Justin Bieber"
     client = Client()
-    search_name = "Miley Cyrus" #only an example
     search = client.request("w/api.php?action=wbsearchentities&search="+search_name.replace(" ", "%20")+"&format=json&language=en&uselang=en&type=item")
     first_result = search["search"][0]
-    entity = client.get(first_result["id"], load=True)
 
-    # return will be defined later
+    if not 'singer' in first_result["description"]:
+        exit(0)
+
+    entity = client.get(first_result["id"], load=True)

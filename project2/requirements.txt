@@ -5,3 +5,4 @@ lxml
 spotipy
 graphdb
 s4api
+SPARQLWrapper

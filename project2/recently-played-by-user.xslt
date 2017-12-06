@@ -48,10 +48,10 @@
                     </spot:artists>
                 </xsl:for-each>
 
-                <xsl:for-each select="album">
+                <xsl:for-each select="track/album">
                     <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
                     <spot:album>
-                        <rdf:Description rdf:about="http://www.recently-played-by-user.com/album/{$items}/{$id}">
+                        <rdf:Description rdf:about="http://www.recently-played-by-user.com/album/{$item}/{$id}">
                             <foaf:href><xsl:value-of select="href"/></foaf:href>
                             <spot:name_album><xsl:value-of select="name"/></spot:name_album>
                             <spot:id><xsl:value-of select="id"/></spot:id>
@@ -60,10 +60,10 @@
                     </spot:album>
                 </xsl:for-each>
 
-                <xsl:for-each select="album/images">
+                <xsl:for-each select="track/album/images/item">
                     <xsl:variable name="size"><xsl:value-of select="width"/></xsl:variable>
                     <spot:image>
-                        <rdf:Description rdf:about="http://www.recently-played-by-user.com/image/{$items}/{$size}">
+                        <rdf:Description rdf:about="http://www.recently-played-by-user.com/image/{$item}/{$size}">
                             <foaf:url><xsl:value-of select="url"/></foaf:url>
                             <spot:width><xsl:value-of select="width"/></spot:width>
                             <spot:height><xsl:value-of select="height"/></spot:height>
@@ -71,8 +71,8 @@
                     </spot:image>
                 </xsl:for-each>
 
-                <xsl:for-each select="album/artists">
-                    <xsl:variable name="size"><xsl:value-of select="width"/></xsl:variable>
+                <xsl:for-each select="track/album/artists">
+                    <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
                     <spot:artists_album>
                         <rdf:Description rdf:about="http://www.recently-played-by-user.com/artists/{$item}/{$id}">
                             <foaf:name><xsl:value-of select="name"/></foaf:name>

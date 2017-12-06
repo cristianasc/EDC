@@ -45,9 +45,9 @@ class Database:
 
         self.accessor.upload_data_file("new-releases.rdf", repo_name=self.repo_name)
         self.accessor.upload_data_file("top-tracks.rdf", repo_name=self.repo_name)
+        self.accessor.upload_data_file("recently-played-by-user.rdf", repo_name=self.repo_name)
 
     """api queries"""
-
     def new_releases(self, token):
         headers = {"Authorization": "Bearer " + token["access_token"]}
         r = requests.get('https://api.spotify.com/v1/browse/new-releases', headers=headers)
@@ -138,17 +138,22 @@ class Database:
         return data["results"]["bindings"]
 
 
-    def get_recently_played_by_user(self):
-        query = """
-                        PREFIX foaf: <http://xmlns.com/foaf/spec/>
-                        SELECT ?name
-                        WHERE {
-                        ?p foaf:name_track ?name .
-                        }"""
+    def get_recently_played_preview(self):
+        query = """PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                    PREFIX spot: <http://recently-played-by-user.org/pred/>
+                    SELECT ?name ?href30sec ?image
+                    WHERE { 
+                        ?p spot:track ?track .
+                        ?track spot:preview_url ?href30sec . 
+                        ?track foaf:name ?name .
+                        ?p spot:image ?url .
+                        ?url foaf:url ?image .
+                        filter regex(str(?url), "300" )
+                    }"""
 
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return ((data["results"]["bindings"])[0:10])
+        return ((data["results"]["bindings"]))
 
     def get_artist_by_id(self):
         query = """
@@ -160,6 +165,6 @@ class Database:
 
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return ((data["results"]["bindings"])[0:10])
+        return ((data["results"]["bindings"]))
 
 

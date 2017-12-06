@@ -43,19 +43,18 @@ class Database:
         file = open("recently-played-by-user.rdf", "w")
         file.write(content)
 
-        dom = ET.parse("artists.xml")
+        self.accessor.upload_data_file("new-releases.rdf", repo_name=self.repo_name)
+        self.accessor.upload_data_file("top-tracks.rdf", repo_name=self.repo_name)
+        self.accessor.upload_data_file("recently-played-by-user.rdf", repo_name=self.repo_name)
+
+    def parse_artists(self, artist):
+        artist = bytes(bytearray(artist, encoding='utf-8'))
+        dom = ET.fromstring(artist)
         xslt = ET.parse("artists.xslt")
         transform = ET.XSLT(xslt)
         newdom = transform(dom)
         content = ET.tostring(newdom, pretty_print=False).decode()
-        file = open("artists.rdf", "w")
-        file.write(content)
-
-        self.accessor.upload_data_file("new-releases.rdf", repo_name=self.repo_name)
-        self.accessor.upload_data_file("top-tracks.rdf", repo_name=self.repo_name)
-        self.accessor.upload_data_file("recently-played-by-user.rdf", repo_name=self.repo_name)
-        self.accessor.upload_data_file("artists.rdf", repo_name=self.repo_name)
-
+        return content
 
     """api queries"""
     def new_releases(self, token):
@@ -76,15 +75,14 @@ class Database:
         headers = {"Authorization": "Bearer " + token}
         r = requests.get('https://api.spotify.com/v1/me/player/recently-played', headers=headers)
         xmlString = dicttoxml.dicttoxml(json.loads(r.text))
-        file = open("recently-played-by-user.xml", "wb")
+        file = open("recently-played-by-user.xml", "w")
         file.write(xmlString)
 
     def getArtist(self, token, artist):
         headers = {"Authorization": "Bearer " + token}
         r = requests.get('https://api.spotify.com/v1/search?q='+artist+'&type=artist', headers=headers)
         xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
-        file = open("artists.xml", "w")
-        file.write(xmlString)
+        return xmlString
 
     """database queries"""
     def get_new_releases(self):

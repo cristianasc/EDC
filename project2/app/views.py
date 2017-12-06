@@ -66,9 +66,24 @@ def home(request):
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
 
+def search_artist(request,artist):
+    db = Database()
+
+    token = request.COOKIES.get("SpotifyToken")
+
+    xmlString = db.getArtist(token,artist)
+    rdfartists = db.parse_artists(xmlString)
+    print(rdfartists)
+
+    return render(
+        request,
+        'app/index.html',
+        {
+            'data': ""
+        }
+    )
 
 def artist(request,id):
-
     try:
         """Verify if the user is logged in"""
         if request.COOKIES.get("SpotifyToken"):
@@ -83,7 +98,6 @@ def artist(request,id):
             name= a["name"]
             image= a["images"][0]["url"]
             followers= a["followers"]["total"]
-
 
             return render(
                 request,

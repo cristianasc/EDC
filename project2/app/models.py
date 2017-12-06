@@ -138,7 +138,7 @@ class Database:
         return data["results"]["bindings"]
 
 
-    def get_recently_played_preview(self):
+    def get_recently_played_by_user(self):
         query = """PREFIX foaf: <http://xmlns.com/foaf/spec/>
                     PREFIX spot: <http://recently-played-by-user.org/pred/>
                     SELECT ?name ?href30sec ?image ?artists

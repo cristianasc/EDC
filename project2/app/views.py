@@ -18,7 +18,7 @@ def home(request):
     url_new_releases_images = db.get_new_releases_image()
     top_tracks = db.get_top_tracks()
     top_tracks_artists = db.get_top_tracks_artists()
-
+    recently_played_by_user = db.get_recently_played_by_user()
 
     images = []
     news = []

@@ -34,7 +34,7 @@
                     </spot:track>
                 </xsl:for-each>
 
-                <xsl:for-each select="artists/item">
+                <xsl:for-each select="track/artists/item">
                     <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
                     <spot:artists>
                         <rdf:Description rdf:about="http://www.recently-played-by-user.com/artists/{$item}/{$id}">

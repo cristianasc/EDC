@@ -69,6 +69,13 @@ class Database:
         file = open("recently-played-by-user.xml", "wb")
         file.write(xmlString)
 
+    def getArtist(self, token, id):
+        headers = {"Authorization": "Bearer " + token}
+        r = requests.get('https://api.spotify.com/v1/artists/'+id, headers=headers)
+        xmlString = dicttoxml.dicttoxml(json.loads(r.text))
+        file = open("artist.xml", "wb")
+        file.write(xmlString)
+
     """database queries"""
     def get_new_releases(self):
         query = """
@@ -118,11 +125,12 @@ class Database:
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
                 PREFIX spot: <http://top-tracks.org/pred/>
-                SELECT ?name ?nameartist
+                SELECT ?name ?nameartist ?id
                 WHERE {
                     ?p foaf:name_track ?name .
                     ?p spot:artists ?artists .
-                    ?artists foaf:name ?nameartist
+                    ?artists foaf:name ?nameartist .
+                    ?artists spot:id ?id .
                 }"""
 
         payload_query = {"query": query}
@@ -136,6 +144,18 @@ class Database:
                         SELECT ?name
                         WHERE {
                         ?p foaf:name_track ?name .
+                        }"""
+
+        payload_query = {"query": query}
+        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
+        return ((data["results"]["bindings"])[0:10])
+
+    def get_artist_by_id(self):
+        query = """
+                        PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                        SELECT ?name
+                        WHERE {
+                        ?p foaf:name ?name .
                         }"""
 
         payload_query = {"query": query}

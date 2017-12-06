@@ -30,7 +30,6 @@ a.card-link{
 .jumbotron {
     background-size: cover;
     background-position: center;
-    background-blend-mode: lighten;
     height: 300px;
 
 }

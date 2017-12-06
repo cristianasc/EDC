@@ -26,6 +26,7 @@ def home(request):
     toptracks_images = []
     toptracks_artists = []
     tt_names = []
+    ids = []
 
     for image in url_new_releases_images:
         images += [image["url"]["value"]]
@@ -40,6 +41,8 @@ def home(request):
     for top_tracks_artist in top_tracks_artists:
         tt_names += [top_tracks_artist["name"]["value"]]
         toptracks_artists += [top_tracks_artist["nameartist"]["value"]]
+        ids += [top_tracks_artist["id"]["value"]]
+
 
     try:
         """Verify if the user is logged in"""
@@ -48,7 +51,6 @@ def home(request):
             headers = {"Authorization": "Bearer " + token}
             r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             r = json.loads(r.text)
-            print(r)
 
             return render(
                 request,
@@ -58,7 +60,7 @@ def home(request):
                     'photo': r["images"][0]["url"],
                     'new_releases': zip(news,images),
                     'top_tracks': zip(toptracks_names,toptracks_images),
-                    'artists':zip(toptracks_artists,tt_names)
+                    'artists':zip(toptracks_artists,tt_names,ids)
                 }
             )
 
@@ -69,7 +71,46 @@ def home(request):
                 'username': "",
                 'new_releases': zip(news,images),
                 'top_tracks': zip(toptracks_names,toptracks_images),
-                'artists': zip(toptracks_artists,tt_names)
+                'artists': zip(toptracks_artists,tt_names,ids)
+            }
+        )
+
+    except KeyError:
+        return HttpResponseRedirect("/spotify_logout/")
+
+def artist(request,id):
+    try:
+        """Verify if the user is logged in"""
+        if request.COOKIES.get("SpotifyToken"):
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            r = json.loads(r.text)
+
+            a = requests.get('https://api.spotify.com/v1/artists/'+id, headers=headers)
+            a = json.loads(a.text)
+
+
+
+            print(a)
+
+            return render(
+                request,
+                'app/artistBio.html',
+                {
+                    'username': r["display_name"],
+                    'photo': r["images"][0]["url"],
+                    'name': a["name"],
+                    'image': a["images"][0]["url"],
+                    'followers': a["followers"]["total"],
+                }
+            )
+
+        return render(
+            request,
+            'app/artistBio.html',
+            {
+                'username': "",
             }
         )
 
@@ -220,14 +261,6 @@ def login(request):
         }
     )
 
-def artist(request):
-    return render(
-        request,
-        'app/artistBio.html',
-        {
-            'data': ""
-        }
-    )
 def register(request):
     assert isinstance(request, HttpRequest)
 

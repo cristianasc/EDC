@@ -39,9 +39,10 @@
                 <a class="nav-link" href="{% url 'user_account' %}">My Account</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-            <button class="btn btn-secondary my-2 my-sm-0" type="button">Search</button>
+        <form class="form-inline my-2 my-lg-0" id="formsearch" method="post">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
         {% include 'app/loginpartial.html' %}
     </div>
@@ -51,7 +52,7 @@
 
      {% block content %}{% endblock %}
 
-    <footer class="container body-content fixed-bottom">
+    <footer class="container body-content fixed">
         <hr/>
         <p>&copy; 2017 EDC - Cristiana Carvalho, Daniela Simões, Domingos Nunes</p>
     </footer>

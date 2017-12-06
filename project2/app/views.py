@@ -29,6 +29,11 @@ def home(request):
     for new in new_releases:
         news += [new["name"]["value"]]
 
+    if request.method == 'POST':
+        artist = request.POST.get("search")
+        print(artist)
+        search_artist(request,artist)
+
     try:
         """Verify if the user is logged in"""
         if request.COOKIES.get("SpotifyToken"):
@@ -62,7 +67,7 @@ def home(request):
         return HttpResponseRedirect("/spotify_logout/")
 
 
-def artist(request, id):
+def search_artist(request,artist):
 
     try:
         """Verify if the user is logged in"""
@@ -70,10 +75,10 @@ def artist(request, id):
             token = request.COOKIES.get("SpotifyToken")
             headers = {"Authorization": "Bearer " + token}
 
-            a = requests.get('https://api.spotify.com/v1/artists/'+id, headers=headers)
-            a = json.loads(a.text)
+            a = requests.get('https://api.spotify.com/v1/search?q='+artist+'&type=artist', headers=headers)
 
-            print("a", a)
+            print(a.text)
+            a = json.loads(a.text)
 
             return render(
                 request,

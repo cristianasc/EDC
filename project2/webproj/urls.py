@@ -30,6 +30,6 @@ urlpatterns = [
     url(r'^register$', app.views.register, name='register'),
     url(r'^admin/', admin.site.urls),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
-    url(r'^artist/id=(?P<id>[\w-]+)/$', app.views.artist, name='artist'),
+    #url(r'^artist/id=(?P<id>[\w-]+)/$', app.views.artist, name='artist'),
     url(r'^account/', app.views.user_account, name='user_account'),
 ]

@@ -158,15 +158,32 @@ class Database:
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
         return ((data["results"]["bindings"]))
 
-    def get_artist_by_id(self):
+    def get_artist_info(self):
         query = """
-                        PREFIX foaf: <http://xmlns.com/foaf/spec/>
-                        SELECT ?name
-                        WHERE {
-                        ?p foaf:name ?name .
-                        }"""
+                PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                PREFIX spot: <http://artists.org/pred/>
+                SELECT ?name ?id ?image ?followers 
+                WHERE {
+                        ?p foaf:name_artist ?name .
+                        ?p spot:id ?id .
+                        ?p spot:followers ?followers .
+                        ?p spot:image ?url .
+                        ?url foaf:url ?image .
+                        filter regex(str(?url), "300" )
+                }"""
 
         payload_query = {"query": query}
+        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
+        return ((data["results"]["bindings"]))
+
+
+    def insert_artist(self):
+        update = """PREFIX spot: <http://artists.org/pred/>
+                    INSERT DATA{
+                            
+                         }
+                 """
+        payload_query = {"update": update}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
         return ((data["results"]["bindings"]))
 

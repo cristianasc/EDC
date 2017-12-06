@@ -68,38 +68,19 @@ def home(request):
 
 
 def search_artist(request,artist):
+    db = Database()
 
-    try:
-        """Verify if the user is logged in"""
-        if request.COOKIES.get("SpotifyToken"):
-            token = request.COOKIES.get("SpotifyToken")
-            headers = {"Authorization": "Bearer " + token}
+    token = request.COOKIES.get("SpotifyToken")
 
-            a = requests.get('https://api.spotify.com/v1/search?q='+artist+'&type=artist', headers=headers)
+    db.getArtist(token,artist)
 
-            print(a.text)
-            a = json.loads(a.text)
-
-            return render(
-                request,
-                'app/artistBio.html',
-                {
-                    'name': a["name"],
-                    'image': a["images"][0]["url"],
-                    'followers': a["followers"]["total"],
-                }
-            )
-
-        return render(
-            request,
-            'app/artistBio.html',
-            {
-                'username': "",
-            }
-        )
-
-    except KeyError:
-        return HttpResponseRedirect("/spotify_logout/")
+    return render(
+        request,
+        'app/index.html',
+        {
+            'data': ""
+        }
+    )
 
 
 def new_releases(request):

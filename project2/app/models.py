@@ -43,9 +43,19 @@ class Database:
         file = open("recently-played-by-user.rdf", "w")
         file.write(content)
 
+        dom = ET.parse("artists.xml")
+        xslt = ET.parse("artists.xslt")
+        transform = ET.XSLT(xslt)
+        newdom = transform(dom)
+        content = ET.tostring(newdom, pretty_print=False).decode()
+        file = open("artists.rdf", "w")
+        file.write(content)
+
         self.accessor.upload_data_file("new-releases.rdf", repo_name=self.repo_name)
         self.accessor.upload_data_file("top-tracks.rdf", repo_name=self.repo_name)
         self.accessor.upload_data_file("recently-played-by-user.rdf", repo_name=self.repo_name)
+        self.accessor.upload_data_file("artists.rdf", repo_name=self.repo_name)
+
 
     """api queries"""
     def new_releases(self, token):
@@ -69,11 +79,11 @@ class Database:
         file = open("recently-played-by-user.xml", "wb")
         file.write(xmlString)
 
-    def getArtist(self, token, id):
+    def getArtist(self, token, artist):
         headers = {"Authorization": "Bearer " + token}
-        r = requests.get('https://api.spotify.com/v1/artists/'+id, headers=headers)
-        xmlString = dicttoxml.dicttoxml(json.loads(r.text))
-        file = open("artist.xml", "wb")
+        r = requests.get('https://api.spotify.com/v1/search?q='+artist+'&type=artist', headers=headers)
+        xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
+        file = open("artists.xml", "w")
         file.write(xmlString)
 
     """database queries"""

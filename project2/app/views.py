@@ -67,6 +67,7 @@ def home(request):
         return HttpResponseRedirect("/spotify_logout/")
 
 
+<<<<<<< Updated upstream
 def search_artist(request,artist):
     db = Database()
 
@@ -81,6 +82,48 @@ def search_artist(request,artist):
             'data': ""
         }
     )
+=======
+def artist(request,id):
+
+    try:
+        """Verify if the user is logged in"""
+        if request.COOKIES.get("SpotifyToken"):
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            r = json.loads(r.text)
+
+            a = requests.get('https://api.spotify.com/v1/artists/'+id, headers=headers)
+            a = json.loads(a.text)
+
+            name= a["name"]
+            image= a["images"][0]["url"]
+            followers= a["followers"]["total"]
+
+
+            return render(
+                request,
+                'app/artistBio.html',
+                {
+                    'username': r["display_name"],
+                    'photo': r["images"][0]["url"],
+                    'name': name,
+                    'image': image,
+                    'followers': followers,
+                }
+            )
+
+        return render(
+            request,
+            'app/artistBio.html',
+            {
+                'username': "",
+            }
+        )
+
+    except KeyError:
+        return HttpResponseRedirect("/spotify_logout/")
+>>>>>>> Stashed changes
 
 
 def new_releases(request):

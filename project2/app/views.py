@@ -17,32 +17,17 @@ def home(request):
     new_releases = db.get_new_releases()
     url_new_releases_images = db.get_new_releases_image()
     top_tracks = db.get_top_tracks()
-    top_tracks_artists = db.get_top_tracks_artists()
     recently_played_by_user = db.get_recently_played_by_user()
+
 
     images = []
     news = []
-    toptracks_names = []
-    toptracks_images = []
-    toptracks_artists = []
-    tt_names = []
-    ids = []
 
     for image in url_new_releases_images:
         images += [image["url"]["value"]]
 
     for new in new_releases:
         news += [new["name"]["value"]]
-
-    for toptracks_name in top_tracks:
-        toptracks_names += [toptracks_name["name"]["value"]]
-        toptracks_images += [toptracks_name["src"]["value"]]
-
-    for top_tracks_artist in top_tracks_artists:
-        tt_names += [top_tracks_artist["name"]["value"]]
-        toptracks_artists += [top_tracks_artist["nameartist"]["value"]]
-        ids += [top_tracks_artist["id"]["value"]]
-
 
     try:
         """Verify if the user is logged in"""
@@ -59,8 +44,7 @@ def home(request):
                     'username': r["display_name"],
                     'photo': r["images"][0]["url"],
                     'new_releases': zip(news,images),
-                    'top_tracks': zip(toptracks_names,toptracks_images),
-                    'artists':zip(toptracks_artists,tt_names,ids)
+                    'top_tracks': top_tracks
                 }
             )
 
@@ -70,8 +54,7 @@ def home(request):
             {
                 'username': "",
                 'new_releases': zip(news,images),
-                'top_tracks': zip(toptracks_names,toptracks_images),
-                'artists': zip(toptracks_artists,tt_names,ids)
+                'top_tracks': top_tracks
             }
         )
 

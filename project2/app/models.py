@@ -107,31 +107,22 @@ class Database:
 
     def get_top_tracks(self):
         query = """
-                PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
                 PREFIX spot: <http://top-tracks.org/pred/>
-                SELECT ?name ?src
+                SELECT ?name ?src ?ids ?artists
+				(GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=", ") as ?artists)
+				(GROUP_CONCAT(DISTINCT ?id ; SEPARATOR=", ") as ?ids)
                 WHERE {
                     ?p foaf:name_track ?name .
                     ?p spot:image ?url .
                     ?url foaf:url ?src .
-                    filter regex(str(?url), "300" )
-                }"""
-
-        payload_query = {"query": query}
-        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return ((data["results"]["bindings"]))
-
-    def get_top_tracks_artists(self):
-        query = """
-                PREFIX foaf: <http://xmlns.com/foaf/spec/>
-                PREFIX spot: <http://top-tracks.org/pred/>
-                SELECT ?name ?nameartist ?id
-                WHERE {
-                    ?p foaf:name_track ?name .
                     ?p spot:artists ?artists .
                     ?artists foaf:name ?nameartist .
                     ?artists spot:id ?id .
-                }"""
+                    filter regex(str(?url), "300" )
+                }
+				GROUP BY  ?name ?src
+				"""
 
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))

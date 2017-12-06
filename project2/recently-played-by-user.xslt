@@ -5,7 +5,7 @@
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
                 xmlns:foaf="http://xmlns.com/foaf/spec/"
-                xmlns:spot="http://top-tracks.org/pred/">
+                xmlns:spot="http://recently-played-by-user.org/pred/">
 
     <xsl:template match="/">
     <rdf:RDF>
@@ -37,7 +37,7 @@
                 <xsl:for-each select="artists/item">
                     <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
                     <spot:artists>
-                        <rdf:Description rdf:about="http://www.new-releases.com/artists/{$item}/{$id}">
+                        <rdf:Description rdf:about="http://www.recently-played-by-user.com/artists/{$item}/{$id}">
                             <foaf:name><xsl:value-of select="name"/></foaf:name>
                             <spot:external_urls_spotify><xsl:value-of select="external_urls/spotify"/></spot:external_urls_spotify>
                             <spot:href><xsl:value-of select="href"/></spot:href>
@@ -51,7 +51,7 @@
                 <xsl:for-each select="album">
                     <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
                     <spot:album>
-                        <rdf:Description rdf:about="http://www.new-releases.com/album/{$items}/{$id}">
+                        <rdf:Description rdf:about="http://www.recently-played-by-user.com/album/{$items}/{$id}">
                             <foaf:href><xsl:value-of select="href"/></foaf:href>
                             <spot:name_album><xsl:value-of select="name"/></spot:name_album>
                             <spot:id><xsl:value-of select="id"/></spot:id>
@@ -63,7 +63,7 @@
                 <xsl:for-each select="album/images">
                     <xsl:variable name="size"><xsl:value-of select="width"/></xsl:variable>
                     <spot:image>
-                        <rdf:Description rdf:about="http://www.new-releases.com/image/{$items}/{$size}">
+                        <rdf:Description rdf:about="http://www.recently-played-by-user.com/image/{$items}/{$size}">
                             <foaf:url><xsl:value-of select="url"/></foaf:url>
                             <spot:width><xsl:value-of select="width"/></spot:width>
                             <spot:height><xsl:value-of select="height"/></spot:height>
@@ -74,7 +74,7 @@
                 <xsl:for-each select="album/artists">
                     <xsl:variable name="size"><xsl:value-of select="width"/></xsl:variable>
                     <spot:artists_album>
-                        <rdf:Description rdf:about="http://www.new-releases.com/artists/{$item}/{$id}">
+                        <rdf:Description rdf:about="http://www.recently-played-by-user.com/artists/{$item}/{$id}">
                             <foaf:name><xsl:value-of select="name"/></foaf:name>
                             <spot:external_urls_spotify><xsl:value-of select="external_urls/spotify"/></spot:external_urls_spotify>
                             <spot:href><xsl:value-of select="href"/></spot:href>

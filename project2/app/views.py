@@ -67,22 +67,6 @@ def home(request):
         return HttpResponseRedirect("/spotify_logout/")
 
 
-<<<<<<< Updated upstream
-def search_artist(request,artist):
-    db = Database()
-
-    token = request.COOKIES.get("SpotifyToken")
-
-    db.getArtist(token,artist)
-
-    return render(
-        request,
-        'app/index.html',
-        {
-            'data': ""
-        }
-    )
-=======
 def artist(request,id):
 
     try:
@@ -123,7 +107,6 @@ def artist(request,id):
 
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
->>>>>>> Stashed changes
 
 
 def new_releases(request):

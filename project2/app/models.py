@@ -75,7 +75,7 @@ class Database:
         headers = {"Authorization": "Bearer " + token}
         r = requests.get('https://api.spotify.com/v1/me/player/recently-played', headers=headers)
         xmlString = dicttoxml.dicttoxml(json.loads(r.text))
-        file = open("recently-played-by-user.xml", "w")
+        file = open("recently-played-by-user.xml", "wb")
         file.write(xmlString)
 
     def getArtist(self, token, artist):

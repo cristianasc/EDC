@@ -18,10 +18,11 @@ def home(request):
     url_new_releases_images = db.get_new_releases_image()
     top_tracks = db.get_top_tracks()
     recently_played_by_user = db.get_recently_played_by_user()
-
+    artist_info = db.get_artist_info()
 
     images = []
     news = []
+    artists = []
 
     for image in url_new_releases_images:
         images += [image["url"]["value"]]
@@ -29,10 +30,12 @@ def home(request):
     for new in new_releases:
         news += [new["name"]["value"]]
 
+    for artist in artist_info:
+        artists += [[artist["name"]["value"],artist["image"]["value"],artist["followers"]["value"]]]
+
     if request.method == 'POST':
         artist = request.POST.get("search")
-        print(artist)
-        search_artist(request,artist)
+        search_artist(request,artist, artists)
 
     try:
         """Verify if the user is logged in"""
@@ -66,14 +69,16 @@ def home(request):
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
 
-def search_artist(request,artist):
+def search_artist(request,artist, artists):
     db = Database()
+    #token = request.COOKIES.get("SpotifyToken")
+    #xmlString = db.getArtist(token,artist)
+    #rdfartists = db.parse_artists(xmlString)
+    #print(rdfartists)
 
-    token = request.COOKIES.get("SpotifyToken")
-
-    xmlString = db.getArtist(token,artist)
-    rdfartists = db.parse_artists(xmlString)
-    print(rdfartists)
+    for i in artists:
+        if artist == i[0]:
+            print(i[0],i[1],i[2])
 
     return render(
         request,

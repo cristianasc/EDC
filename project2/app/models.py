@@ -177,14 +177,3 @@ class Database:
         return ((data["results"]["bindings"]))
 
 
-    def insert_artist(self):
-        update = """PREFIX spot: <http://artists.org/pred/>
-                    INSERT DATA{
-                            
-                         }
-                 """
-        payload_query = {"update": update}
-        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return ((data["results"]["bindings"]))
-
-

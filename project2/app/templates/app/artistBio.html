@@ -3,66 +3,79 @@
 
 {% block content %}
 
-    <div class="jumbotron jumbotron-fluid" style=" background-image: url({{ image }});">
-      <div class="container">
+<div class="jumbotron jumbotron-fluid" style=" background-image: url({{ image }});">
+    <div class="container" style="text-shadow: 1px 0px 2px rgba(255, 255, 255, 0.8);">
         <h1 class="display-4">{{ name }}</h1>
-          <p>{{ followers }} followers</p>
-      </div>
+        {% if wikidata.birth %}
+        <small>Born in: {{ wikidata.birth }}</small><br>
+        {% endif %}
+        <a style="color: #343a40" href="https://www.facebook.com/{{ wikidata.facebook }}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+        <a style="color: #343a40" href="https://www.twitter.com/{{ wikidata.twitter }}"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        <a style="color: #343a40" href="https://www.instagram.com/{{ wikidata.instagram }}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        <a style="color: #343a40" href="{{ wikidata.official_site }}"><i class="fa fa-globe" aria-hidden="true"></i></a>
+        <h6>{{ wikidata.country_name }}</h6>
     </div>
-    <div class="container">
-        <div class=" row row-offcanvas row-offcanvas-right">
-            <div class="col-12 col-md-9">
-                <div style="padding-bottom: 30px">
-                    <h1>Popular</h1>
-                        <div class="card" style="height: 15rem;">
-                           <div class="card-body">
-                               <table class="table table-hover">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">#</th>
-                                      <th scope="col">Music</th>
-                                      <th scope="col">Artists</th>
-                                      <th scope="col">Time</th>
-                                      <th scope="col">Likes</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <th scope="row">1</th>
-                                      <td>Mark</td>
-                                      <td>Otto</td>
-                                      <td>@mdo</td>
-                                      <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                      <th scope="row">2</th>
-                                      <td>Jacob</td>
-                                      <td>Thornton</td>
-                                      <td>@fat</td>
-                                      <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                      <th scope="row">3</th>
-                                      <td colspan="2">Larry the Bird</td>
-                                      <td>@twitter</td>
-                                      <td>@twitter</td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                          </div>
-                      </div>
+</div>
+<div class="container">
+    <div class=" row row-offcanvas row-offcanvas-right">
+        <div class="col-12 col-md-9">
+            <div style="padding-bottom: 30px">
+                <h1>Popular</h1>
+                <div class="card" style="height: 15rem;">
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Music</th>
+                                <th scope="col">Artists</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Likes</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td>@twitter</td>
+                                <td>@twitter</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-
             </div>
 
-            <div class="col-6 col-md-3 sidebar-offcanvas " style="padding-top: 5px;">
-                <h2 style="text-align: right">Twitter Feed</h2>
-                <div class="card">
-                    asdasdsad
+
+        </div>
+
+        <div class="col-6 col-md-3 sidebar-offcanvas " style="padding-top: 5px;">
+            <div class="row">
+                <div class="col-lg-12">
+                </div>
+                <div class="col-lg-12">
+                    <h2 style="text-align: right">Twitter Feed</h2>
+                    <div class="card">
+                        asdasdsad
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 {% endblock %}

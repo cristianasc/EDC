@@ -8,7 +8,7 @@ from spotipy.oauth2 import SpotifyOAuth
 from .models import Database
 import requests
 import json
-import ssl
+from .sparql.queries import search_artist_info, search_artist_relationships
 
 
 def home(request):
@@ -87,7 +87,8 @@ def search_artist(request,artist, artists):
         }
     )
 
-def artist(request,id):
+
+def artist(request, id):
     try:
         """Verify if the user is logged in"""
         if request.COOKIES.get("SpotifyToken"):
@@ -96,7 +97,8 @@ def artist(request,id):
             r = requests.get('https://api.spotify.com/v1/artists/'+id, headers=headers)
             r = json.loads(r.text)
 
-            wikidata_info = wikidata(r["name"])
+            artist_info = search_artist_info(r["name"])
+            artist_rel = search_artist_relationships(artist_info["p"])
 
             return render(
                 request,
@@ -105,7 +107,8 @@ def artist(request,id):
                     'name': r["name"],
                     'image': r["images"][0]["url"],
                     'followers': r["followers"]["total"],
-                    'wikidata': wikidata_info
+                    'artist_info': artist_info,
+                    'artist_rel': artist_rel
                 }
             )
 
@@ -116,7 +119,6 @@ def artist(request,id):
                 'username': "",
             }
         )
-
 
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
@@ -352,61 +354,4 @@ def spotify_logout(request):
     response.delete_cookie("SpotifyToken")
 
     return response
-
-
-def wikidata(search_name):
-    from SPARQLWrapper import SPARQLWrapper, JSON
-    QUERY_URL = 'http://query.wikidata.org/sparql'
-
-    """
-        Override the SSL verification
-    """
-    ssl._create_default_https_context = ssl._create_unverified_context
-
-    query = """
-        SELECT ?p
-        (SAMPLE(?name) as ?name) (SAMPLE(?birth) as ?birth) (SAMPLE(?facebook) as ?facebook) (SAMPLE(?twitter) as ?twitter)
-        (SAMPLE(?instagram) as ?instagram) (SAMPLE(?url) as ?url) (SAMPLE(?official_site) as ?official_site)
-        (SAMPLE(?country_name) as ?country_name)
-        WHERE {
-          ?p wdt:P106 wd:Q177220 .
-          ?p rdfs:label ?name .
-          OPTIONAL {?p wdt:P569 ?birth}
-          OPTIONAL {?p wdt:P2013 ?facebook}
-          OPTIONAL {?p wdt:P2002 ?twitter}
-          OPTIONAL {?p wdt:P2003 ?instagram}
-          OPTIONAL {?p wdt:P854 ?url}
-          OPTIONAL {?p wdt:P856 ?official_site}
-          OPTIONAL {?p wdt:P27 ?country .
-                    ?country wdt:P1448 ?country_name}
-          FILTER(REGEX(STR(?name), \"""" +search_name+ """.*$"))
-        } GROUP BY ?p
-        """
-
-    sparql = SPARQLWrapper(QUERY_URL)
-    sparql.setQuery(query)
-    sparql.setReturnFormat(JSON)
-    results = sparql.query().convert()
-    print(results)
-
-    keys = [
-        "birth",
-        "facebook",
-        "twitter",
-        "instagram",
-        "url",
-        "official_site",
-        "country_name"
-    ]
-
-    r = {}
-
-    for key in keys:
-        try:
-            if len(results["results"]["bindings"]) > 0:
-                r[key] = results["results"]["bindings"][0][key]["value"].replace("T00:00:00Z", "")
-        except KeyError:
-            continue
-
-    return r
 

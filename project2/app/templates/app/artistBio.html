@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<div class="jumbotron jumbotron-fluid" style=" background-image: url({{ image }});">
+<div class="jumbotron jumbotron-fluid" style=" background-image: url({{ image }}); background-repeat: no-repeat; background-attachment: fixed; background-position: center top; ">
     <div class="container" style="text-shadow: 1px 0px 2px rgba(255, 255, 255, 0.8);">
         <h1 class="display-4">{{ name }}</h1>
         {% if artist_info.birth %}
@@ -107,7 +107,7 @@
                 <div class="col-lg-12">
                     <div class="card" style="padding: 1.25rem">
                         <div class="card-block">
-                            <h3 class="card-title">Occupations</h3>
+                            <h3 class="card-title">Interests</h3>
                             <span class="text-capitalize">
                             {% if artist_occupations.occupations|length > 0 %}
                                 {% for occupation in artist_occupations.occupations %}

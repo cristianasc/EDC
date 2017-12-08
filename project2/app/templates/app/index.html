@@ -27,10 +27,14 @@
             <div class="col-sm-3">
                 <div class="card">
                     <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
-                         src="{{ top_track.src.value }}" alt="Card image">
+                         src="{{ top_track.src }}" alt="Card image">
                     <div class="card-body">
-                        <h6 class="card-title">{{ top_track.name.value }}</h6>
-                        <a href="/artist/id={{ top_track.ids.value }}/" class="card-text badge badge-pill badge-secondary ">{{ top_track.artists.value }}</a>
+                        <h6 class="card-title">{{ top_track.name }}</h6>
+                        {% if top_track.artists|length > 0 %}
+                            {% for artist in top_track.artists %}
+                                <a href="/artist/id={{ artist.1 }}/" class="card-text badge badge-pill badge-secondary ">{{ artist.0 }}</a>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

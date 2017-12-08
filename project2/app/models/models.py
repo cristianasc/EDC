@@ -3,6 +3,7 @@ from s4api.graphdb_api import GraphDBApi
 from s4api.swagger import ApiClient
 import json, requests
 import lxml.etree as ET
+from .query import parse_response
 
 
 class Database:
@@ -57,6 +58,7 @@ class Database:
         return content
 
     """api queries"""
+
     def new_releases(self, token):
         headers = {"Authorization": "Bearer " + token["access_token"]}
         r = requests.get('https://api.spotify.com/v1/browse/new-releases', headers=headers)
@@ -80,15 +82,16 @@ class Database:
 
     def getArtist(self, token, artist):
         headers = {"Authorization": "Bearer " + token}
-        r = requests.get('https://api.spotify.com/v1/search?q='+artist+'&type=artist', headers=headers)
+        r = requests.get('https://api.spotify.com/v1/search?q=' + artist + '&type=artist', headers=headers)
         xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
         return xmlString
 
     """database queries"""
+
     def get_new_releases(self):
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
-                SELECT ?name 
+                SELECT ?name
                 WHERE {
                     ?p foaf:name_album ?name .
                 }"""
@@ -118,8 +121,8 @@ class Database:
                  PREFIX foaf: <http://xmlns.com/foaf/spec/>
                 PREFIX spot: <http://top-tracks.org/pred/>
                 SELECT ?name ?src ?ids ?artists
-				(GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=", ") as ?artists)
-				(GROUP_CONCAT(DISTINCT ?id ; SEPARATOR=", ") as ?ids)
+				(GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=",") as ?artists)
+				(GROUP_CONCAT(DISTINCT ?id ; SEPARATOR=",") as ?ids)
                 WHERE {
                     ?p foaf:name_track ?name .
                     ?p spot:image ?url .
@@ -134,17 +137,17 @@ class Database:
 
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return data["results"]["bindings"]
-
+        data = parse_response(data)
+        return data
 
     def get_recently_played_by_user(self):
         query = """PREFIX foaf: <http://xmlns.com/foaf/spec/>
                     PREFIX spot: <http://recently-played-by-user.org/pred/>
                     SELECT ?name ?href30sec ?image ?artists
-                    (GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=", ") as ?artists)
-                    WHERE { 
+                    (GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=",") as ?artists)
+                    WHERE {
                         ?p spot:track ?track .
-                        ?track spot:preview_url ?href30sec . 
+                        ?track spot:preview_url ?href30sec .
                         ?track foaf:name ?name .
                         ?p spot:artists ?artist .
                         ?artist foaf:name ?nameartist .
@@ -162,7 +165,7 @@ class Database:
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
                 PREFIX spot: <http://artists.org/pred/>
-                SELECT ?name ?id ?image ?followers 
+                SELECT ?name ?id ?image ?followers
                 WHERE {
                         ?p foaf:name_artist ?name .
                         ?p spot:id ?id .
@@ -175,5 +178,3 @@ class Database:
         payload_query = {"query": query}
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
         return ((data["results"]["bindings"]))
-
-

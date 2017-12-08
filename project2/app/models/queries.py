@@ -39,7 +39,7 @@ def search_artist_info(name):
 def search_artist_genre(identifier):
     query = """
         SELECT ?p
-        (GROUP_CONCAT(DISTINCT ?genre_name ; SEPARATOR=", ") as ?genre)
+        (GROUP_CONCAT(DISTINCT ?genre_name ; SEPARATOR=",") as ?genre)
         WHERE
         {
           <%s> rdfs:label ?p.
@@ -61,9 +61,9 @@ def search_artist_genre(identifier):
 def search_artist_relationships(identifier):
     query = """
         SELECT ?p
-        (GROUP_CONCAT(DISTINCT ?father_name ; SEPARATOR=", ") as ?father)
-        (GROUP_CONCAT(DISTINCT ?mother_name ; SEPARATOR=", ") as ?mother)
-        (GROUP_CONCAT(DISTINCT ?sibling_name ; SEPARATOR=", ") as ?sibling)
+        (GROUP_CONCAT(DISTINCT ?father_name ; SEPARATOR=",") as ?father)
+        (GROUP_CONCAT(DISTINCT ?mother_name ; SEPARATOR=",") as ?mother)
+        (GROUP_CONCAT(DISTINCT ?sibling_name ; SEPARATOR=",") as ?sibling)
         WHERE
         {
           <%s> rdfs:label ?p.
@@ -93,7 +93,7 @@ def search_artist_relationships(identifier):
 def search_artist_occupations(identifier):
     query = """
         SELECT ?p
-        (GROUP_CONCAT(DISTINCT ?occupations_name ; SEPARATOR=", ") as ?occupations)
+        (GROUP_CONCAT(DISTINCT ?occupations_name ; SEPARATOR=",") as ?occupations)
         WHERE
         {
           <%s> rdfs:label ?p.

@@ -5,10 +5,10 @@ from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
 import spotipy
 from django.shortcuts import redirect
 from spotipy.oauth2 import SpotifyOAuth
-from .models import Database
+from .models.models import Database
 import requests
 import json
-from .sparql.queries import search_artist_info, search_artist_relationships, search_artist_genre, \
+from .models.queries import search_artist_info, search_artist_relationships, search_artist_genre, \
     search_artist_occupations
 
 
@@ -36,6 +36,23 @@ def home(request):
     if request.method == 'POST':
         artist = request.POST.get("search")
         search_artist(request,artist, artists)
+
+    tmp = top_tracks
+    top_tracks = []
+
+    for top_track in tmp:
+        artists = top_track["artists"]
+        if isinstance(artists, str):
+            artists = [artists]
+
+        ids = top_track["ids"]
+        if isinstance(ids, str):
+            ids = [ids]
+
+        del top_track["ids"]
+        top_track["artists"] = list(zip(artists, ids))
+
+        top_tracks.append(top_track)
 
     try:
         """Verify if the user is logged in"""

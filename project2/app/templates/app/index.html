@@ -9,8 +9,10 @@
             {% for name,image in new_releases %}
             <div class="col-sm-3">
                 <div class="card">
+                    <a href="/music/id={{top_track.id}}">
                     <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
                          src="{{ image }}" alt="Card image">
+                    </a>
                     <div class="card-body">
                         <h6 class="card-title"> {{ name }} </h6>
                         <a href="#" class="card-text badge badge-pill badge-secondary ">Songs</a>
@@ -26,10 +28,12 @@
             {% for top_track in top_tracks %}
             <div class="col-sm-3">
                 <div class="card">
+                    <a href="/music/id={{top_track.id}}">
                     <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
                          src="{{ top_track.src }}" alt="Card image">
+                    </a>
                     <div class="card-body">
-                        <h6 class="card-title">{{ top_track.name }}</h6>
+                        <a style="color: black" href="/music/id={{top_track.id}}"><h6 class="card-title">{{ top_track.name }}</h6></a>
                         {% if top_track.artists|length > 0 %}
                             {% for artist in top_track.artists %}
                                 <a href="/artist/id={{ artist.1 }}/" class="card-text badge badge-pill badge-secondary ">{{ artist.0 }}</a>

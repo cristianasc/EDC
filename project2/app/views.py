@@ -15,28 +15,28 @@ from .models.queries import search_artist_info, search_artist_relationships, sea
 def home(request):
     db = Database()
     new_releases = db.get_new_releases()
-    url_new_releases_images = db.get_new_releases_image()
     top_tracks = db.get_top_tracks()
-    recently_played_by_user = db.get_recently_played_by_user()
-    artist_info = db.get_artist_info()
 
-    images = []
-    news = []
-    artists = []
+    # new releases
+    tmp = new_releases
+    new_releases = []
 
-    for image in url_new_releases_images:
-        images += [image["url"]["value"]]
+    for new_release in tmp:
+        artists = new_release["artists"]
+        if isinstance(artists, str):
+            artists = [artists]
 
-    for new in new_releases:
-        news += [new["name"]["value"]]
+        ids = new_release["ids"]
+        if isinstance(ids, str):
+            ids = [ids]
 
-    for artist in artist_info:
-        artists += [[artist["name"]["value"],artist["image"]["value"],artist["followers"]["value"]]]
+        del new_release["ids"]
+        new_release["artists"] = list(zip(artists, ids))
 
-    if request.method == 'POST':
-        artist = request.POST.get("search")
-        search_artist(request,artist, artists)
+        top_tracks.append(new_release)
 
+
+    # top tracks
     tmp = top_tracks
     top_tracks = []
 
@@ -68,7 +68,7 @@ def home(request):
                 {
                     'username': r["display_name"],
                     'photo': r["images"][0]["url"],
-                    'new_releases': zip(news,images),
+                    'new_releases': new_releases,
                     'top_tracks': top_tracks
                 }
             )
@@ -78,13 +78,14 @@ def home(request):
             'app/index.html',
             {
                 'username': "",
-                'new_releases': zip(news,images),
+                'new_releases': new_releases,
                 'top_tracks': top_tracks
             }
         )
 
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
+
 
 def search_artist(request,artist, artists):
     db = Database()
@@ -116,14 +117,26 @@ def artist(request, id):
             r = json.loads(r.text)
 
             artist_info = search_artist_info(r["name"])
-            artist_rel = search_artist_relationships(artist_info["p"])
-            artist_genre = search_artist_genre(artist_info["p"])
-            artist_occupations = search_artist_occupations(artist_info["p"])
+            try:
+                artist_rel = search_artist_relationships(artist_info["p"])
+                artist_genre = search_artist_genre(artist_info["p"])
+                artist_occupations = search_artist_occupations(artist_info["p"])
+            except TypeError:
+                artist_rel = []
+                artist_genre = []
+                artist_occupations = []
+
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            user_r = json.loads(user_r.text)
 
             return render(
                 request,
                 'app/artistBio.html',
                 {
+                    'username': user_r["display_name"],
+                    'photo': user_r["images"][0]["url"],
                     'title': r["name"],
                     'name': r["name"],
                     'image': r["images"][0]["url"],
@@ -132,6 +145,57 @@ def artist(request, id):
                     'artist_rel': artist_rel,
                     'artist_genre': artist_genre,
                     'artist_occupations': artist_occupations
+                }
+            )
+
+        return render(
+            request,
+            'app/artistBio.html',
+            {
+                'username': "",
+            }
+        )
+
+    except KeyError:
+        return HttpResponseRedirect("/spotify_logout/")
+
+
+def music(request, id):
+    try:
+        """Verify if the user is logged in"""
+        if request.COOKIES.get("SpotifyToken"):
+            # search in db top_tracks
+            db = Database()
+            result = db.get_music_info(id)
+
+            ids = result["artists_ids"]
+            artists = result["artists"]
+
+            del result["artists_ids"]
+
+            if isinstance(ids, str):
+                ids = [ids]
+
+            if isinstance(artists, str):
+                artists = [artists]
+
+            result["artists"] = list(zip(artists, ids))
+            url = result["external_urls"].replace("https://open.spotify.com/", "").split("/")
+            result["uri"] = "spotify:"+url[0]+":"+url[1]
+
+            # get user name and photo
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            user_r = json.loads(user_r.text)
+
+            return render(
+                request,
+                'app/music.html',
+                {
+                    'username': user_r["display_name"],
+                    'photo': user_r["images"][0]["url"],
+                    "music": result
                 }
             )
 
@@ -174,6 +238,7 @@ def new_releases(request):
     except:
         return HttpResponseRedirect("/spotify_logout/")
 
+
 def top_tracks(request):
     db = Database()
     try:
@@ -200,6 +265,7 @@ def top_tracks(request):
 
     except:
         return HttpResponseRedirect("/spotify_logout/")
+
 
 def get_albuns_by_artist(request):
     assert isinstance(request, HttpRequest)

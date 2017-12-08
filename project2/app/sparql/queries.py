@@ -36,6 +36,28 @@ def search_artist_info(name):
     return perform_query(query, keys)
 
 
+def search_artist_genre(identifier):
+    query = """
+        SELECT ?p
+        (GROUP_CONCAT(DISTINCT ?genre_name ; SEPARATOR=", ") as ?genre)
+        WHERE
+        {
+          <%s> rdfs:label ?p.
+          FILTER(LANG(?p) = "en")
+          OPTIONAL {<%s> wdt:P136 ?genre .
+                    ?genre rdfs:label ?genre_name.
+                    FILTER(LANG(?genre_name) = "en")}
+        }
+        GROUP BY ?p
+    """ % (identifier, identifier)
+
+    keys = [
+        "genre"
+    ]
+
+    return perform_query(query, keys)
+
+
 def search_artist_relationships(identifier):
     query = """
         SELECT ?p
@@ -66,3 +88,4 @@ def search_artist_relationships(identifier):
     ]
 
     return perform_query(query, keys)
+

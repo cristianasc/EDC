@@ -37,9 +37,9 @@
     <div class=" row row-offcanvas row-offcanvas-right">
         <div class="col-12 col-md-9">
             <div style="padding-bottom: 30px">
-                <h3>Popular</h3>
-                <div class="card" style="height: 15rem;">
-                    <div class="card-body">
+                <div class="card"  style="padding: 1.25rem">
+                    <div class="card-block">
+                        <h3 class="card-title">Popular</h3>
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -76,44 +76,48 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
 
         <div class="col-6 col-md-3 sidebar-offcanvas ">
             <div class="row">
                 {% if artist_rel.father or artist_rel.mother or artist_rel.sibling %}
                 <div class="col-lg-12">
-                    <h3 style="text-align: right">Relationships</h3>
                     <div class="card" style="padding: 1.25rem">
-                        {% if artist_rel.father %}
-                            <small><strong>Father:</strong> {{ artist_rel.father }}</small>
-                        {% endif %}
-                        {% if artist_rel.mother %}
-                            <small><strong>Mother:</strong> {{ artist_rel.mother }}</small>
-                        {% endif %}
-                        {% if artist_rel.sibling|length > 0 %}
-                            {% for sibling in artist_rel.sibling %}
-                                <small><strong>Sibling:</strong> {{ sibling }}</small>
-                            {% endfor %}
-                        {% elif artist_rel.sibling %}
-                            <small><strong>Sibling:</strong> {{ artist_rel.sibling }}</small>
-                        {% endif %}
+                        <div class="card-block">
+                            <h3 class="card-title">Relationships</h3>
+                            {% if artist_rel.father %}
+                                <small><strong>Father:</strong> {{ artist_rel.father }}</small><br/>
+                            {% endif %}
+                            {% if artist_rel.mother %}
+                                <small><strong>Mother:</strong> {{ artist_rel.mother }}</small><br/>
+                            {% endif %}
+                            {% if artist_rel.sibling|length > 0 %}
+                                {% for sibling in artist_rel.sibling %}
+                                    <small><strong>Sibling:</strong> {{ sibling }}</small><br/>
+                                {% endfor %}
+                            {% elif artist_rel.sibling %}
+                                <small><strong>Sibling:</strong> {{ artist_rel.sibling }}</small>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 {% endif %}
 
                 {% if artist_rel.father or artist_rel.mother or artist_rel.sibling %}
                 <div class="col-lg-12">
-                    <h3 style="text-align: right">Occupations</h3>
                     <div class="card" style="padding: 1.25rem">
-                        {% if artist_occupations.occupations|length > 0 %}
-                            {% for occupation in artist_occupations.occupations %}
-                            <p>{{ occupation }}</p>
-                            {% endfor %}
-                        {% elif artist_occupations.occupations %}
-                            <p>{{ artist_occupations.occupations }}</p>
-                        {% endif %}
+                        <div class="card-block">
+                            <h3 class="card-title">Occupations</h3>
+                            <span class="text-capitalize">
+                            {% if artist_occupations.occupations|length > 0 %}
+                                {% for occupation in artist_occupations.occupations %}
+                                {{ occupation }}<br/>
+                                {% endfor %}
+                            {% elif artist_occupations.occupations %}
+                                {{ artist_occupations.occupations }}
+                            {% endif %}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 {% endif %}

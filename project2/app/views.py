@@ -8,7 +8,8 @@ from spotipy.oauth2 import SpotifyOAuth
 from .models import Database
 import requests
 import json
-from .sparql.queries import search_artist_info, search_artist_relationships, search_artist_genre
+from .sparql.queries import search_artist_info, search_artist_relationships, search_artist_genre, \
+    search_artist_occupations
 
 
 def home(request):
@@ -100,6 +101,7 @@ def artist(request, id):
             artist_info = search_artist_info(r["name"])
             artist_rel = search_artist_relationships(artist_info["p"])
             artist_genre = search_artist_genre(artist_info["p"])
+            artist_occupations = search_artist_occupations(artist_info["p"])
 
             return render(
                 request,
@@ -111,7 +113,8 @@ def artist(request, id):
                     'followers': r["followers"]["total"],
                     'artist_info': artist_info,
                     'artist_rel': artist_rel,
-                    'artist_genre': artist_genre
+                    'artist_genre': artist_genre,
+                    'artist_occupations': artist_occupations
                 }
             )
 

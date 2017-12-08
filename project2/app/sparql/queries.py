@@ -89,3 +89,25 @@ def search_artist_relationships(identifier):
 
     return perform_query(query, keys)
 
+
+def search_artist_occupations(identifier):
+    query = """
+        SELECT ?p
+        (GROUP_CONCAT(DISTINCT ?occupations_name ; SEPARATOR=", ") as ?occupations)
+        WHERE
+        {
+          <%s> rdfs:label ?p.
+          FILTER(LANG(?p) = "en")
+          OPTIONAL {<%s> wdt:P106 ?occupations .
+                    ?occupations rdfs:label ?occupations_name.
+                    FILTER(LANG(?occupations_name) = "en")}
+        }
+        GROUP BY ?p
+    """ % (identifier, identifier)
+
+    keys = [
+        "occupations"
+    ]
+
+    return perform_query(query, keys)
+

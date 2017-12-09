@@ -109,7 +109,7 @@ class Database:
                    PREFIX spot: <http://comments.org/pred/>
                    SELECT ?user_id ?name ?comment
                    WHERE{
-                            <http://comments.com/items/"""+music_id+"""> foaf:id ?user_id .
+                            <http://comments.com/items/"""+music_id+"""> foaf:profile_id ?user_id .
                             <http://comments.com/items/"""+music_id+"""> spot:profile_name ?name .
                             <http://comments.com/items/"""+music_id+"""> spot:comment ?comment .
                     }

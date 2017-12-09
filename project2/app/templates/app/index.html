@@ -11,11 +11,11 @@
                 <div class="card">
                     {% if username %}
                     <a href="/music/id={{track.id}}">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" about="http://www.new-releases.com/image/{{track.id}}/{{track.width}}"
+                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" rel="spot:image" about="http://www.new-releases.com/image/{{track.id}}/{{track.width}}"
                          property="foaf:url" src="{{ track.src }}" alt="Card image">
                     </a>
                     {% else %}
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" about="http://www.new-releases.com/image/{{track.id}}/{{track.width}}"
+                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" rel="spot:image" about="http://www.new-releases.com/image/{{track.id}}/{{track.width}}"
                          property="foaf:url" src="{{ track.src }}" alt="Card image">
                     {% endif %}
                     <div class="card-body">

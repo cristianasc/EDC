@@ -25,12 +25,6 @@ $("#comment").click(function () {
         processData: false,
         contentType: false,
         type: 'POST',
-        success: function(data){
-            location.reload();
-      },
-      error: function(e) {
-          alert(e);
-      }
     });
 
 });

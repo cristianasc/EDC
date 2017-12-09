@@ -33,6 +33,6 @@ urlpatterns = [
     url(r'^artist/id=(?P<id>[\w-]+)/$', app.views.artist, name='artist'),
     url(r'^music/id=(?P<id>[\w-]+)$', app.views.music, name='music'),
     url(r'^account/', app.views.user_account, name='user_account'),
-    url(r'^comments/id=(?P<id>[\w-]+)$', app.views.comments, name='comments'),
+    url(r'^comments/', app.views.comments, name='comments'),
     url(r'^search/', app.views.search, name='search')
 ]

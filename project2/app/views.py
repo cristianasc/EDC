@@ -63,6 +63,9 @@ def home(request):
             r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             r = json.loads(r.text)
 
+            #db.new_releases(token)
+            #$db.top_tracks(token)
+
             return render(
                 request,
                 'app/index.html',
@@ -225,7 +228,6 @@ def artist(request, id):
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
 
-
 def music(request, id):
     try:
         """Verify if the user is logged in"""
@@ -233,9 +235,9 @@ def music(request, id):
             # search in db top_tracks
             db = Database()
             result = db.get_music_info(id, request.COOKIES.get("SpotifyToken"))
+            global music_id
+            music_id = id
             comments = db.get_comments(id)
-
-            print(comments)
 
             ids = result["artists_ids"]
             artists = result["artists"]
@@ -398,7 +400,8 @@ def user_account(request):
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
 
-def comments(request, id):
+def comments(request):
+    db = Database()
     try:
         if request.COOKIES.get("SpotifyToken"):
             token = request.COOKIES.get("SpotifyToken")
@@ -408,8 +411,7 @@ def comments(request, id):
 
             name = user_r["display_name"]
             user_id = user_r["id"]
-
-            Database().comment(user_id, name, request.POST["comment"], id)
+            db.comment(user_id, name, request.POST["comment"], music_id)
 
             return render(
                 request,

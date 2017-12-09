@@ -139,25 +139,28 @@ class Database:
         return data
 
     def get_recently_played_by_user(self):
-        query = """PREFIX foaf: <http://xmlns.com/foaf/spec/>
-                    PREFIX spot: <http://recently-played-by-user.org/pred/>
-                    SELECT ?name ?href30sec ?image ?artists
-                    (GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=",") as ?artists)
-                    WHERE {
-                        ?p spot:track ?track .
-                        ?track spot:preview_url ?href30sec .
-                        ?track foaf:name ?name .
-                        ?p spot:artists ?artist .
-                        ?artist foaf:name ?nameartist .
-                        ?p spot:image ?url .
-                        ?url foaf:url ?image .
-                        filter regex(str(?url), "300" )
-                    }
-                    GROUP BY  ?name ?href30sec ?image"""
+        query = """
+                PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                PREFIX spot: <http://recently-played-by-user.org/pred/>
+                SELECT ?id ?name ?href30sec ?image ?artists
+                (GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=",") as ?artists)
+                WHERE {
+                    ?p spot:track ?track .
+                    ?track spot:id ?id .
+                    ?track spot:preview_url ?href30sec .
+                    ?track foaf:name ?name .
+                    ?p spot:artists ?artist .
+                    ?artist foaf:name ?nameartist .
+                    ?p spot:image ?url .
+                    ?url foaf:url ?image .
+                    filter regex(str(?url), "300" )
+                }
+                GROUP BY ?id ?name ?href30sec ?image
+                """
 
         payload_query = {"query": query}
-        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
-        return ((data["results"]["bindings"]))
+        data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
+        return data
 
     def get_artists_info(self):
         query = """

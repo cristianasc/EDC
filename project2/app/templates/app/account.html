@@ -23,7 +23,20 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-9 col-md-6 col-lg-8" style="background-color:pink;">
+        <div class="col-sm-9 col-md-6 col-lg-8">
+            <div class="card" style="padding: 30px">
+                <h4 class="card-title">Recently Played</h4>
+                <ul style="padding-left: 0px">
+                    {% for music in musics %}
+                    <li style="list-style-type: none; margin-bottom: 10px;"><img style="height: 40px; width: 40px; border-radius: 30px" src="{{ music.image }}"><span style="margin-left: 10px"><a style="color: black;" href="/music/id={{ music.id }}">{{ music.name }}</a></span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card" style="padding: 30px">
+                <h4 class="card-title">About you</h4>
+            </div>
         </div>
     </div>
 </div>

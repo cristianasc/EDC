@@ -81,7 +81,7 @@ def home(request):
                 'title': "Home",
                 'username': "",
                 'new_releases': new_releases,
-                'top_tracks': top_tracks
+                'top_tracks': []
             }
         )
 
@@ -91,10 +91,6 @@ def home(request):
 
 def search_artist(request,artist, artists):
     db = Database()
-    #token = request.COOKIES.get("SpotifyToken")
-    #xmlString = db.getArtist(token,artist)
-    #rdfartists = db.parse_artists(xmlString)
-    #print(rdfartists)
 
     for i in artists:
         if artist == i[0]:
@@ -417,13 +413,9 @@ def user_account(request):
             headers = {"Authorization": "Bearer " + token}
             r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             r = json.loads(r.text)
-            print(r)
-            Database().recently_played_by_user(token)
+            musics = Database().get_recently_played_by_user()
 
-
-            return render(
-                request,
-                'app/account.html',
+            return render(request, 'app/account.html',
                 {
                     'username': r["display_name"],
                     'photo': r["images"][0]["url"],
@@ -431,7 +423,8 @@ def user_account(request):
                     'id': r["id"],
                     'external_urls': r["external_urls"]["spotify"],
                     'birthdate': r["birthdate"],
-                    'country': r["country"]
+                    'country': r["country"],
+                    'musics': musics[:10]
                 }
             )
 
@@ -445,6 +438,10 @@ def user_account(request):
 
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
+
+
+def get_top_tracks_by_user(request):
+    pass
 
 
 def spotify_logout(request):

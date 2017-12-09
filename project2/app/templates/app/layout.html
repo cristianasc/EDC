@@ -35,6 +35,7 @@
             <li class="nav-item active">
             </li>
         </ul>
+        {% if username %}
         <form class="form-inline" id="formsearch" method="post" action="/search/">
             {% csrf_token %}
             <div class="input-group" style="width: 170px">
@@ -44,6 +45,7 @@
               </span>
             </div>
         </form>
+        {% endif %}
         {% include 'app/loginpartial.html' %}
     </div>
 </nav>

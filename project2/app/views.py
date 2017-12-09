@@ -92,21 +92,50 @@ def home(request):
 
 def search(request):
     try:
-        text = request.POST["text"]
-
-        db = Database()
-        search_artists = db.search_artists(name=text)
-        search_musics_and_albums = db.search_musics_and_albums(name=text)
-
-        if isinstance(search_artists, dict):
-            search_artists = [search_artists]
-
-        if isinstance(search_musics_and_albums, dict):
-            search_musics_and_albums = [search_musics_and_albums]
-
         if request.COOKIES.get("SpotifyToken"):
+            text = request.POST["text"]
+
+            db = Database()
+            search_artists = db.search_artists(name=text)
+            search_musics_and_albums = db.search_musics_and_albums(name=text)
+
+            if isinstance(search_artists, dict):
+                search_artists = [search_artists]
+
+            if isinstance(search_musics_and_albums, dict):
+                search_musics_and_albums = [search_musics_and_albums]
+
             token = request.COOKIES.get("SpotifyToken")
             headers = {"Authorization": "Bearer " + token}
+
+            # get musics from spotify
+            url = "https://api.spotify.com/v1/search?q="+text+"&type=track&limit=10"
+            r_musics = requests.get(url, headers=headers)
+            r_musics = json.loads(r_musics.text)
+
+            for row in r_musics["tracks"]["items"]:
+                if not any(d['name'] == row["name"] for d in search_musics_and_albums):
+                    search_musics_and_albums.append({"name": row["name"], "id": row["id"]})
+
+            # get albuns from spotify
+            url = "https://api.spotify.com/v1/search?q="+text+"&type=album&limit=10"
+            r_musics = requests.get(url, headers=headers)
+            r_musics = json.loads(r_musics.text)
+
+            for row in r_musics["albums"]["items"]:
+                if not any(d['name'] == row["name"] for d in search_musics_and_albums):
+                    search_musics_and_albums.append({"name": row["name"], "id": row["id"]})
+
+            # get artist from spotify
+            url = "https://api.spotify.com/v1/search?q="+text+"&type=artist&limit=10"
+            r_musics = requests.get(url, headers=headers)
+            r_musics = json.loads(r_musics.text)
+
+            for row in r_musics["artists"]["items"]:
+                if not any(d['nameartist'] == row["name"] for d in search_artists):
+                    search_artists.append({"nameartist": row["name"], "artist_id": row["id"]})
+
+            # get username etc
             r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             r = json.loads(r.text)
 
@@ -123,17 +152,8 @@ def search(request):
                 }
             )
         else:
-            return render(
-                request,
-                'app/search.html',
-                {
-                    'title': text,
-                    'username': '',
-                    'artists': search_artists,
-                    'musics_and_albums': search_musics_and_albums,
-                    'text': text
-                }
-            )
+            return HttpResponseRedirect("/login/")
+
     except MultiValueDictKeyError:
         return HttpResponseRedirect("/")
 

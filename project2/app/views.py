@@ -158,7 +158,7 @@ def artist(request, id):
 
         return render(
             request,
-            'app/artistBio.html',
+            'app/account.html',
             {
                 'username': "",
             }
@@ -210,7 +210,7 @@ def music(request, id):
 
         return render(
             request,
-            'app/index.html',
+            'app/account.html',
             {
                 'username': "",
             }

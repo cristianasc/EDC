@@ -179,6 +179,9 @@ def music(request, id):
             # search in db top_tracks
             db = Database()
             result = db.get_music_info(id, request.COOKIES.get("SpotifyToken"))
+            comments = db.get_comments(id)
+
+            print(comments)
 
             ids = result["artists_ids"]
             artists = result["artists"]
@@ -208,7 +211,8 @@ def music(request, id):
                     'username': user_r["display_name"],
                     'photo': user_r["images"][0]["url"],
                     "music": result,
-                    "music_id": id
+                    "music_id": id,
+                    "comments": comments
                 }
             )
 

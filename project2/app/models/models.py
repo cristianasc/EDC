@@ -102,6 +102,24 @@ class Database:
         payload_query = {"update": update}
         self.accessor.sparql_update(body=payload_query, repo_name=self.repo_name)
 
+
+
+    def get_comments(self, music_id):
+        query = """PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                   PREFIX spot: <http://comments.org/pred/>
+                   SELECT ?user_id ?name ?comment
+                   WHERE{
+                            <http://comments.com/items/"""+music_id+"""> foaf:id ?user_id .
+                            <http://comments.com/items/"""+music_id+"""> spot:profile_name ?name .
+                            <http://comments.com/items/"""+music_id+"""> spot:comment ?comment .
+                    }
+                    """
+
+        payload_query = {"query": query}
+        data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
+        data = parse_response(data)
+        return data
+
     def get_new_releases(self):
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>

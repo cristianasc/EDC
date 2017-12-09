@@ -204,7 +204,7 @@ class Database:
         payload_query = {"query": query}
         data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
 
-        if len(data) == 3:
+        if len(data) == 0:
             # means it's empty
             query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>

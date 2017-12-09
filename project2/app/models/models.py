@@ -97,7 +97,7 @@ class Database:
                                                        spot:profile_name \""""+name+"""\";
                                                        spot:comment \""""+text+"""\" .
                     } """
-        
+
         payload_query = {"update": update}
         self.accessor.sparql_update(body=payload_query, repo_name=self.repo_name)
 

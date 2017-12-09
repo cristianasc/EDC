@@ -211,7 +211,7 @@ def music(request, id):
 
         return render(
             request,
-            'app/artistBio.html',
+            'app/index.html',
             {
                 'username': "",
             }

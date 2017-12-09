@@ -31,6 +31,10 @@ def parse_response(results, keys=None):
             if key not in binding:
                 continue
 
+            if isinstance(binding[key]["value"], str) and len(binding[key]["value"]) == 0:
+                del binding[key]
+                continue
+
             values = binding[key]["value"].split(",")
 
             if len(values) > 1:

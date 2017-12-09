@@ -91,15 +91,17 @@
                             {% if artist_rel.mother %}
                                 <small><strong>Mother:</strong> {{ artist_rel.mother }}</small><br/>
                             {% endif %}
-                            {% for sibling in artist_rel.sibling %}
-                                <small><strong>Sibling:</strong> {{ sibling }}</small><br/>
-                            {% endfor %}
+                            {% if artist_rel.sibling %}
+                                {% for sibling in artist_rel.sibling %}
+                                    <small><strong>Sibling:</strong> {{ sibling }}</small><br/>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
                 {% endif %}
 
-                {% if artist_rel.father or artist_rel.mother or artist_rel.sibling %}
+                {% if artist_occupations.occupations %}
                 <div class="col-lg-12">
                     <div class="card" style="padding: 1.25rem">
                         <div class="card-block">

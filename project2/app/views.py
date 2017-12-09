@@ -306,7 +306,7 @@ def register(request):
 def spotify_login(request):
     assert isinstance(request, HttpRequest)
 
-    scope = "user-read-private user-read-birthdate user-read-recently-played user-read-playback-state"
+    scope = "user-read-private user-read-birthdate user-read-recently-played user-read-playback-state user-follow-read playlist-read-collaborative"
     client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
                                               client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
                                               redirect_uri='http://localhost:8000/spotify_login/')
@@ -344,11 +344,25 @@ def user_account(request):
             r_devices = requests.get('https://api.spotify.com/v1/me/player/devices', headers=headers)
             r_devices = json.loads(r_devices.text)
 
-            # Get the User’s Cmurrently Playing Track
+            # Get the User’s Currently Playing Track
             token = request.COOKIES.get("SpotifyToken")
             headers = {"Authorization": "Bearer " + token}
             r_currently_playing = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers=headers)
             r_currently_playing = json.loads(r_currently_playing.text)
+
+            # Get the User’s following list
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r_following = requests.get('https://api.spotify.com/v1/me/following?type=artist',
+                                               headers=headers)
+            r_following = json.loads(r_following.text)
+
+            # Get the User’s playlists
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r_playlists = requests.get('https://api.spotify.com/v1/me/playlists',
+                                       headers=headers)
+            r_playlists = json.loads(r_playlists.text)
 
             print("ok")
 
@@ -363,7 +377,9 @@ def user_account(request):
                     'country': r["country"],
                     'musics': musics[:10],
                     'devices': r_devices["devices"],
-                    'currently_playing': r_currently_playing["item"]
+                    'currently_playing': r_currently_playing["item"],
+                    'following': r_following["artists"]["items"],
+                    'playlists': r_playlists["items"]
                 }
             )
 

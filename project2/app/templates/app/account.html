@@ -34,14 +34,6 @@
             </div>
         </div>
         <div class="col-lg-3">
-            <div class="card" style="padding: 30px">
-                <h4 class="card-title">Spotify Devices</h4>
-                {% for device in devices %}
-                    <p><strong><i>{{device.type}}:</i></strong> {{device.name}}</p>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="col-lg-3">
             <div class="card">
                 <a href="/music/id={{ currently_playing.id }}">
                 <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" src="{{ currently_playing.album.images.0.url }}" alt="Card image">
@@ -57,6 +49,32 @@
                         <a href="/artist/id={{ artist.id }}/" class="card-text badge badge-pill badge-secondary ">{{ artist.name }}</a>
                     {% endfor %}
                 </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card" style="padding: 30px">
+                <h4 class="card-title">Spotify Devices</h4>
+                {% for device in devices %}
+                    <p><strong><i>{{device.type}}:</i></strong> {{device.name}}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card" style="padding: 30px">
+                <h4 class="card-title">Following</h4>
+                {% for follow in following %}
+                    <a style="color: black" href="/artist/id={{ follow.id }}/"><p><i style="color: #4cae4c" class="fa fa-user-circle-o" aria-hidden="true"></i><strong> {{follow.name}}</strong></p></a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card" style="padding: 30px">
+                <h4 class="card-title">Plyalists</h4>
+                {% for playlist in playlists %}
+                    <a style="color: black" target="_blank" href="{{ playlist.external_urls.spotify }}/"><p><i style="color: #4cae4c" class="fa fa-headphones" aria-hidden="true"></i>
+<strong> {{playlist.name}}</strong></p></a>
+                {% endfor %}
             </div>
         </div>
     </div>

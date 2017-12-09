@@ -35,12 +35,12 @@
             <li class="nav-item active">
             </li>
         </ul>
-        <form class="form-inline" id="formsearch" method="post" action="/search">
+        <form class="form-inline" id="formsearch" method="post" action="/search/">
             {% csrf_token %}
             <div class="input-group" style="width: 170px">
-              <input type="text" class="form-control" name="search" placeholder="Search for..." aria-label="Search for...">
+              <input type="text" class="form-control" name="text" placeholder="Search for..." aria-label="Search for...">
               <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                <button class="btn btn-secondary" type="submit" name="search"><i class="fa fa-search" aria-hidden="true"></i></button>
               </span>
             </div>
         </form>

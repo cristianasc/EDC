@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpRequest
+from django.utils.datastructures import MultiValueDictKeyError
 from .forms import RegistrationForm
 from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
 import spotipy
@@ -89,20 +90,53 @@ def home(request):
         return HttpResponseRedirect("/spotify_logout/")
 
 
-def search_artist(request,artist, artists):
-    db = Database()
+def search(request):
+    try:
+        text = request.POST["text"]
 
-    for i in artists:
-        if artist == i[0]:
-            print(i[0],i[1],i[2])
+        db = Database()
+        search_artists = db.search_artists(name=text)
+        search_musics_and_albums = db.search_musics_and_albums(name=text)
 
-    return render(
-        request,
-        'app/index.html',
-        {
-            'data': ""
-        }
-    )
+        if isinstance(search_artists, dict):
+            search_artists = [search_artists]
+
+        if isinstance(search_musics_and_albums, dict):
+            search_musics_and_albums = [search_musics_and_albums]
+
+        if request.COOKIES.get("SpotifyToken"):
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            r = json.loads(r.text)
+
+            return render(
+                request,
+                'app/search.html',
+                {
+                    'title': text,
+                    'username': r["display_name"],
+                    'photo': r["images"][0]["url"],
+                    'artists': search_artists,
+                    'musics_and_albums': search_musics_and_albums,
+                    'text': text
+                }
+            )
+        else:
+            return render(
+                request,
+                'app/search.html',
+                {
+                    'title': text,
+                    'username': '',
+                    'artists': search_artists,
+                    'musics_and_albums': search_musics_and_albums,
+                    'text': text
+                }
+            )
+    except MultiValueDictKeyError:
+        return HttpResponseRedirect("/")
+
 
 
 def artist(request, id):
@@ -225,62 +259,6 @@ def music(request, id):
         )
 
     except KeyError:
-        return HttpResponseRedirect("/spotify_logout/")
-
-
-def new_releases(request):
-    db = Database()
-    try:
-        """Verify if the user is logged in"""
-        if request.COOKIES.get("SpotifyToken"):
-            token = request.COOKIES.get("SpotifyToken")
-
-            db.new_releases(token)
-
-            return render(
-                request,
-                'app/index.html',
-                {
-                    'data': ""
-                }
-            )
-
-        return render(
-            request,
-            'app/account.html',
-            {
-                'username': "",
-            }
-        )
-    except:
-        return HttpResponseRedirect("/spotify_logout/")
-
-
-def top_tracks(request):
-    db = Database()
-    try:
-        """Verify if the user is logged in"""
-        if request.COOKIES.get("SpotifyToken"):
-            token = request.COOKIES.get("SpotifyToken")
-
-            db.top_tracks(token)
-
-            return render(
-                request,
-                'app/index.html',
-                {
-                    'data': ""
-                }
-            )
-        return render(
-            request,
-            'app/account.html',
-            {
-                'username': "",
-            }
-        )
-
-    except:
         return HttpResponseRedirect("/spotify_logout/")
 
 
@@ -432,10 +410,6 @@ def comments(request, id):
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
 
-
-
-def get_top_tracks_by_user(request):
-    pass
 
 
 def spotify_logout(request):

@@ -347,3 +347,93 @@ class Database:
                 data["artists_ids"] = [artist["id"] for artist in r["artists"]]
 
         return data
+
+    def search_artists(self, name):
+        query = """
+            PREFIX foaf:  <http://xmlns.com/foaf/spec/>
+            PREFIX spot:  <http://new-releases.org/pred/>
+            PREFIX spot2: <http://top-tracks.org/pred/>
+            PREFIX spot3: <http://recently-played-by-user.org/pred/>
+            PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+
+            SELECT ?nameartist (SAMPLE(?artist_id) AS ?artist_id)  {
+                {
+                    SELECT ?nameartist ?artist_id
+                    WHERE {
+                        ?p spot:artists ?artists .
+                        ?artists foaf:name ?nameartist .
+                        ?artists spot:id ?artist_id .
+                    }
+                }UNION {
+                    SELECT ?nameartist ?artist_id
+                    WHERE {
+                        ?p spot2:artists ?artists .
+                        ?artists foaf:name ?nameartist .
+                        ?artists spot2:id ?artist_id .
+                    }
+
+                }UNION {
+                    SELECT ?nameartist ?artist_id
+                    WHERE {
+                        ?p spot3:track ?track .
+                        ?p spot3:artists ?artists .
+                        ?artists foaf:name ?nameartist .
+                        ?artists spot3:id ?artist_id .
+                    }
+                }
+                FILTER(REGEX(STR(?nameartist), "%s.*$", "i"))
+            } GROUP BY ?nameartist
+        """ % name
+
+        payload_query = {"query": query}
+        data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
+
+        return data
+
+    def search_musics_and_albums(self, name):
+        query = """
+            PREFIX foaf:  <http://xmlns.com/foaf/spec/>
+            PREFIX spot:  <http://new-releases.org/pred/>
+            PREFIX spot2: <http://top-tracks.org/pred/>
+            PREFIX spot3: <http://recently-played-by-user.org/pred/>
+            PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+
+            SELECT DISTINCT ?name ?id  {
+                {
+                    # new releases
+                    SELECT ?name ?id ?name_artist
+                    WHERE {
+                        ?p foaf:name_album ?name .
+                        ?p spot:id ?id .
+                        ?p spot:artists ?artists .
+                        ?artists foaf:name ?name_artist
+                    }
+                }UNION {
+                    # top tracks
+                    SELECT ?name ?id
+                    WHERE {
+                        ?p foaf:name_track ?name .
+                        ?p spot2:id ?id .
+                        ?p spot2:artists ?artists .
+                        ?artists foaf:name ?name_artist
+                    }
+
+                }UNION {
+                    # recent played by user
+                    SELECT ?name ?id
+                    WHERE {
+                        ?p spot3:track ?track .
+                        ?track foaf:name ?name .
+                        ?track spot3:id ?id .
+                        ?p spot:artists ?artist .
+                        ?artist foaf:name ?name_artist .
+                    }
+                }
+                FILTER(REGEX(STR(?name), "%s.*$", "i") || REGEX(STR(?name_artist), "%s.*$", "i"))
+            }
+        """ % (name, name)
+
+        payload_query = {"query": query}
+        data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
+
+        return data

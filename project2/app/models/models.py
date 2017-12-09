@@ -180,7 +180,7 @@ class Database:
         data = json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name))
         return ((data["results"]["bindings"]))
 
-    def get_music_info(self, id):
+    def get_music_info(self, id, token=None):
         query = """
             PREFIX foaf: <http://xmlns.com/foaf/spec/>
             PREFIX spot: <http://top-tracks.org/pred/>
@@ -209,6 +209,7 @@ class Database:
 
         if len(data) == 0:
             # means it's empty
+            # new releases
             query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
                 PREFIX spot: <http://new-releases.org/pred/>
@@ -217,7 +218,7 @@ class Database:
                 (GROUP_CONCAT(DISTINCT ?images_url ; SEPARATOR=",") as ?image_url)
                 (GROUP_CONCAT(DISTINCT ?artist_id ; SEPARATOR=",") as ?artists_ids)
                 WHERE {
-                    ?id spot:id \""""+id+"""\" .
+                    ?id spot:id \"7kJlTKjNZVT26iwiDUVhRm\" .
                     ?id foaf:name_album ?name_track .
                     ?id spot:external_urls ?external_urls .
                     ?id spot:href ?href .
@@ -231,5 +232,61 @@ class Database:
             """
             payload_query = {"query": query}
             data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
+
+        if len(data) == 0:
+            # means it's empty
+            # recently played by user
+            pass
+
+        if len(data) == 0 and token is not None:
+            # means it's empty
+            # get track from spotify
+            data = {
+                "name_track": "",
+                "popularity": 0,
+                "track_number": 1,
+                "preview_url": "",
+                "image_url": [],
+                "href": "",
+                "external_urls": "",
+                "disc_number": 1,
+                "artists_ids": [],
+                "artists": []
+            }
+
+            # Get track
+            headers = {"Authorization": "Bearer " + token}
+            r = requests.get('https://api.spotify.com/v1/tracks/' + id, headers=headers)
+            r = json.loads(r.text)
+
+            if "name" in r:
+                data["name_track"] = r["name"]
+
+            if "popularity" in r:
+                data["popularity"] = r["popularity"]
+
+            if "track_number" in r:
+                data["track_number"] = r["track_number"]
+
+            if "preview_url" in r:
+                data["preview_url"] = r["preview_url"]
+
+            if "album" in r and "images" in r["album"]:
+                data["image_url"] = [image["url"] for image in r["album"]["images"]]
+
+            if "href" in r:
+                data["href"] = r["href"]
+
+            if "external_urls" in r:
+                data["external_urls"] = r["external_urls"]["spotify"]
+
+            if "disc_number" in r:
+                data["disc_number"] = r["disc_number"]
+
+            if "artists" in r:
+                data["artists"] = [artist["name"] for artist in r["artists"]]
+
+            if "artists_ids" in r:
+                data["artists_ids"] = [artist["id"] for artist in r["artists"]]
 
         return data

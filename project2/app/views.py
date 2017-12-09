@@ -174,7 +174,7 @@ def music(request, id):
         if request.COOKIES.get("SpotifyToken"):
             # search in db top_tracks
             db = Database()
-            result = db.get_music_info(id)
+            result = db.get_music_info(id, request.COOKIES.get("SpotifyToken"))
 
             ids = result["artists_ids"]
             artists = result["artists"]
@@ -344,7 +344,7 @@ def user_account(request):
             r_devices = requests.get('https://api.spotify.com/v1/me/player/devices', headers=headers)
             r_devices = json.loads(r_devices.text)
 
-            # Get the User’s Currently Playing Track
+            # Get the User’s Cmurrently Playing Track
             token = request.COOKIES.get("SpotifyToken")
             headers = {"Authorization": "Bearer " + token}
             r_currently_playing = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers=headers)

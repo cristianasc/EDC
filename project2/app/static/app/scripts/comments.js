@@ -13,6 +13,7 @@ $.ajaxSetup({
 
 $("#comment").click(function () {
     text_to_comment = $("#text_to_comment").val();
+    console.log("ok");
     console.log(text_to_comment);
     new_id = $("#new_id").text();
 

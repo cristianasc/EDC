@@ -396,6 +396,37 @@ def user_account(request):
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
 
+def comments(request):
+
+    try:
+        if request.COOKIES.get("SpotifyToken"):
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            user_r = json.loads(user_r.text)
+            print("CHEGUEI")
+            print(user_r)
+
+            return render(
+                request,
+                'app/music.html',
+                {
+                    'data': ""
+                }
+            )
+
+        return render(
+            request,
+            'app/music.html',
+            {
+                'data': ""
+            }
+        )
+
+    except KeyError:
+        return HttpResponseRedirect("/spotify_logout/")
+
+
 
 def get_top_tracks_by_user(request):
     pass

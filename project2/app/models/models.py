@@ -88,6 +88,20 @@ class Database:
 
     """database queries"""
 
+    def comment(self, uid, name, comment, music_id):
+        update = """
+                    PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                    PREFIX spot: <http://comments.org/pred/>
+                    INSERT DATA {
+                         <http://comments.com/items/"""+music_id+"""> foaf:profile_id \""""+uid+"""\" ;
+                                                       spot:profile_name \""""+name+"""\";
+                                                       spot:comment \""""+comment+"""\" .
+                    }"""
+
+
+        payload_query = {"update": update}
+        self.accessor.sparql_update(body=payload_query, repo_name=self.repo_name)
+
     def get_new_releases(self):
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>

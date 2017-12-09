@@ -396,16 +396,18 @@ def user_account(request):
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
 
-def comments(request):
-
+def comments(request, id):
     try:
         if request.COOKIES.get("SpotifyToken"):
             token = request.COOKIES.get("SpotifyToken")
             headers = {"Authorization": "Bearer " + token}
             user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             user_r = json.loads(user_r.text)
-            print("CHEGUEI")
-            print(user_r)
+
+            name = user_r["display_name"]
+            user_id = user_r["id"]
+
+            Database().comment(user_id, name, request.POST["comment"], id)
 
             return render(
                 request,

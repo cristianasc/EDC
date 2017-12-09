@@ -129,6 +129,9 @@ def artist(request, id):
             user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             user_r = json.loads(user_r.text)
 
+            r_artist_top_tracks = requests.get('https://api.spotify.com/v1/artists/'+id+'/top-tracks?country=PT', headers=headers)
+            r_artist_top_tracks = json.loads(r_artist_top_tracks.text)
+
             if isinstance(artist_rel, dict):
                 for key, value in artist_rel.items():
                     if (key == "sibling" or key == "occupations") and isinstance(value, str):
@@ -152,7 +155,8 @@ def artist(request, id):
                     'artist_info': artist_info,
                     'artist_rel': artist_rel,
                     'artist_genre': artist_genre,
-                    'artist_occupations': artist_occupations
+                    'artist_occupations': artist_occupations,
+                    'artist_top_tracks': r_artist_top_tracks["tracks"]
                 }
             )
 
@@ -363,8 +367,6 @@ def user_account(request):
             r_playlists = requests.get('https://api.spotify.com/v1/me/playlists',
                                        headers=headers)
             r_playlists = json.loads(r_playlists.text)
-
-            print("ok")
 
             return render(request, 'app/account.html',
                 {

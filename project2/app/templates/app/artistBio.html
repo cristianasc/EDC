@@ -46,31 +46,29 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Music</th>
                                 <th scope="col">Artists</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Likes</th>
+                                <th scope="col">Album</th>
+                                <th scope="col">Listen</th>
                             </tr>
                             </thead>
                             <tbody>
+                            {% for top_track in artist_top_tracks %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
+                                <th scope="row">{{ forloop.counter }} </th>
+                                <td><a style="color: black" href="/music/id={{ top_track.id }}">{{ top_track.name }}</a></td>
+                                <td>
+                                    {% for artist in top_track.artists %}
+                                        {% if forloop.last %}
+                                            <a style="color: black" href="/artist/id={{ artist.id }}/">{{ artist.name }}</a>
+                                        {% else %}
+                                            <a style="color: black" href="/artist/id={{ artist.id }}/">{{ artist.name }}</a>,
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ top_track.album.name }}</td>
+                                <td><a href="/music/id={{ top_track.id }}"><i style="color: #4cae4c;" class="fa fa-spotify" aria-hidden="true"></i>
+</a></td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                                <td>@twitter</td>
-                            </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

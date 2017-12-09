@@ -137,6 +137,10 @@ def artist(request, id):
                 if (key == "sibling" or key == "occupations") and isinstance(value, str):
                     artist_rel[key] = [value]
 
+            for key, value in artist_occupations.items():
+                if (key == "occupations") and isinstance(value, str):
+                    artist_occupations[key] = [value]
+
             return render(
                 request,
                 'app/artistBio.html',

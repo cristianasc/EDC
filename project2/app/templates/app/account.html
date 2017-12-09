@@ -70,10 +70,13 @@
         </div>
         <div class="col-lg-3">
             <div class="card" style="padding: 30px">
-                <h4 class="card-title">Plyalists</h4>
+                <h4 class="card-title">Playlists</h4>
                 {% for playlist in playlists %}
-                    <a style="color: black" target="_blank" href="{{ playlist.external_urls.spotify }}/"><p><i style="color: #4cae4c" class="fa fa-headphones" aria-hidden="true"></i>
-<strong> {{playlist.name}}</strong></p></a>
+                    <a style="color: black" target="_blank" href="{{ playlist.external_urls.spotify }}/">
+                        <p><i style="color: #4cae4c" class="fa fa-headphones" aria-hidden="true"></i>
+                            <strong> {{playlist.name}}</strong>
+                        </p>
+                    </a>
                 {% endfor %}
             </div>
         </div>

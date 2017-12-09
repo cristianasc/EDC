@@ -435,3 +435,137 @@ class Database:
         data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
 
         return data
+
+    def platform_data(self):
+        query = """
+            PREFIX foaf:  <http://xmlns.com/foaf/spec/>
+            PREFIX spot:  <http://new-releases.org/pred/>
+            PREFIX spot2: <http://top-tracks.org/pred/>
+            PREFIX spot3: <http://recently-played-by-user.org/pred/>
+            PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+
+            SELECT ?count {
+                {
+                    # counting artists [0]
+                    SELECT (count(distinct ?nameartist) as ?count)  {
+                    {
+                        SELECT ?nameartist
+                        WHERE {
+                            ?p spot:artists ?artists .
+                            ?artists foaf:name ?nameartist .
+                        }
+                    }UNION {
+                        SELECT ?nameartist ?artist_id
+                        WHERE {
+                            ?p spot2:artists ?artists .
+                            ?artists foaf:name ?nameartist .
+                        }
+
+                    }UNION {
+                        SELECT ?nameartist
+                        WHERE {
+                            ?p spot3:track ?track .
+                            ?p spot3:artists ?artists .
+                            ?artists foaf:name ?nameartist .
+                        }
+                    }
+                }
+                }   UNION {
+                    # counting musics [1]
+                    SELECT (count(distinct ?name) as ?count)  {
+                        {
+                            # new releases
+                            SELECT ?name ?id ?name_artist
+                            WHERE {
+                                ?p foaf:name_album ?name .
+                                ?p spot:id ?id .
+                                ?p spot:artists ?artists .
+                                ?artists foaf:name ?name_artist
+                            }
+                        }UNION {
+                            # top tracks
+                            SELECT ?name ?id
+                            WHERE {
+                                ?p foaf:name_track ?name .
+                                ?p spot2:id ?id .
+                                ?p spot2:artists ?artists .
+                                ?artists foaf:name ?name_artist
+                            }
+
+                        }UNION {
+                            # recent played by user
+                            SELECT ?name ?id
+                            WHERE {
+                                ?p spot3:track ?track .
+                                ?track foaf:name ?name .
+                                ?track spot3:id ?id .
+                                ?p spot:artists ?artist .
+                                ?artist foaf:name ?name_artist .
+                            }
+                        }
+                    }
+                } UNION {
+                    # counting images [2]
+                    SELECT (count(distinct ?src) as ?count)  {
+                        {
+                            # new releases
+                            SELECT ?src
+                            WHERE {
+                                ?p spot:id ?id .
+                                ?p spot:image ?url .
+                                ?url foaf:url ?src .
+                            }
+                        }UNION {
+                            # top tracks
+                            SELECT ?src
+                            WHERE {
+                                ?p foaf:name_track ?name .
+                                ?p spot2:id ?id .
+                                ?p spot2:image ?url .
+                                ?url foaf:url ?src .
+                            }
+                        }UNION {
+                            # recent played by user
+                            SELECT ?src
+                            WHERE {
+                                ?p spot3:track ?track .
+                                ?track spot3:id ?id .
+                                ?track spot3:preview_url ?href30sec .
+                                ?track foaf:name ?name .
+                                ?p spot3:image ?src .
+                            }
+                        }
+                    }
+                } UNION {
+                    # counting albums [3]
+                    SELECT (count(distinct ?id) as ?count)  {
+                        {
+                            # new releases
+                            SELECT ?id
+                            WHERE {
+                                ?p spot:id ?id .
+                            }
+                        }UNION {
+                            # top tracks
+                            SELECT ?id
+                            WHERE {
+                                ?p spot2:album ?album .
+                                ?album spot2:id ?id .
+                            }
+                        }UNION {
+                            # recent played by user
+                            SELECT ?src
+                            WHERE {
+                                ?p spot3:album ?album .
+                                ?album spot3:id ?id .
+                            }
+                        }
+                    }
+                }
+            }
+
+        """
+        payload_query = {"query": query}
+        data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
+
+        return data

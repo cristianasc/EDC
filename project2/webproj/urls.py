@@ -34,5 +34,6 @@ urlpatterns = [
     url(r'^music/id=(?P<id>[\w-]+)$', app.views.music, name='music'),
     url(r'^account/', app.views.user_account, name='user_account'),
     url(r'^comments/', app.views.comments, name='comments'),
-    url(r'^search/', app.views.search, name='search')
+    url(r'^search/', app.views.search, name='search'),
+    url(r'^statistics/', app.views.statistics, name='statistics'),
 ]

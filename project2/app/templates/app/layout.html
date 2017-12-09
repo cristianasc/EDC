@@ -28,7 +28,9 @@
         <a style="padding-right: 5px" href="{% url 'home' %}" class="navbar-brand">Home</a>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Statistics</a>
+                {% if username %}
+                <a class="nav-link" href="/statistics/">Statistics</a>
+                {% endif %}
             </li>
         </ul>
         <ul class="navbar-nav mr-auto">
@@ -68,6 +70,9 @@
 </script>
 
 <script src="{% static 'app/scripts/comments.js' %}"></script>
+<script src="{% static 'app/scripts/popper.min.js' %}"></script>
+<script src="{% static 'app/scripts/Chart.bundle.min.js' %}"></script>
+<script src="{% static 'app/scripts/stats.js' %}"></script>
 {% block scripts %}{% endblock %}
 </body>
 </html>

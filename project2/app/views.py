@@ -433,6 +433,44 @@ def comments(request):
         return HttpResponseRedirect("/spotify_logout/")
 
 
+def statistics(request):
+    try:
+        """Verify if the user is logged in"""
+        if request.COOKIES.get("SpotifyToken"):
+            # search in db top_tracks
+            db = Database()
+
+            # get user name and photo
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            user_r = json.loads(user_r.text)
+
+            # query platform data
+            platform_data = db.platform_data()
+
+            return render(
+                request,
+                'app/statistics.html',
+                {
+                    'title': 'Statistics',
+                    'username': user_r["display_name"],
+                    'photo': user_r["images"][0]["url"],
+                    'platform_data': platform_data
+                }
+            )
+
+        return render(
+            request,
+            'app/statistics.html',
+            {
+                'username': "",
+            }
+        )
+
+    except KeyError:
+        return HttpResponseRedirect("/spotify_logout/")
+
 
 def spotify_logout(request):
     assert isinstance(request, HttpRequest)

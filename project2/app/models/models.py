@@ -218,7 +218,7 @@ class Database:
                 (GROUP_CONCAT(DISTINCT ?images_url ; SEPARATOR=",") as ?image_url)
                 (GROUP_CONCAT(DISTINCT ?artist_id ; SEPARATOR=",") as ?artists_ids)
                 WHERE {
-                    ?id spot:id \"7kJlTKjNZVT26iwiDUVhRm\" .
+                    ?id spot:id \""""+id+"""\" .
                     ?id foaf:name_album ?name_track .
                     ?id spot:external_urls ?external_urls .
                     ?id spot:href ?href .
@@ -236,7 +236,30 @@ class Database:
         if len(data) == 0:
             # means it's empty
             # recently played by user
-            pass
+            query = """
+                    PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                    PREFIX spot: <http://recently-played-by-user.org/pred/>
+                    SELECT ?name_track ?external_urls ?href ?preview_url
+                    (GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=",") as ?artists)
+                    (GROUP_CONCAT(DISTINCT ?artist_id ; SEPARATOR=",") as ?artists_ids)
+                    (GROUP_CONCAT(DISTINCT ?image ; SEPARATOR=",") as ?image_url)
+                    WHERE {
+                        ?p spot:track ?track .
+                        ?track spot:id \""""+id+"""\" .
+                        ?track spot:preview_url ?preview_url .
+                        ?track spot:external_urls ?external_urls .
+                        ?track foaf:name ?name_track .
+                        ?track spot:href ?href .
+                        ?p spot:artists ?artist .
+                        ?artist foaf:name ?nameartist .
+                        ?artist spot:id ?artist_id .
+                        ?p spot:image ?url .
+                        ?url foaf:url ?image .
+                    }
+                    GROUP BY ?name_track ?external_urls ?href ?preview_url
+                """
+            payload_query = {"query": query}
+            data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
 
         if len(data) == 0 and token is not None:
             # means it's empty

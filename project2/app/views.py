@@ -205,7 +205,8 @@ def music(request, id):
                 {
                     'username': user_r["display_name"],
                     'photo': user_r["images"][0]["url"],
-                    "music": result
+                    "music": result,
+                    "music_id": id
                 }
             )
 

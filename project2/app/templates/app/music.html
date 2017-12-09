@@ -22,49 +22,46 @@
         <a href=""><h4>{{ music.artists }}</h4></a>
         {% endif %}
 
+        {% if music.popularity %}
         <small><strong>Popularity:</strong> {{ music.popularity}}%</small>
-
-        <h5 style="margin-top: 10px">
-            <i class="fa fa-pause" id="play_pause" style="cursor: pointer" aria-hidden="true"></i> <i id="play_text">Playing...</i>
-        </h5>
-
-        {% if artist_genre.genre %}
-        <br/>
-        <small class="text-capitalize">
-            {{ artist_genre.genre|join:", " }}
-        </small>
         {% endif %}
 
-        <audio id="audio_preview" controls autoplay>
-            <source src="{{music.preview_url}}" type="audio/ogg">
-            <source src="{{music.preview_url}}" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+        {% if music.preview_url %}
+            <h5 style="margin-top: 10px">
+                <i class="fa fa-pause" id="play_pause" style="cursor: pointer" aria-hidden="true"></i> <i id="play_text">Playing...</i>
+            </h5>
 
-        <script type="application/javascript">
-            $("#audio_preview").hide();
+            <audio id="audio_preview" controls autoplay>
+                <source src="{{music.preview_url}}" type="audio/ogg">
+                <source src="{{music.preview_url}}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
 
-            $("#audio_preview")[0].addEventListener('ended', function(){
-                    $("#play_pause").removeClass("fa-pause");
-                    $("#play_pause").addClass("fa-play");
-                    $("#play_text").html("Stopped...");
-            });
+            <script type="application/javascript">
+                $("#audio_preview").hide();
 
-            $("#play_pause").click(function () {
-                var player = $("#audio_preview")[0];
-                if (player.paused == false) {
-                    player.pause();
-                    $(this).removeClass("fa-pause");
-                    $(this).addClass("fa-play");
-                    $("#play_text").html("Paused...");
-                } else {
-                    player.play();
-                    $(this).removeClass("fa-play");
-                    $(this).addClass("fa-pause");
-                    $("#play_text").html("Playing...");
-                }
-            });
-        </script>
+                $("#audio_preview")[0].addEventListener('ended', function(){
+                        $("#play_pause").removeClass("fa-pause");
+                        $("#play_pause").addClass("fa-play");
+                        $("#play_text").html("Stopped...");
+                });
+
+                $("#play_pause").click(function () {
+                    var player = $("#audio_preview")[0];
+                    if (player.paused == false) {
+                        player.pause();
+                        $(this).removeClass("fa-pause");
+                        $(this).addClass("fa-play");
+                        $("#play_text").html("Paused...");
+                    } else {
+                        player.play();
+                        $(this).removeClass("fa-play");
+                        $(this).addClass("fa-pause");
+                        $("#play_text").html("Playing...");
+                    }
+                });
+            </script>
+        {% endif %}
     </div>
 </div>
 <div class="container">

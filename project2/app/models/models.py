@@ -91,10 +91,21 @@ class Database:
     def get_new_releases(self):
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
-                SELECT ?name
+                PREFIX spot: <http://new-releases.org/pred/>
+                SELECT ?name ?id ?src
+				(GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=",") as ?artists)
+				(GROUP_CONCAT(DISTINCT ?artist_id ; SEPARATOR=",") as ?ids)
                 WHERE {
                     ?p foaf:name_album ?name .
+                    ?p spot:id ?id .
+                    ?p spot:image ?url .
+                    ?url foaf:url ?src .
+                    ?p spot:artists ?artists .
+                    ?artists foaf:name ?nameartist .
+                    ?artists spot:id ?artist_id .
+                    filter regex(str(?url), "300" )
                 }
+				GROUP BY  ?name ?id ?src
                 """
 
         payload_query = {"query": query}
@@ -193,5 +204,29 @@ class Database:
         payload_query = {"query": query}
         data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
 
+        if len(data) == 3:
+            # means it's empty
+            query = """
+                PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                PREFIX spot: <http://new-releases.org/pred/>
+                SELECT ?name_track ?external_urls ?href ?preview_url
+                (GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=",") as ?artists)
+                (GROUP_CONCAT(DISTINCT ?images_url ; SEPARATOR=",") as ?image_url)
+                (GROUP_CONCAT(DISTINCT ?artist_id ; SEPARATOR=",") as ?artists_ids)
+                WHERE {
+                    ?id spot:id \""""+id+"""\" .
+                    ?id foaf:name_album ?name_track .
+                    ?id spot:external_urls ?external_urls .
+                    ?id spot:href ?href .
+				    OPTIONAL {?id spot:preview_url ?preview_url .}
+                    ?id spot:artists ?artists .
+                    ?artists foaf:name ?nameartist .
+                    ?artists spot:id ?artist_id .
+                    ?id spot:image ?images .
+                    ?images foaf:url ?images_url .
+                } GROUP BY ?name_track ?external_urls ?href ?preview_url
+            """
+            payload_query = {"query": query}
+            data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
 
         return data

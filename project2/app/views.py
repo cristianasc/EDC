@@ -33,7 +33,7 @@ def home(request):
         del new_release["ids"]
         new_release["artists"] = list(zip(artists, ids))
 
-        top_tracks.append(new_release)
+        new_releases.append(new_release)
 
 
     # top tracks
@@ -66,6 +66,7 @@ def home(request):
                 request,
                 'app/index.html',
                 {
+                    'title': "Home",
                     'username': r["display_name"],
                     'photo': r["images"][0]["url"],
                     'new_releases': new_releases,
@@ -77,6 +78,7 @@ def home(request):
             request,
             'app/index.html',
             {
+                'title': "Home",
                 'username': "",
                 'new_releases': new_releases,
                 'top_tracks': top_tracks

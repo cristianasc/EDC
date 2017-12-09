@@ -91,13 +91,9 @@
                             {% if artist_rel.mother %}
                                 <small><strong>Mother:</strong> {{ artist_rel.mother }}</small><br/>
                             {% endif %}
-                            {% if artist_rel.sibling|length > 0 %}
-                                {% for sibling in artist_rel.sibling %}
-                                    <small><strong>Sibling:</strong> {{ sibling }}</small><br/>
-                                {% endfor %}
-                            {% elif artist_rel.sibling %}
-                                <small><strong>Sibling:</strong> {{ artist_rel.sibling }}</small>
-                            {% endif %}
+                            {% for sibling in artist_rel.sibling %}
+                                <small><strong>Sibling:</strong> {{ sibling }}</small><br/>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -109,13 +105,9 @@
                         <div class="card-block">
                             <h3 class="card-title">Interests</h3>
                             <span class="text-capitalize">
-                            {% if artist_occupations.occupations|length > 0 %}
-                                {% for occupation in artist_occupations.occupations %}
-                                {{ occupation }}<br/>
-                                {% endfor %}
-                            {% elif artist_occupations.occupations %}
-                                {{ artist_occupations.occupations }}
-                            {% endif %}
+                            {% for occupation in artist_occupations.occupations %}
+                            {{ occupation }}<br/>
+                            {% endfor %}
                             </span>
                         </div>
                     </div>

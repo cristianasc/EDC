@@ -133,6 +133,10 @@ def artist(request, id):
             user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             user_r = json.loads(user_r.text)
 
+            for key, value in artist_rel.items():
+                if (key == "sibling" or key == "occupations") and isinstance(value, str):
+                    artist_rel[key] = [value]
+
             return render(
                 request,
                 'app/artistBio.html',

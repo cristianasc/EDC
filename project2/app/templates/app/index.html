@@ -9,18 +9,31 @@
             {% for track in new_releases %}
             <div class="col-sm-3">
                 <div class="card">
+                    {% if username %}
                     <a href="/music/id={{track.id}}">
                     <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
                          src="{{ track.src }}" alt="Card image">
                     </a>
+                    {% else %}
+                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
+                         src="{{ track.src }}" alt="Card image">
+                    {% endif %}
                     <div class="card-body">
+                        {% if username %}
                         <a style="color: black" href="/music/id={{track.id}}">
                             <h6 class="card-title text-capitalize"> {{ track.name }} </h6>
                         </a>
+                        {% else %}
+                        <h6 class="card-title text-capitalize"> {{ track.name }} </h6>
+                        {% endif %}
                         {% if track.artists|length > 0 %}
                             {% for artist in track.artists %}
+                                {% if username %}
                                 <a href="/artist/id={{ artist.1 }}/" class="card-text badge badge-pill badge-secondary ">{{ artist.0 }}</a>
-                            {% endfor %}
+                                {% else %}
+                                <span class="card-text badge badge-pill badge-secondary ">{{ artist.0 }}</span>
+                                {% endif %}
+                        {% endfor %}
                         {% endif %}
                     </div>
                 </div>

@@ -33,9 +33,30 @@
                 </ul>
             </div>
         </div>
-        <div class="col-lg-12">
+        <div class="col-lg-3">
             <div class="card" style="padding: 30px">
-                <h4 class="card-title">About you</h4>
+                <h4 class="card-title">Spotify Devices</h4>
+                {% for device in devices %}
+                    <p><strong><i>{{device.type}}:</i></strong> {{device.name}}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <a href="/music/id={{ currently_playing.id }}">
+                <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" src="{{ currently_playing.album.images.0.url }}" alt="Card image">
+                </a>
+
+                <div class="card-body">
+                    <h5>Current Playing</h5>
+                    <a style="color: black" href="/music/id={{ currently_playing.id }}">
+                        <h6 class="card-title text-capitalize"> {{ currently_playing.name }} </h6>
+                    </a>
+
+                    {% for artist in currently_playing.artists %}
+                        <a href="/artist/id={{ artist.id }}/" class="card-text badge badge-pill badge-secondary ">{{ artist.name }}</a>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

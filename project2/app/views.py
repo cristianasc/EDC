@@ -129,13 +129,15 @@ def artist(request, id):
             user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             user_r = json.loads(user_r.text)
 
-            for key, value in artist_rel.items():
-                if (key == "sibling" or key == "occupations") and isinstance(value, str):
-                    artist_rel[key] = [value]
+            if isinstance(artist_rel, dict):
+                for key, value in artist_rel.items():
+                    if (key == "sibling" or key == "occupations") and isinstance(value, str):
+                        artist_rel[key] = [value]
 
-            for key, value in artist_occupations.items():
-                if (key == "occupations") and isinstance(value, str):
-                    artist_occupations[key] = [value]
+            if isinstance(artist_occupations, dict):
+                for key, value in artist_occupations.items():
+                    if (key == "occupations") and isinstance(value, str):
+                        artist_occupations[key] = [value]
 
             return render(
                 request,
@@ -274,86 +276,6 @@ def top_tracks(request):
         return HttpResponseRedirect("/spotify_logout/")
 
 
-def get_albuns_by_artist(request):
-    assert isinstance(request, HttpRequest)
-
-    def show_artist_albums(artist):
-        albums = []
-        results = sp.artist_albums(artist['id'], album_type='album')
-        albums.extend(results['items'])
-        while results['next']:
-            results = sp.next(results)
-            albums.extend(results['items'])
-        seen = set()  # to avoid dups
-        albums.sort(key=lambda album: album['name'].lower())
-        for album in albums:
-            name = album['name']
-            if name not in seen:
-                print((' ' + name))
-                seen.add(name)
-
-    def get_artist(name):
-        results = sp.search(q='artist:' + name, type='artist')
-        items = results['artists']['items']
-        if len(items) > 0:
-            return items[0]
-        else:
-            return None
-
-    scope = "user-library-read"
-    client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
-                                              client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
-                                              redirect_uri='http://localhost:8000')
-    if "code" in request.GET:
-        code = request.GET.get("code")
-        token = client_credentials_manager.get_access_token(code)
-        sp = spotipy.Spotify(auth=token["access_token"])
-
-        artist = get_artist("Miley Cyrus")
-        show_artist_albums(artist)
-
-        return render(
-            request,
-            'app/index.html',
-            {
-                'data': ""
-            }
-        )
-    else:
-        authorize_url = client_credentials_manager.get_authorize_url()
-        sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-        return redirect(authorize_url)
-
-
-def get_playlists_per_user(request):
-    scope = "user-library-read"
-    client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
-                                              client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
-                                              redirect_uri='http://localhost:8000')
-    if "code" in request.GET:
-        code = request.GET.get("code")
-        token = client_credentials_manager.get_access_token(code)
-
-        sp = spotipy.Spotify(auth=token["access_token"])
-
-        playlists = sp.user_playlists("danielapereirasimoes")
-        for playlist in playlists['items']:
-            print(playlist['name'])
-
-        return render(
-            request,
-            'app/index.html',
-            {
-                'data': ""
-            }
-        )
-    else:
-
-        authorize_url = client_credentials_manager.get_authorize_url()
-        sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-        return redirect(authorize_url)
-
-
 def login(request):
     return render(
         request,
@@ -362,6 +284,7 @@ def login(request):
             'data': ""
         }
     )
+
 
 def register(request):
     assert isinstance(request, HttpRequest)
@@ -383,7 +306,7 @@ def register(request):
 def spotify_login(request):
     assert isinstance(request, HttpRequest)
 
-    scope = "user-read-private user-read-birthdate user-read-recently-played"
+    scope = "user-read-private user-read-birthdate user-read-recently-played user-read-playback-state"
     client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
                                               client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
                                               redirect_uri='http://localhost:8000/spotify_login/')
@@ -415,6 +338,20 @@ def user_account(request):
             r = json.loads(r.text)
             musics = Database().get_recently_played_by_user()
 
+            # Get a User’s Available Devices
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r_devices = requests.get('https://api.spotify.com/v1/me/player/devices', headers=headers)
+            r_devices = json.loads(r_devices.text)
+
+            # Get the User’s Currently Playing Track
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            r_currently_playing = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers=headers)
+            r_currently_playing = json.loads(r_currently_playing.text)
+
+            print("ok")
+
             return render(request, 'app/account.html',
                 {
                     'username': r["display_name"],
@@ -424,7 +361,9 @@ def user_account(request):
                     'external_urls': r["external_urls"]["spotify"],
                     'birthdate': r["birthdate"],
                     'country': r["country"],
-                    'musics': musics[:10]
+                    'musics': musics[:10],
+                    'devices': r_devices["devices"],
+                    'currently_playing': r_currently_playing["item"]
                 }
             )
 

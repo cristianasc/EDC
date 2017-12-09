@@ -92,20 +92,21 @@ class Database:
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
                 PREFIX spot: <http://new-releases.org/pred/>
-                SELECT ?name ?id ?src
+                SELECT ?name ?id ?src ?width
 				(GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=",") as ?artists)
 				(GROUP_CONCAT(DISTINCT ?artist_id ; SEPARATOR=",") as ?ids)
                 WHERE {
                     ?p foaf:name_album ?name .
                     ?p spot:id ?id .
                     ?p spot:image ?url .
+                    ?url spot:width ?width .
                     ?url foaf:url ?src .
                     ?p spot:artists ?artists .
                     ?artists foaf:name ?nameartist .
                     ?artists spot:id ?artist_id .
                     filter regex(str(?url), "300" )
                 }
-				GROUP BY  ?name ?id ?src
+				GROUP BY  ?name ?id ?src ?width
                 """
 
         payload_query = {"query": query}
@@ -117,20 +118,21 @@ class Database:
         query = """
                 PREFIX foaf: <http://xmlns.com/foaf/spec/>
                 PREFIX spot: <http://top-tracks.org/pred/>
-                SELECT ?name ?id ?src ?ids ?artists
+                SELECT ?name ?id ?src ?ids ?artists ?width
 				(GROUP_CONCAT(DISTINCT ?nameartist ; SEPARATOR=",") as ?artists)
 				(GROUP_CONCAT(DISTINCT ?artist_id ; SEPARATOR=",") as ?ids)
                 WHERE {
-                    ?p foaf:name_track ?name .
+                    ?p foaf:name_track ?name . 
                     ?p spot:id ?id .
                     ?p spot:image ?url .
+                    ?url spot:width ?width .
                     ?url foaf:url ?src .
                     ?p spot:artists ?artists .
                     ?artists foaf:name ?nameartist .
                     ?artists spot:id ?artist_id .
                     filter regex(str(?url), "300" )
                 }
-				GROUP BY  ?name ?id ?src
+				GROUP BY  ?name ?id ?src ?width
 				"""
 
         payload_query = {"query": query}

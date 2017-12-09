@@ -2,36 +2,36 @@
 {% load staticfiles %}
 
 {% block content %}
-<div style="padding-top: 50px" class="container body-content">
+<div style="padding-top: 50px" class="container body-content" xmlns:foaf="http://xmlns.com/foaf/spec/" xmlns:spot="http://new-releases.org/pred/">
     <div>
         <h1>New Albums and Singles</h1>
         <div class="row">
             {% for track in new_releases %}
-            <div class="col-sm-3">
+            <div class="col-sm-3" about="http://www.top-tracks.com/items/{{track.id}}">
                 <div class="card">
                     {% if username %}
                     <a href="/music/id={{track.id}}">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
-                         src="{{ track.src }}" alt="Card image">
+                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" about="http://www.new-releases.com/image/{{track.id}}/{{track.width}}"
+                         property="foaf:url" src="{{ track.src }}" alt="Card image">
                     </a>
                     {% else %}
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
-                         src="{{ track.src }}" alt="Card image">
+                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" about="http://www.new-releases.com/image/{{track.id}}/{{track.width}}"
+                         property="foaf:url" src="{{ track.src }}" alt="Card image">
                     {% endif %}
                     <div class="card-body">
                         {% if username %}
                         <a style="color: black" href="/music/id={{track.id}}">
-                            <h6 class="card-title text-capitalize"> {{ track.name }} </h6>
+                            <h6 class="card-title text-capitalize" property="foaf:name_album"> {{ track.name }} </h6>
                         </a>
                         {% else %}
-                        <h6 class="card-title text-capitalize"> {{ track.name }} </h6>
+                        <h6 class="card-title text-capitalize" property="foaf:name_album"> {{ track.name }} </h6>
                         {% endif %}
                         {% if track.artists|length > 0 %}
                             {% for artist in track.artists %}
                                 {% if username %}
-                                <a href="/artist/id={{ artist.1 }}/" class="card-text badge badge-pill badge-secondary ">{{ artist.0 }}</a>
+                                <a href="/artist/id={{ artist.1 }}/" class="card-text badge badge-pill badge-secondary" rel="spot:artists" property="spot:id">{{ artist.0 }}</a>
                                 {% else %}
-                                <span class="card-text badge badge-pill badge-secondary ">{{ artist.0 }}</span>
+                                <span class="card-text badge badge-pill badge-secondary" rel="spot:artists" property="spot:id">{{ artist.0 }}</span>
                                 {% endif %}
                         {% endfor %}
                         {% endif %}
@@ -46,17 +46,17 @@
         <h1>Top Tracks</h1>
         <div class="row">
             {% for top_track in top_tracks %}
-            <div class="col-sm-3">
+            <div class="col-sm-3" about="http://www.top-tracks.com/items/{{top_track.id}}">
                 <div class="card">
                     <a href="/music/id={{top_track.id}}">
-                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top"
-                         src="{{ top_track.src }}" alt="Card image">
+                    <img data-toggle="modal" data-target=".bd-example-modal-sm" class="card-img-top" about="http://www.top-tracks.com/image/{{top_track.id}}/{{top_track.width}}"
+                         property="foaf:url" src="{{ top_track.src }}" alt="Card image">
                     </a>
                     <div class="card-body">
-                        <a style="color: black" href="/music/id={{top_track.id}}"><h6 class="card-title">{{ top_track.name }}</h6></a>
+                        <a style="color: black" href="/music/id={{top_track.id}}"><h6 class="card-title" property="foaf:name">{{ top_track.name }}</h6></a>
                         {% if top_track.artists|length > 0 %}
                             {% for artist in top_track.artists %}
-                                <a href="/artist/id={{ artist.1 }}/" class="card-text badge badge-pill badge-secondary ">{{ artist.0 }}</a>
+                                <a href="/artist/id={{ artist.1 }}/" class="card-text badge badge-pill badge-secondary" rel="spot:artists" property="spot:id">{{ artist.0 }}</a>
                             {% endfor %}
                         {% endif %}
                     </div>

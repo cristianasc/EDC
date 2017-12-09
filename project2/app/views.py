@@ -17,6 +17,7 @@ def home(request):
     new_releases = db.get_new_releases()
     top_tracks = db.get_top_tracks()
 
+
     # new releases
     tmp = new_releases
     new_releases = []
@@ -34,7 +35,6 @@ def home(request):
         new_release["artists"] = list(zip(artists, ids))
 
         new_releases.append(new_release)
-
 
     # top tracks
     tmp = top_tracks

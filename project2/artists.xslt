@@ -15,34 +15,21 @@
 
 
     <xsl:template match="items">
-            <xsl:variable name="items"><xsl:value-of select="id"/></xsl:variable>
-            <rdf:Description rdf:about="http://www.artists.com/items/{$items}">
-                <foaf:name_artist><xsl:value-of select="name"/></foaf:name_artist>
-                <spot:popularity><xsl:value-of select="popularity"/></spot:popularity>
-                <spot:followers><xsl:value-of select="followers/total"/></spot:followers>
-                <spot:external_urls><xsl:value-of select="external_urls/spotify"/></spot:external_urls>
-                <spot:id><xsl:value-of select="id"/></spot:id>
-                <spot:href><xsl:value-of select="href"/></spot:href>
+        <xsl:variable name="items"><xsl:value-of select="items"/></xsl:variable>
+        <rdf:Description rdf:about="http://artists.org/items/{$items}">
 
-
-                <xsl:for-each select="genres">
-                    <spot:genres>
-                        <rdf:Description rdf:about="http://www.artists.com/genres/{.}">
-                            <foaf:name><xsl:value-of select="."/></foaf:name>
-                        </rdf:Description>
-                    </spot:genres>
-                </xsl:for-each>
-
-                <xsl:for-each select="images">
-                    <xsl:variable name="size"><xsl:value-of select="width"/></xsl:variable>
-                    <spot:image>
-                        <rdf:Description rdf:about="http://www.artists.com/image/{$items}/{$size}">
-                            <foaf:url><xsl:value-of select="url"/></foaf:url>
-                            <spot:width><xsl:value-of select="width"/></spot:width>
-                            <spot:height><xsl:value-of select="height"/></spot:height>
-                        </rdf:Description>
-                    </spot:image>
-                </xsl:for-each>
-            </rdf:Description>
+        <xsl:for-each select="items">
+            <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
+            <spot:item>
+                <rdf:Description rdf:about="http://artists.org/items/{$items}/{id}">
+                    <foaf:name_artist><xsl:value-of select="name"/></foaf:name_artist>
+                    <spot:id><xsl:value-of select="id"/></spot:id>
+                    <spot:followers><xsl:value-of select="followers"/></spot:followers>
+                    <spot:popularity><xsl:value-of select="popularity"/></spot:popularity>
+                </rdf:Description>
+            </spot:item>
+        </xsl:for-each>
+        </rdf:Description>
     </xsl:template>
+
 </xsl:stylesheet>

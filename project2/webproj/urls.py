@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^search/', app.views.search, name='search'),
     url(r'^statistics/', app.views.statistics, name='statistics'),
     url(r'^delete/', app.views.delete, name='delete'),
+    url(r'^generate/', app.views.generate, name='generate')
 ]

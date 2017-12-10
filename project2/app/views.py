@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.utils.datastructures import MultiValueDictKeyError
 from .forms import RegistrationForm
-from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
+from django.http.response import HttpResponseBadRequest, HttpResponseRedirect, HttpResponse
 import spotipy
 from django.shortcuts import redirect
 from spotipy.oauth2 import SpotifyOAuth
@@ -19,7 +19,6 @@ def home(request):
     db = Database()
     new_releases = db.get_new_releases()
     top_tracks = db.get_top_tracks()
-
 
     # new releases
     tmp = new_releases
@@ -94,6 +93,13 @@ def home(request):
 
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
+
+
+def generate(request):
+    token = request.COOKIES.get("SpotifyToken")
+    Database.getArtistTop(token=token)
+    db = Database()
+    return HttpResponse(content=b"Done")
 
 
 def search(request):
@@ -319,7 +325,7 @@ def register(request):
 def spotify_login(request):
     assert isinstance(request, HttpRequest)
 
-    scope = "user-read-private user-read-birthdate user-read-recently-played user-read-playback-state user-follow-read playlist-read-collaborative"
+    scope = "user-read-private user-read-birthdate user-read-recently-played user-read-playback-state user-follow-read playlist-read-collaborative user-top-read"
     client_credentials_manager = SpotifyOAuth(client_id='e31546dc73154ddaab16538209d8526e',
                                               client_secret='f12c6904e491409bbc5834aaa86d14c0', scope=scope,
                                               redirect_uri='http://localhost:8000/spotify_login/')

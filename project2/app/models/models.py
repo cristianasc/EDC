@@ -89,11 +89,13 @@ class Database:
         file = open("recently-played-by-user.xml", "wb")
         file.write(xmlString)
 
-    def getArtist(self, token, artist):
+    @staticmethod
+    def getArtistTop(token):
         headers = {"Authorization": "Bearer " + token}
-        r = requests.get('https://api.spotify.com/v1/search?q=' + artist + '&type=artist', headers=headers)
-        xmlString = xmltodict.unparse(json.loads(r.text), pretty=True)
-        return xmlString
+        r = requests.get('https://api.spotify.com/v1/me/top/artists', headers=headers)
+        xmlString = dicttoxml.dicttoxml(json.loads(r.text))
+        file = open("artists.xml", "wb")
+        file.write(xmlString)
 
     """database queries"""
 

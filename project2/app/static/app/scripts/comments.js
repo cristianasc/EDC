@@ -34,7 +34,7 @@ function del(id) {
     fd.append('uid', id);
 
     $.ajax({
-        url: '/del_new/',
+        url: '/delete/',
         data: fd,
         processData: false,
         contentType: false,

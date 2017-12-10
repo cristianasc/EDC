@@ -44,6 +44,14 @@ class Database:
         file = open("recently-played-by-user.rdf", "w")
         file.write(content)
 
+        dom = ET.parse("artists.xml")
+        xslt = ET.parse("artists.xslt")
+        transform = ET.XSLT(xslt)
+        newdom = transform(dom)
+        content = ET.tostring(newdom, pretty_print=False).decode()
+        file = open("artists.rdf", "w")
+        file.write(content)
+
         self.accessor.upload_data_file("new-releases.rdf", repo_name=self.repo_name)
         self.accessor.upload_data_file("top-tracks.rdf", repo_name=self.repo_name)
         self.accessor.upload_data_file("recently-played-by-user.rdf", repo_name=self.repo_name)
@@ -454,11 +462,12 @@ class Database:
             PREFIX spot:  <http://artists.org/pred/>
             
             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-            SELECT distinct ?nameartist ?followers ?id
+            SELECT distinct ?nameartist ?followers ?popularity ?id
                 where {
                     ?p spot:id ?id .
                     ?p foaf:name_artist ?nameartist .
                     ?p spot:followers ?followers .
+                    ?p spot:popularity ?popularity .
                     
             } order by  DESC(xsd:integer(?followers))
             LIMIT 10

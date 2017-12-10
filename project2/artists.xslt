@@ -18,6 +18,7 @@
             <xsl:variable name="items"><xsl:value-of select="id"/></xsl:variable>
             <rdf:Description rdf:about="http://www.artists.com/items/{$items}">
                 <foaf:name_artist><xsl:value-of select="name"/></foaf:name_artist>
+                <spot:popularity><xsl:value-of select="popularity"/></spot:popularity>
                 <spot:followers><xsl:value-of select="followers/total"/></spot:followers>
                 <spot:external_urls><xsl:value-of select="external_urls/spotify"/></spot:external_urls>
                 <spot:id><xsl:value-of select="id"/></spot:id>

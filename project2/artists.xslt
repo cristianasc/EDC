@@ -14,21 +14,13 @@
     </xsl:template>
 
 
-    <xsl:template match="items">
-        <xsl:variable name="items"><xsl:value-of select="items"/></xsl:variable>
-        <rdf:Description rdf:about="http://artists.org/items/{$items}">
-
-        <xsl:for-each select="items">
-            <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
-            <spot:item>
-                <rdf:Description rdf:about="http://artists.org/items/{$items}/{id}">
-                    <foaf:name_artist><xsl:value-of select="name"/></foaf:name_artist>
-                    <spot:id><xsl:value-of select="id"/></spot:id>
-                    <spot:followers><xsl:value-of select="followers"/></spot:followers>
-                    <spot:popularity><xsl:value-of select="popularity"/></spot:popularity>
-                </rdf:Description>
-            </spot:item>
-        </xsl:for-each>
+    <xsl:template match="item">
+        <xsl:variable name="item"><xsl:value-of select="id"/></xsl:variable>
+        <rdf:Description rdf:about="http://artists.org/{$item}">
+            <foaf:name_artist><xsl:value-of select="name"/></foaf:name_artist>
+            <spot:id><xsl:value-of select="id"/></spot:id>
+            <spot:popularity><xsl:value-of select="popularity"/></spot:popularity>
+            <spot:followers><xsl:value-of select="followers/total"/></spot:followers>
         </rdf:Description>
     </xsl:template>
 

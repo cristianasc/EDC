@@ -14,6 +14,7 @@ $.ajaxSetup({
 $("#comment").click(function () {
     text_to_comment = $("#text_to_comment").val();
     console.log(text_to_comment);
+    $("#newComment").show();
 
     fd = new FormData();
     fd.append("comment", text_to_comment);

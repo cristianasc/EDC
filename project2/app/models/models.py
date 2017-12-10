@@ -102,6 +102,17 @@ class Database:
         payload_query = {"update": update}
         self.accessor.sparql_update(body=payload_query, repo_name=self.repo_name)
 
+    def delcomment(self, uid, name, music_id):
+        update = """
+                    PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                    PREFIX spot: <http://comments.org/pred/>
+                    DELETE DATA {
+                         <http://comments.com/items/"""+music_id+"""> foaf:profile_id \""""+uid+"""\" ;
+                                                       spot:profile_name \""""+name+"""\" .
+                    } """
+
+        payload_query = {"update": update}
+        self.accessor.sparql_update(body=payload_query, repo_name=self.repo_name)
 
     def get_comments(self, music_id):
         query = """PREFIX foaf: <http://xmlns.com/foaf/spec/>

@@ -28,3 +28,17 @@ $("#comment").click(function () {
     });
 
 });
+
+$("#delete").click(function () {
+    fd = new FormData();
+    fd.append('uid', id);
+
+    $.ajax({
+        url: '/delete/',
+        data: fd,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+    });
+
+});

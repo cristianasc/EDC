@@ -11,6 +11,8 @@ import requests
 import json
 from .models.queries import search_artist_info, search_artist_relationships, search_artist_genre, \
     search_artist_occupations
+import random
+import string
 
 
 def home(request):
@@ -240,6 +242,7 @@ def music(request, id):
             music_id = id
 
             comments = db.get_comments(id)
+            print(comments)
 
             ids = result["artists_ids"]
             artists = result["artists"]
@@ -435,6 +438,38 @@ def comments(request):
     except KeyError:
         return HttpResponseRedirect("/spotify_logout/")
 
+def delete(request):
+    db = Database()
+    try:
+        if request.COOKIES.get("SpotifyToken"):
+            token = request.COOKIES.get("SpotifyToken")
+            headers = {"Authorization": "Bearer " + token}
+            user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
+            user_r = json.loads(user_r.text)
+
+            name = user_r["display_name"]
+            user_id = user_r["id"]
+
+            db.delcomment(user_id, name, music_id)
+
+            return render(
+                request,
+                'app/music.html',
+                {
+                    'data': ""
+                }
+            )
+
+        return render(
+            request,
+            'app/music.html',
+            {
+                'data': ""
+            }
+        )
+
+    except KeyError:
+        return HttpResponseRedirect("/spotify_logout/")
 
 def statistics(request):
     try:

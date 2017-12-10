@@ -237,6 +237,7 @@ def music(request, id):
             result = db.get_music_info(id, request.COOKIES.get("SpotifyToken"))
             global music_id
             music_id = id
+
             comments = db.get_comments(id)
 
             ids = result["artists_ids"]
@@ -259,6 +260,7 @@ def music(request, id):
             headers = {"Authorization": "Bearer " + token}
             user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             user_r = json.loads(user_r.text)
+
 
             return render(
                 request,

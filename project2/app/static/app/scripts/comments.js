@@ -32,6 +32,7 @@ $("#comment").click(function () {
 function del(id) {
     fd = new FormData();
     fd.append('uid', id);
+    $("#newComment").hide();
 
     $.ajax({
         url: '/delete/',

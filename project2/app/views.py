@@ -416,6 +416,7 @@ def comments(request):
 
             name = user_r["display_name"]
             user_id = user_r["id"]
+
             db.comment(user_id, name, request.POST["comment"], music_id)
 
             return render(
@@ -439,7 +440,6 @@ def comments(request):
 
 def delete(request):
     db = Database()
-    print("CHEGUEI")
     try:
         if request.COOKIES.get("SpotifyToken"):
             token = request.COOKIES.get("SpotifyToken")
@@ -450,7 +450,9 @@ def delete(request):
             name = user_r["display_name"]
             user_id = user_r["id"]
 
-            db.delcomment(user_id, name, music_id)
+            if request.method == 'POST':
+                uid = request.POST.get("uid")
+                db.delcomment(user_id, name, uid)
 
             return render(
                 request,

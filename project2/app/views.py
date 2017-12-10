@@ -242,7 +242,6 @@ def music(request, id):
             music_id = id
 
             comments = db.get_comments(id)
-            print(comments)
 
             ids = result["artists_ids"]
             artists = result["artists"]
@@ -440,6 +439,7 @@ def comments(request):
 
 def delete(request):
     db = Database()
+    print("CHEGUEI")
     try:
         if request.COOKIES.get("SpotifyToken"):
             token = request.COOKIES.get("SpotifyToken")

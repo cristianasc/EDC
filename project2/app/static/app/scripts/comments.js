@@ -29,16 +29,15 @@ $("#comment").click(function () {
 
 });
 
-$("#delete").click(function () {
+function del(id) {
     fd = new FormData();
     fd.append('uid', id);
 
     $.ajax({
-        url: '/delete/',
+        url: '/del_new/',
         data: fd,
         processData: false,
         contentType: false,
         type: 'POST',
     });
-
-});
+}

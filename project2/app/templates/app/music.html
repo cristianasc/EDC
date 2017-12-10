@@ -120,7 +120,7 @@
                             <div class="panel-body">
                                 <form method="post" >
                                 {% csrf_token %}
-                                    <button style="text-align: right" class="btn btn-danger" id="delete">Delete</button>
+                                    <button style="text-align: right" class="btn btn-danger" id="delete" onclick="del('{{ music_id }}')">Delete</button>
                                 </form>
                             </div>
                         </div>

@@ -47,6 +47,7 @@ class Database:
         self.accessor.upload_data_file("new-releases.rdf", repo_name=self.repo_name)
         self.accessor.upload_data_file("top-tracks.rdf", repo_name=self.repo_name)
         self.accessor.upload_data_file("recently-played-by-user.rdf", repo_name=self.repo_name)
+        self.accessor.upload_data_file("artists.rdf", repo_name=self.repo_name)
 
     def parse_artists(self, artist):
         artist = bytes(bytearray(artist, encoding='utf-8'))
@@ -434,6 +435,26 @@ class Database:
         payload_query = {"query": query}
         data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
 
+        return data
+
+    def get_best_followers(self):
+        query = """
+            PREFIX foaf:  <http://xmlns.com/foaf/spec/>
+            PREFIX spot:  <http://artists.org/pred/>
+            
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT distinct ?nameartist ?followers ?id
+                where {
+                    ?p spot:id ?id .
+                    ?p foaf:name_artist ?nameartist .
+                    ?p spot:followers ?followers .
+                    
+            } order by  DESC(xsd:integer(?followers))
+            LIMIT 10
+        """
+
+        payload_query = {"query": query}
+        data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
         return data
 
     def platform_data(self):

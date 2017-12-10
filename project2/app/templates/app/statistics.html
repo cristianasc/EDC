@@ -5,8 +5,9 @@
     <div class="container body-content" style="padding-top: 40px">
         <div class="row">
             <div class="col-lg-12">
+                <h2>Platform Data</h2>
                 <div class="card"style="padding: 30px">
-                    <h2 class="card-title">Platform Data</h2>
+
                     <div id="canvas-holder">
                         <canvas id="chart-area" />
                     </div>
@@ -53,10 +54,21 @@
                     }
                 };
             </script>
-            <div class="col-lg-12">
-                <div class="card"style="padding: 30px">
-                    <h2 class="card-title">Artists Followers</h2>
-                    <canvas id="canvas-bar" />
+            <div class="col-lg-12" style="padding-top: 20px">
+                <h2>Top10 Artists By Followers</h2>
+                <div class="card">
+                    <div class="container">
+                        <table class="table">
+                            <tbody>
+                            {% for top in top_followers %}
+                              <tr>
+                                  <td><a style="color: black" href="/artist/id={{top.id}}/">{{top.nameartist}}</a></td>
+                                <td>{{ top.followers }}</td>
+                              </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

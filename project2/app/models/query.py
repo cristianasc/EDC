@@ -24,8 +24,10 @@ def parse_response(results, keys=None):
     if keys is None:
         keys = results["head"]["vars"]
 
+
     for binding in results["results"]["bindings"]:
         r = {}
+
 
         for key in keys:
             if key not in binding:

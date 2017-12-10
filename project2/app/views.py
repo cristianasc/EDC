@@ -66,6 +66,7 @@ def home(request):
             #db.new_releases(token)
             #$db.top_tracks(token)
 
+
             return render(
                 request,
                 'app/index.html',
@@ -450,6 +451,7 @@ def statistics(request):
 
             # query platform data
             platform_data = db.platform_data()
+            top_followers = db.get_best_followers()
 
             return render(
                 request,
@@ -458,7 +460,8 @@ def statistics(request):
                     'title': 'Statistics',
                     'username': user_r["display_name"],
                     'photo': user_r["images"][0]["url"],
-                    'platform_data': platform_data
+                    'platform_data': platform_data,
+                    'top_followers' : top_followers
                 }
             )
 

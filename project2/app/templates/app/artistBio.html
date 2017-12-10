@@ -4,22 +4,22 @@
 {% block content %}
 
 <div class="jumbotron jumbotron-fluid" style=" background-image: url({{ image }}); background-repeat: no-repeat; background-attachment: fixed; background-position: center top; ">
-    <div class="container" style="text-shadow: 1px 0px 1px rgba(255, 255, 255, 0.8);">
-        <h1 class="display-4">{{ name }}</h1>
+    <div class="container" style="text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);">
+        <h1 class="display-4" style="color: white">{{ name }}</h1>
         {% if artist_info.birth %}
-        <small>Born in: {{ artist_info.birth }}</small><br>
+        <small style="color: white">Born in: {{ artist_info.birth }}</small><br>
         {% endif %}
         {% if artist_info.facebook %}
-        <a style="color: #343a40" href="https://www.facebook.com/{{ artist_info.facebook }}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+        <a style="color: white" href="https://www.facebook.com/{{ artist_info.facebook }}"><i class="fa fa-facebook" aria-hidden="true"></i></a>
         {% endif %}
         {% if artist_info.twitter %}
-        <a style="color: #343a40" href="https://www.twitter.com/{{ artist_info.twitter }}"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        <a style="color: white" href="https://www.twitter.com/{{ artist_info.twitter }}"><i class="fa fa-twitter" aria-hidden="true"></i></a>
         {% endif %}
         {% if artist_info.instagram %}
-        <a style="color: #343a40" href="https://www.instagram.com/{{ artist_info.instagram }}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+        <a style="color: white" href="https://www.instagram.com/{{ artist_info.instagram }}"><i class="fa fa-instagram" aria-hidden="true"></i></a>
         {% endif %}
         {% if artist_info.official_site %}
-        <a style="color: #343a40" href="{{ artist_info.official_site }}"><i class="fa fa-globe" aria-hidden="true"></i></a>
+        <a style="color: white" href="{{ artist_info.official_site }}"><i class="fa fa-globe" aria-hidden="true"></i></a>
         {% endif %}
         {% if artist_info.country_name %}
         <h6>{{ artist_info.country_name }}</h6>
@@ -27,7 +27,7 @@
 
         {% if artist_genre.genre %}
         <br/>
-        <small class="text-capitalize">
+        <small style="color: white" class="text-capitalize">
             {{ artist_genre.genre|join:", " }}
         </small>
         {% endif %}

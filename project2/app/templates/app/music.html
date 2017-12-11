@@ -118,13 +118,11 @@
                             </div>
                             <div class="panel-body">
                                 {{ comment.comment }}
-                            </div>
                             {% if user == comment.user_id %}
                                 {% csrf_token %}
-                                <div class="panel-body" >
-                                        <button style="text-align: right" class="btn btn-danger" id="delete" onclick="del('{{ music_id }}', '{{ comment.comment_id }}')">X</button>
-                                </div>
+                                        <button style="float: right" class="btn btn-default" id="delete" onclick="del('{{ music_id }}', '{{ comment.comment_id }}')"><i class="fa fa-times" aria-hidden="true"></i></button>
                             {% endif %}
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-12" style="margin-top: 10px;">

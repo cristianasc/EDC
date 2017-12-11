@@ -33,9 +33,10 @@ $("#comment").click(function () {
 
 });
 
-function del(id) {
+function del(id, comment_id) {
     fd = new FormData();
     fd.append('uid', id);
+    fd.append('uid', comment_id);
     $("#newComment").hide();
 
     $.ajax({

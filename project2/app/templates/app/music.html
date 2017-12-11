@@ -122,9 +122,12 @@
                                 {{ comment.comment }}
                             </div>
                             {% if user == comment.user_id %}
-                            <div class="panel-body" >
-                                    <button style="text-align: right" class="btn btn-danger" id="delete" onclick="del('{{ music_id }}')">X</button>
-                            </div>
+                                <form method="post" >
+                                {% csrf_token %}
+                                    <div class="panel-body" >
+                                            <button style="text-align: right" class="btn btn-danger" id="delete" onclick="del('{{ music_id }}', '{{ comment.comment_id }}')">X</button>
+                                    </div>
+                                </form>
                             {% endif %}
                         </div>
                     </div>

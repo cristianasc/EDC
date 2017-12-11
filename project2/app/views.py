@@ -466,7 +466,7 @@ def delete(request):
 
             if request.method == 'POST':
                 uid = request.POST.get("uid")
-                comment_id = "exemplo"
+                comment_id = request.POST.get("comment_id")
                 db.delcomment(user_id, name, uid, comment_id)
 
             return render(

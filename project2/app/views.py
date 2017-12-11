@@ -428,8 +428,9 @@ def comments(request):
 
             name = user_r["display_name"]
             user_id = user_r["id"]
+            comment_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
-            db.comment(user_id, name, request.POST["comment"], music_id)
+            db.comment(user_id, name, request.POST["comment"], music_id, comment_id)
 
             return render(
                 request,
@@ -462,9 +463,11 @@ def delete(request):
             name = user_r["display_name"]
             user_id = user_r["id"]
 
+
             if request.method == 'POST':
                 uid = request.POST.get("uid")
-                db.delcomment(user_id, name, uid)
+                comment_id = "exemplo"
+                db.delcomment(user_id, name, uid, comment_id)
 
             return render(
                 request,

@@ -261,7 +261,7 @@ def music(request, id):
                 artists = [artists]
 
             if isinstance(comments, str):
-                artists = [comments]
+                comments = [comments]
 
             result["artists"] = list(zip(artists, ids))
             url = result["external_urls"].replace("https://open.spotify.com/", "").split("/")

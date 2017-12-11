@@ -105,11 +105,12 @@ class Database:
                     PREFIX foaf: <http://xmlns.com/foaf/spec/>
                     PREFIX spot: <http://comments.org/pred/>
                     INSERT DATA {
-                         <http://comments.com/items/"""+music_id+"""> foaf:profile_id \""""+uid+"""\" ;
-                                                       spot:profile_name \""""+name+"""\";
-                                                       spot:comment_id \""""+comment_id+"""\" ;
-                                                       spot:comment \""""+text+"""\" .
-                    } """
+                        <http://comments.com/items/"""+music_id+"""> spot:comment_id <http://comments.com/items/"""+music_id+"""/"""+comment_id+"""> .
+                        <http://comments.com/items/"""+music_id+"""/"""+comment_id+"""> spot:profile_name \""""+name+"""\";
+                        spot:profile_id \""""+uid+"""\" ;
+                        spot:comment \""""+text+"""\" .
+                    }
+                    """
 
         payload_query = {"update": update}
         self.accessor.sparql_update(body=payload_query, repo_name=self.repo_name)
@@ -118,24 +119,25 @@ class Database:
         update = """
                     PREFIX foaf: <http://xmlns.com/foaf/spec/>
                     PREFIX spot: <http://comments.org/pred/>
-                    DELETE DATA {
-                         <http://comments.com/items/"""+music_id+"""> foaf:profile_id \""""+uid+"""\" ;
-                                                        spot:profile_name \""""+comment_id+"""\" .
-                                                       spot:profile_name \""""+name+"""\" .
-                    } """
+                    DELETE
+                    WHERE{
+                        <http://comments.com/items/"""+music_id+"""> spot:comment_id <http://comments.com/items/"""+music_id+"""/"""+comment_id+"""> .
+                    }
+                    """
 
         payload_query = {"update": update}
         self.accessor.sparql_update(body=payload_query, repo_name=self.repo_name)
 
     def get_comments(self, music_id):
-        query = """PREFIX foaf: <http://xmlns.com/foaf/spec/>
-                   PREFIX spot: <http://comments.org/pred/>
-                   SELECT ?user_id ?name ?comment_id ?comment 
-                   WHERE{
-                            <http://comments.com/items/"""+music_id+"""> foaf:profile_id ?user_id .
-                            <http://comments.com/items/"""+music_id+"""> spot:profile_name ?name .
-                            <http://comments.com/items/"""+music_id+"""> spot:comment_id ?comment_id .
-                            <http://comments.com/items/"""+music_id+"""> spot:comment ?comment .
+        query = """
+                    PREFIX foaf: <http://xmlns.com/foaf/spec/>
+                    PREFIX spot: <http://comments.org/pred/>
+                    SELECT ?user_id ?name ?comment_id ?comment
+                    WHERE{
+                        <http://comments.com/items/"""+music_id+"""> spot:comment_id ?comment_id .
+                        ?comment_id spot:profile_name ?name .
+                        ?comment_id spot:profile_id ?user_id .
+                        ?comment_id spot:comment ?comment .
                     }
                     """
 

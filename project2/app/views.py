@@ -13,6 +13,7 @@ from .models.queries import search_artist_info, search_artist_relationships, sea
     search_artist_occupations
 import random
 import string
+import uuid
 
 
 def home(request):
@@ -260,7 +261,7 @@ def music(request, id):
             if isinstance(artists, str):
                 artists = [artists]
 
-            if isinstance(comments, str):
+            if isinstance(comments, dict):
                 comments = [comments]
 
             result["artists"] = list(zip(artists, ids))
@@ -273,8 +274,8 @@ def music(request, id):
             user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             user_r = json.loads(user_r.text)
 
-            print(user_r)
-
+            for i in range(0, len(comments)):
+                comments[i]["comment_id"] = comments[i]["comment_id"].split("/")[-1]
 
             return render(
                 request,
@@ -428,9 +429,9 @@ def comments(request):
 
             name = user_r["display_name"]
             user_id = user_r["id"]
-            comment_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+            comment_id = str(uuid.uuid4())
 
-            db.comment(user_id, name, request.POST["comment"], music_id, comment_id)
+            db.comment(user_id, name, request.POST["comment"], request.POST["music_id"], comment_id)
 
             return render(
                 request,

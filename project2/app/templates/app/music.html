@@ -89,13 +89,11 @@
                         <strong>{{ user_name }}</strong> <span class="text-muted"></span>
                         </div>
                         <div class="panel-body">
-                            <form method="post" >
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <textarea class="form-control" placeholder="Insert your comment." rows="3" name="comment" id="text_to_comment"></textarea>
-                                </div>
-                                <button style="text-align: right" class="btn btn-primary" id="comment">Comment</button>
-                            </form>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Insert your comment." rows="3" name="comment" id="text_to_comment"></textarea>
+                            </div>
+                            <button style="text-align: right" class="btn btn-primary" id="comment">Comment</button>
                         </div>
                     </div>
                 </div>
@@ -122,12 +120,10 @@
                                 {{ comment.comment }}
                             </div>
                             {% if user == comment.user_id %}
-                                <form method="post" >
                                 {% csrf_token %}
-                                    <div class="panel-body" >
-                                            <button style="text-align: right" class="btn btn-danger" id="delete" onclick="del('{{ music_id }}', '{{ comment.comment_id }}')">X</button>
-                                    </div>
-                                </form>
+                                <div class="panel-body" >
+                                        <button style="text-align: right" class="btn btn-danger" id="delete" onclick="del('{{ music_id }}', '{{ comment.comment_id }}')">X</button>
+                                </div>
                             {% endif %}
                         </div>
                     </div>

@@ -282,6 +282,7 @@ def music(request, id):
                 {
                     'username': user_r["display_name"],
                     'photo': user_r["images"][0]["url"],
+                    'user': user_r["id"],
                     "music": result,
                     "music_id": id,
                     "comments": comments

@@ -9,39 +9,9 @@
                 <div class="card col-lg-6 col-md-12 col-sm-12" style="padding: 50px">
                     <form action="." method="post" class="form-horizontal">
                         {% csrf_token %}
-                        <h2><a style="color: #2d6987" href="{% url 'social:begin' 'facebook' %}"><i class="fa fa-facebook-square"></i> Login com Facebook </a></h2>
                         <h2 style="color: #4cae4c"><a style="color: #4cae4c" href="{% url 'spotify_login' %}"><i class="fa fa-spotify"></i> Login com Spotify </a></h2>
                             <hr/>
-                            <form action="." method="post" class="form-horizontal" class="col-md-3">
-                            <div class="form-group">
-                                <div class="input-group">
-                                  <span class="input-group-addon">Username</span>
-                                    {{ form.username }}
-                                    <script type="application/javascript">
-                                        $("input[name='username']").attr("placeholder", "");
-                                    </script>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                  <span class="input-group-addon">Password</span>
-                                    {{ form.password }}
-                                    <script type="application/javascript">
-                                        $("input[name='password']").attr("placeholder", "");
-                                    </script>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-3 col-md-9 col-centered">
-                                    <input type="hidden" name="next" value="/" />
-                                    <input type="submit" value="Log in" class="btn btn-success" />
-                                </div>
-                            </div>
-                            </form>
-                        <p class="col-centered">Ainda não estás registado? Resgista-te <a href="{% url 'register' %}">aqui.</a></p>
-                        {% if form.errors %}
-                        <p class="validation-summary-errors">Por favor introduza o user ou password correcta.</p>
-                        {% endif %}
+
                     </form>
                 </div>
             </div>

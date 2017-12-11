@@ -3,16 +3,20 @@
 
 {% block content %}
 
-<div class="jumbotron jumbotron-fluid" xmlns:foaf="http://xmlns.com/foaf/spec/" xmlns:spot="http://top-tracks.org/pred/" about="http://www.top-tracks.com/items/{{ music_id }}"
+<div class="jumbotron jumbotron-fluid" xmlns:foaf="http://xmlns.com/foaf/spec/"
+     xmlns:spot="http://top-tracks.org/pred/" about="http://www.top-tracks.com/items/{{ music_id }}"
      style=" background-image: url({{ music.image_url.0 }}); background-repeat: no-repeat; background-attachment: fixed; background-position: center top; ">
     <div class="container" style="text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);">
         <h1 class="display-4" style="color: white" property="foaf:name_track">{{ music.name_track }}</h1>
         <h4 rel="spot:artists">
             {% for artist in music.artists %}
             {% if forloop.last %}
-            <a style="color: white" href="/artist/id={{ artist.1 }}/" about="http://www.top-tracks.com/artists/{{ music_id }}/{{ artist.1 }}" property="foaf:name">{{ artist.0 }}</a>
+            <a style="color: white" href="/artist/id={{ artist.1 }}/"
+               about="http://www.top-tracks.com/artists/{{ music_id }}/{{ artist.1 }}" property="foaf:name">{{ artist.0 }}</a>
             {% else %}
-            <a style="color: white" href="/artist/id={{ artist.1 }}/" about="http://www.top-tracks.com/artists/{{ music_id }}/{{ artist.1 }}" property="foaf:name">{{ artist.0 }}</a><span
+            <a style="color: white" href="/artist/id={{ artist.1 }}/"
+               about="http://www.top-tracks.com/artists/{{ music_id }}/{{ artist.1 }}" property="foaf:name">{{ artist.0 }}</a>
+                <span
                 style="color: white">,</span>
             {% endif %}
             {% endfor %}
@@ -117,9 +121,11 @@
                             <div class="panel-body">
                                 {{ comment.comment }}
                             </div>
+                            {% if user == comment.user_id %}
                             <div class="panel-body" >
-                                    <button style="text-align: right" class="btn btn-danger" id="delete" onclick="del('{{ music_id }}')">Delete</button>
+                                    <button style="text-align: right" class="btn btn-danger" id="delete" onclick="del('{{ music_id }}')">X</button>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-lg-12" style="margin-top: 10px;">

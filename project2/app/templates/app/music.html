@@ -61,6 +61,11 @@
     </div>
 </div>
 <div class="container">
+    {% for comment in comments %}
+    <h1>
+       TESTE {{ comment.comment }}
+    </h1>
+    {% endfor %}
 
     <div class=" row row-offcanvas row-offcanvas-right">
         <div class="col-12 col-md-12">
@@ -101,8 +106,9 @@
         </div>
     </div>
 
+
+
     <div class="panel-group" id="newComment">
-    {% csrf_token %}
         {% for comment in comments %}
             <div class="col-lg-1">
                 <img style="width: 90px; border: 1px solid #428bca" class="img-responsive img-rounded" src="{{ photo }}"/>

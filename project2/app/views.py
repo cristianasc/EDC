@@ -260,6 +260,9 @@ def music(request, id):
             if isinstance(artists, str):
                 artists = [artists]
 
+            if isinstance(comments, str):
+                artists = [comments]
+
             result["artists"] = list(zip(artists, ids))
             url = result["external_urls"].replace("https://open.spotify.com/", "").split("/")
             result["uri"] = "spotify:"+url[0]+":"+url[1]
@@ -269,6 +272,8 @@ def music(request, id):
             headers = {"Authorization": "Bearer " + token}
             user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             user_r = json.loads(user_r.text)
+
+            print(user_r)
 
 
             return render(

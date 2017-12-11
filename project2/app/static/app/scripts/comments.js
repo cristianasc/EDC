@@ -14,7 +14,7 @@ $.ajaxSetup({
 $("#comment").click(function () {
     text_to_comment = $("#text_to_comment").val();
     console.log(text_to_comment);
-    $("#newComment").show();
+    console.log("AQUIIII");
 
     fd = new FormData();
     fd.append("comment", text_to_comment);
@@ -23,9 +23,12 @@ $("#comment").click(function () {
     $.ajax({
         url: '/comments/',
         data: fd,
+        async: false,
         processData: false,
         contentType: false,
-        type: 'POST',
+        type: 'POST'
+    }).done(function() {
+        $("#newComment").show();
     });
 
 });

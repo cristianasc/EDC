@@ -32,8 +32,9 @@
                 </xsl:for-each>
 
                 <xsl:for-each select="artists">
+                    <xsl:variable name="id"><xsl:value-of select="id"/></xsl:variable>
                     <spot:artists>
-                        <rdf:Description rdf:about="http://www.new-releases.com/artists/{$items}">
+                        <rdf:Description rdf:about="http://www.new-releases.com/artists/{$items}/{$id}">
                             <foaf:name><xsl:value-of select="name"/></foaf:name>
                             <spot:external_urls_spotify><xsl:value-of select="external_urls/spotify"/></spot:external_urls_spotify>
                             <spot:href><xsl:value-of select="href"/></spot:href>

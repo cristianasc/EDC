@@ -68,6 +68,9 @@ def home(request):
             #$db.top_tracks(token)
 
 
+            for artist in db.get_artists():
+                db.put_artist(headers,artist['name'], artist['id'])
+
             return render(
                 request,
                 'app/index.html',
@@ -172,6 +175,8 @@ def search(request):
 
 
 def artist(request, id):
+    db = Database()
+
     try:
         """Verify if the user is logged in"""
         if request.COOKIES.get("SpotifyToken"):
@@ -195,8 +200,9 @@ def artist(request, id):
             user_r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             user_r = json.loads(user_r.text)
 
-            r_artist_top_tracks = requests.get('https://api.spotify.com/v1/artists/'+id+'/top-tracks?country=PT', headers=headers)
-            r_artist_top_tracks = json.loads(r_artist_top_tracks.text)
+            r_artist_top_tracks = db.get_top_music(id)
+            r_artist_info = db.get_artist_info(id)[0]
+
 
             if isinstance(artist_rel, dict):
                 for key, value in artist_rel.items():
@@ -214,15 +220,13 @@ def artist(request, id):
                 {
                     'username': user_r["display_name"],
                     'photo': user_r["images"][0]["url"],
-                    'title': r["name"],
-                    'name': r["name"],
-                    'image': r["images"][0]["url"],
                     'followers': r["followers"]["total"],
                     'artist_info': artist_info,
                     'artist_rel': artist_rel,
                     'artist_genre': artist_genre,
                     'artist_occupations': artist_occupations,
-                    'artist_top_tracks': r_artist_top_tracks["tracks"]
+                    'artist_top_tracks': r_artist_top_tracks,
+                    'artist_bio' : r_artist_info,
                 }
             )
 

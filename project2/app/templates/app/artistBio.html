@@ -3,9 +3,11 @@
 
 {% block content %}
 
-<div class="jumbotron jumbotron-fluid" style=" background-image: url({{ image }}); background-repeat: no-repeat; background-attachment: fixed; background-position: center top; ">
+<div class="jumbotron jumbotron-fluid" style=" background-image: url({{ artist_bio.image }}); background-repeat: no-repeat; background-attachment: fixed; background-position: center center; ">
     <div class="container" style="text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);">
-        <h1 class="display-4" style="color: white">{{ name }}</h1>
+        <h1 class="display-4" style="color: white">{{ artist_bio.name }}</h1>
+        <small style="color: white">Followers: {{ artist_bio.followers }}</small><br>
+        <small style="color: white">Popularity: {{ artist_bio.popularity }}%</small><br>
         {% if artist_info.birth %}
         <small style="color: white">Born in: {{ artist_info.birth }}</small><br>
         {% endif %}
@@ -45,8 +47,9 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Music</th>
-                                <th scope="col">Artists</th>
                                 <th scope="col">Album</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col">Popularity</th>
                                 <th scope="col">Listen</th>
                             </tr>
                             </thead>
@@ -54,18 +57,11 @@
                             {% for top_track in artist_top_tracks %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }} </th>
-                                <td><a style="color: black" href="/music/id={{ top_track.id }}">{{ top_track.name }}</a></td>
-                                <td>
-                                    {% for artist in top_track.artists %}
-                                        {% if forloop.last %}
-                                            <a style="color: black" href="/artist/id={{ artist.id }}/">{{ artist.name }}</a>
-                                        {% else %}
-                                            <a style="color: black" href="/artist/id={{ artist.id }}/">{{ artist.name }}</a>,
-                                        {% endif %}
-                                    {% endfor %}
-                                </td>
-                                <td>{{ top_track.album.name }}</td>
-                                <td><a href="/music/id={{ top_track.id }}"><i style="color: #4cae4c;" class="fa fa-spotify" aria-hidden="true"></i>
+                                <td><a style="color: black" href="/music/id={{ top_track.musicId }}">{{ top_track.name }}</a></td>
+                                <td>{{ top_track.album }}</td>
+                                <td>{{ top_track.duration }}</td>
+                                <td>{{ top_track.popularity }}%</td>
+                                <td><a href="/music/id={{ top_track.musicId }}"><i style="color: #4cae4c;" class="fa fa-spotify" aria-hidden="true"></i>
 </a></td>
                             </tr>
                             {% endfor %}

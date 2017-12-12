@@ -58,6 +58,7 @@ class Database:
         self.accessor.upload_data_file("artists.rdf", repo_name=self.repo_name)
         self.accessor.upload_data_file("comments.rdf", repo_name=self.repo_name)
 
+
     def parse_artists(self, artist):
         artist = bytes(bytearray(artist, encoding='utf-8'))
         dom = ET.fromstring(artist)
@@ -462,23 +463,26 @@ class Database:
     def get_best_followers(self):
         query = """
             PREFIX foaf:  <http://xmlns.com/foaf/spec/>
-            PREFIX spot:  <http://artists.org/pred/>
+            PREFIX spot:  <http://artists1.org/pred/>
             
             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-            SELECT distinct ?nameartist ?followers ?popularity ?id
+            SELECT ?name ?followers ?popularity ?id
                 where {
                     ?p spot:id ?id .
-                    ?p foaf:name_artist ?nameartist .
+                    ?p foaf:name ?name .
                     ?p spot:followers ?followers .
                     ?p spot:popularity ?popularity .
+    				
                     
             } order by  DESC(xsd:integer(?followers))
-            LIMIT 10
+            limit 10
         """
 
         payload_query = {"query": query}
         data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
         return data
+
+
 
     def platform_data(self):
         query = """
@@ -613,3 +617,138 @@ class Database:
         data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
 
         return data
+
+    def get_artists(self):
+        query = """
+            PREFIX foaf:  <http://xmlns.com/foaf/spec/>
+            PREFIX spot1:  <http://new-releases.org/pred/>
+            PREFIX spot2:  <http://recently-played-by-user.org/pred/>
+            PREFIX spot3:  <http://top-tracks.org/pred/>
+            
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            
+            SELECT distinct ?name ?id
+            where {
+                {
+                    ?p spot1:artists ?artists .
+                    ?artists spot1:id ?id .
+                    ?artists foaf:name ?name .
+                    
+                }
+                union
+                {
+                    ?p spot2:artists ?artists .
+                    ?artists foaf:name ?name .
+                    ?artists spot2:id ?id .
+                }
+                 union
+                {
+                    ?p spot3:artists ?artists .
+                    ?artists foaf:name ?name .
+                    ?artists spot3:id ?id .
+                }
+            }
+        """
+
+        payload_query = {"query": query}
+        data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
+        return data
+
+    def put_artist(self,headers,name,id):
+
+        r = requests.get('https://api.spotify.com/v1/artists/'+id, headers=headers)
+        r = json.loads(r.text)
+        m = requests.get('https://api.spotify.com/v1/artists/'+id+'/top-tracks?country=PT', headers=headers)
+        m = json.loads(m.text)
+
+        self.put_top_tracks(m,id)
+
+        update = """
+        PREFIX spot:<http://artists1.org/pred/>
+        PREFIX foaf:<http://xmlns.com/foaf/spec/>
+        
+        INSERT DATA
+        {
+             <http://artists1.com/itens/"""+id+"""> foaf:name '"""+name+"""' .
+             <http://artists1.com/itens/"""+id+"""> spot:id  '"""+id+"""'.
+             <http://artists1.com/itens/"""+id+"""> spot:followers  '"""+str(r['followers']['total'])+"""'.
+             <http://artists1.com/itens/"""+id+"""> spot:image  '"""+str(r['images'][0]['url'])+"""'.
+             <http://artists1.com/itens/"""+id+"""> spot:popularity  '"""+str(r['popularity'])+"""' .
+             """
+        for genre in r['genres']:
+            update += """<http://artists1.com/itens/"""+id+"""> spot:genre  '"""+str(genre)+"""' . """
+
+        update += """}"""
+
+        payload_query = {"update": update}
+        res = self.accessor.sparql_update(body=payload_query,repo_name=self.repo_name)
+
+
+    def put_top_tracks(self,m,id):
+
+        for music in m['tracks']:
+            update = """
+            PREFIX spot:<http://top.org/pred/>
+            PREFIX foaf:<http://xmlns.com/foaf/spec/>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+            INSERT DATA
+            {
+                 <http://top.com/itens/"""+ id +"""> spot:id <http://top.com/itens/""" + id + """/"""+str(music['id'])+"""> .
+                 <http://top.com/itens/""" + id + """/"""+str(music['id'])+"""> spot:duration  '""" + str(self.mili2Time(music['duration_ms'])) + """'.
+                 <http://top.com/itens/""" + id + """/"""+str(music['id'])+"""> spot:id  '""" + str(music['id']) + """'.
+                 <http://top.com/itens/""" + id + """/"""+str(music['id'])+"""> spot:name  '""" + str(music['name']) + """'.
+                 <http://top.com/itens/""" + id + """/"""+str(music['id'])+"""> spot:album  '""" + str(music['album']['name']) + """'.
+                 <http://top.com/itens/""" + id + """/"""+str(music['id'])+"""> spot:popularity  '""" + str(music['popularity']) + """' .                
+            }
+            """
+
+            payload_query = {"update": update}
+            res = self.accessor.sparql_update(body=payload_query, repo_name=self.repo_name)
+
+    def get_top_music(self,id):
+        query = """
+            PREFIX foaf:  <http://xmlns.com/foaf/spec/>
+            PREFIX spot:  <http://top.org/pred/>
+            SELECT ?name ?duration ?album ?popularity ?musicId
+            where {
+                <http://top.com/itens/"""+id+"""> spot:id ?id .
+                ?id spot:name ?name ;
+                    spot:duration ?duration ;
+                    spot:album ?album ;
+                    spot:popularity ?popularity ;
+                    spot:id ?musicId
+            }
+        """
+
+        payload_query = {"query": query}
+        data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
+        return data
+
+    def get_artist_info(self,id):
+        query = """
+            PREFIX foaf:  <http://xmlns.com/foaf/spec/>
+            PREFIX spot:  <http://artists1.org/pred/>
+            SELECT ?name ?followers ?image ?popularity
+            where {
+                    <http://artists1.com/itens/"""+id+"""> foaf:name ?name ;
+                        spot:id ?id ;
+                        spot:followers ?followers ;
+                        spot:image ?image ;
+                        spot:popularity ?popularity .
+            } 
+        """
+
+        payload_query = {"query": query}
+        data = parse_response(json.loads(self.accessor.sparql_select(body=payload_query, repo_name=self.repo_name)))
+        return data
+
+    def mili2Time(self,mili):
+        mili = int(mili)
+        seconds = (mili / 1000) % 60
+        seconds = str(int(seconds))
+        minutes = (mili / (1000 * 60)) % 60
+        minutes = str(int(minutes))
+
+        time = minutes+":"+seconds
+        return time

@@ -55,7 +55,7 @@
             </script>
             <div class="col-lg-12">
                 <div class="card"style="padding: 30px">
-                    <h2 class="card-title">Top Artists</h2>
+                    <h2 class="card-title">Top10 Artists</h2>
                     <canvas id="canvas-bar"></canvas>
                 </div>
                 <script type="application/javascript">
@@ -63,7 +63,7 @@
                 var followers_data_config = {
                     labels: [
                         {% for artist in top_followers %}
-                        "{{ artist.nameartist }}",
+                        "{{ artist.name }}",
                         {% endfor %}
                     ],
                     datasets: [{

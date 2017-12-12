@@ -471,15 +471,14 @@ class Database:
             PREFIX spot:  <http://artists1.org/pred/>
             
             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-            SELECT ?name ?followers ?popularity ?id
+            SELECT ?name ?popularity ?id
                 where {
                     ?p spot:id ?id .
                     ?p foaf:name ?name .
-                    ?p spot:followers ?followers .
                     ?p spot:popularity ?popularity .
     				
                     
-            } order by  DESC(xsd:integer(?followers))
+            } order by  DESC(xsd:integer(?popularity))
             limit 10
         """
 

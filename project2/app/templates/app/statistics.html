@@ -56,79 +56,30 @@
             <div class="col-lg-12">
                 <div class="card"style="padding: 30px">
                     <h2 class="card-title">Top10 Artists</h2>
-                    <canvas id="canvas-bar"></canvas>
+                     <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Artist</th>
+                                <th scope="col">Popularity</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for artist in top_followers %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }} </th>
+                                <td href="/artist/id={{ artist.id }}">{{ artist.name }}</td>
+                                <td>{{ artist.popularity }}%</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                     </table>
                 </div>
-                <script type="application/javascript">
-
-                var followers_data_config = {
-                    labels: [
-                        {% for artist in top_followers %}
-                        "{{ artist.name }}",
-                        {% endfor %}
-                    ],
-                    datasets: [{
-                        type: 'bar',
-                        label: 'Followers',
-                        yAxisID: "y-axis-1",
-                        backgroundColor: window.chartColors.red,
-                        data: [
-                            {% for artist in top_followers %}
-                            {{ artist.followers }},
-                            {% endfor %}
-                        ],
-                        borderColor: 'white',
-                        borderWidth: 2
-                    },
-                    {
-                        type: 'bar',
-                        label: 'Popularity',
-                        backgroundColor: window.chartColors.green,
-                        yAxisID: "y-axis-2",
-                        data: [
-                            {% for artist in top_followers %}
-                            {{ artist.popularity }},
-                            {% endfor %}
-                        ]
-                    }]
-                };
-            </script>
             <script type="application/javascript">
                 window.onload = function() {
-                var ctx = document.getElementById("chart-area").getContext("2d");
-                window.myPie = new Chart(ctx, platform_data_config);
-
-                var ctx = document.getElementById("canvas-bar").getContext("2d");
-                window.myMixedChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: followers_data_config,
-                    options: {
-                        responsive: true,
-                        title: {
-                            display: false
-                        },
-                        tooltips: {
-                            mode: 'index',
-                            intersect: true
-                        },
-                        scales: {
-                        yAxes: [{
-                            type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                            display: true,
-                            position: "left",
-                            id: "y-axis-1",
-                        }, {
-                            type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                            display: true,
-                            position: "right",
-                            id: "y-axis-2",
-                            gridLines: {
-                                drawOnChartArea: false
-                            }
-                        }],
-                    }
-                    }
-                });
-            };
+                    var ctx = document.getElementById("chart-area").getContext("2d");
+                    window.myPie = new Chart(ctx, platform_data_config);
+                }
             </script>
             </div>
 

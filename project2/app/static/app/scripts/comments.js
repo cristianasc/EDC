@@ -12,34 +12,41 @@ $.ajaxSetup({
 });
 
 $("#comment").click(function () {
-    text_to_comment = $("#text_to_comment").val();
-    console.log(text_to_comment);
-    $("#newComment").show();
+    var text_to_comment = $("#text_to_comment").val();
+    var music_id = window.location.href.split("=");
+    music_id = music_id[music_id.length-1];
 
     fd = new FormData();
     fd.append("comment", text_to_comment);
-
+    fd.append("music_id", music_id);
 
     $.ajax({
         url: '/comments/',
         data: fd,
+        async: false,
         processData: false,
         contentType: false,
-        type: 'POST',
+        type: 'POST'
+    }).done(function() {
+        window.location.reload();
     });
-
+    return false;
 });
 
-function del(id) {
+function del(id, comment_id) {
     fd = new FormData();
     fd.append('uid', id);
-    $("#newComment").hide();
+    fd.append('comment_id', comment_id);
 
     $.ajax({
         url: '/delete/',
         data: fd,
+        async: false,
         processData: false,
         contentType: false,
-        type: 'POST',
+        type: 'POST'
+    }).done(function() {
+        window.location.reload();
     });
+    return false;
 }

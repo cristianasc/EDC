@@ -65,11 +65,17 @@ def home(request):
             r = requests.get('https://api.spotify.com/v1/me', headers=headers)
             r = json.loads(r.text)
 
-            #db.new_releases(token)
-            #$db.top_tracks(token)
+
+            #-----------
+            # Compile all Artists and top tracks by artists into db
+            # In comments because takes long time to process
+            # Add testDB.brf file to the db to run our interface without this process
 
             #for artist in db.get_artists():
-            #    db.put_artist(headers, artist['name'], artist['id'])
+                #db.put_artist(headers, artist['name'], artist['id'])
+
+            #-----------
+
 
             return render(
                 request,

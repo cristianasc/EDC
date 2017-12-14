@@ -68,9 +68,8 @@ def home(request):
             #db.new_releases(token)
             #$db.top_tracks(token)
 
-
-            for artist in db.get_artists():
-                db.put_artist(headers,artist['name'], artist['id'])
+            #for artist in db.get_artists():
+            #    db.put_artist(headers, artist['name'], artist['id'])
 
             return render(
                 request,
